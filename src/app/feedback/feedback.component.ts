@@ -17,7 +17,7 @@ export class FeedbackComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-
+    
   }
 
   sendFeedback(): void {
