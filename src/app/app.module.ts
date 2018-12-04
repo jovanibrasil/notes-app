@@ -7,6 +7,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NotesComponent } from './notes/notes.component';
 import { Router, Routes, RouterModule } from '@angular/router';
+import { config } from 'rxjs';
 
 const appRoutes: Routes = [
   { 
@@ -33,7 +34,7 @@ const appRoutes: Routes = [
     AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, NotesComponent
   ],
   imports: [
-    BrowserModule, RouterModule.forRoot(appRoutes)
+    BrowserModule, RouterModule.forRoot(appRoutes, {enableTracing: true})
   ],
   providers: [],
   bootstrap: [AppComponent]
