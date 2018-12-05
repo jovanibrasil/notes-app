@@ -12,32 +12,25 @@ export class ApiService {
     private BASE_URL = "http://localhost:8082/api"; 
     private ALL_NOTES_URL = `${this.BASE_URL}\\notebooks\\all`;
     private SEND_FEEDBACK_URL = `${this.BASE_URL}\\feedback`;
+    private SAVE_UPDATE_NOTEBOOK = `${this.BASE_URL}\\notebooks`;
+    private DELETE_NOTEBOOK = `${this.BASE_URL}\\notebooks`;
 
     constructor(private http: HttpClient) {}
 
     getAllNotebooks(): Observable<Notebook[]> {
-        this.http.get<Notebook[]>(this.ALL_NOTES_URL).subscribe(
-          res => {
-            return res;
-          } ,
-          err => {
-            alert("An error has occured");
-          }
-        );
-        return null;
+        return this.http.get<Notebook[]>(this.ALL_NOTES_URL);
     }
 
-    sendFeedback(feedback: FeedbackViewModel): Observable<any> {
-        //alert(this.model.name);
-        this.http.post(this.SEND_FEEDBACK_URL, feedback).subscribe(
-          res => {
-            return res;
-          },
-          err => {
-            alert("An error has occurred while sending feedback");
-          }
-        );
-        return null;
-      }
+    postFeedback(feedback: FeedbackViewModel): Observable<any> {
+        return this.http.post(this.SEND_FEEDBACK_URL, feedback);
+    }
+
+    postNotebook(notebook: Notebook): Observable<Notebook> {
+      return this.http.post<Notebook>(this.SAVE_UPDATE_NOTEBOOK, notebook);
+    }
+
+    deleteNotebook(id: string): Observable<any>{
+      return this.http.delete(this.DELETE_NOTEBOOK + id);
+    }
 
 }

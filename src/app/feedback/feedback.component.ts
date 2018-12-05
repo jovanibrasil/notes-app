@@ -25,7 +25,7 @@ export class FeedbackComponent implements OnInit {
     let url = "http://localhost:8080/api/feedback";
     //alert(this.model.name);
 
-    this.apiService.sendFeedback(this.model).subscribe(
+    this.apiService.postFeedback(this.model).subscribe(
       res => {
         location.reload(); // refresh page
       },
