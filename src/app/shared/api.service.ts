@@ -10,15 +10,18 @@ import { FeedbackViewModel } from '../feedback/feedback.component';
 })
 export class ApiService {
 
-    private BASE_URL = "http://localhost:8082/api"; 
-    private ALL_NOTEBOOKS_URL = `${this.BASE_URL}\\notebooks\\all`;
-    private SEND_FEEDBACK_URL = `${this.BASE_URL}\\feedback`;
-    private SAVE_UPDATE_NOTEBOOK = `${this.BASE_URL}\\notebooks`;
-    private DELETE_NOTEBOOK = `${this.BASE_URL}\\notebooks\\`;
-    private ALL_NOTES_URL = `${this.BASE_URL}\\notes\\all`;
-    private NOTES_BY_NOTEBOOK_URL = `${this.BASE_URL}\\notes\\byNotebook\\`;
-    private SAVE_UPDATE_NOTE = `${this.BASE_URL}\\notes`
-    private DELETE_NOTE = `${this.BASE_URL}\\note\\`;
+    private BASE_URL = "http://localhost:8080/api"; 
+    
+    private SEND_FEEDBACK_URL = `${this.BASE_URL}/feedback`;
+    
+    private ALL_NOTEBOOKS_URL = `${this.BASE_URL}/notebook/all`;
+    private DELETE_NOTEBOOK = `${this.BASE_URL}/notebook/`;
+    private SAVE_UPDATE_NOTEBOOK = `${this.BASE_URL}/notebook`;
+    private ALL_NOTES_URL = `${this.BASE_URL}/note/all`;
+    
+    private NOTES_BY_NOTEBOOK_URL = `${this.BASE_URL}/note/byNotebook/`;
+    private SAVE_UPDATE_NOTE = `${this.BASE_URL}/notes`
+    private DELETE_NOTE = `${this.BASE_URL}/note/`;
 
     constructor(private http: HttpClient) {}
 
@@ -42,7 +45,7 @@ export class ApiService {
         return this.http.post<Notebook>(this.SAVE_UPDATE_NOTEBOOK, notebook);
     }
 
-    deleteNotebook(id: number): Observable<any>{
+    deleteNotebook(id: number): Observable<any> {
         return this.http.delete(this.DELETE_NOTEBOOK + id);
     }
 

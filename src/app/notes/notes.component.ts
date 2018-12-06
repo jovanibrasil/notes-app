@@ -20,25 +20,25 @@ export class NotesComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-    //this.getAllNotebooks();
+    this.getAllNotebooks();
     //this.getAllNotes();
-    this.notebooks = [ 
-      {id:1, name:"teste1", numberOfNotes: 1}, 
-      {id:2, name:"teste2", numberOfNotes: 1}, 
-      {id:3, name:"teste3", numberOfNotes: 1} ]
+    // this.notebooks = [ 
+    //   {id:1, name:"teste1", numberOfNotes: 1}, 
+    //   {id:2, name:"teste2", numberOfNotes: 1}, 
+    //   {id:3, name:"teste3", numberOfNotes: 1} ]
 
-    this.notes = [
-        {id: 1,
-        title: "simple title",
-        text: "simple text",
-        notebookId: 1,
-        lastModifiedOn: "" },
-        {id: 2,
-          title: "I love angular",
-          text: "simple text",
-          notebookId: 1,
-          lastModifiedOn: "" }
-    ]
+    // this.notes = [
+    //     {id: 1,
+    //     title: "simple title",
+    //     text: "simple text",
+    //     notebookId: 1,
+    //     lastModifiedOn: "" },
+    //     {id: 2,
+    //       title: "I love angular",
+    //       text: "simple text",
+    //       notebookId: 1,
+    //       lastModifiedOn: "" }
+    // ]
 
     this.selectedNotebook = null;
     //this.selectedNotebook = this.notebooks[0];
@@ -77,14 +77,13 @@ export class NotesComponent implements OnInit {
       name:"New notebook",
       numberOfNotes: 2
     };
-    this.notebooks.push(notebook);
     this.apiService.postNotebook(notebook).subscribe(
       res => {
         notebook.id = res.id;
         this.notebooks.push(notebook);
       },
       err => {
-        //alert("An error has occured");
+        alert("An error has occured");
       }
     );
   }
@@ -99,14 +98,15 @@ export class NotesComponent implements OnInit {
   }
 
   public deleteNotebook(notebook: Notebook){
-    if(confirm("Are you sure you want to delete notebook?")){
+    
+    if(confirm("Are you sure you want to delete this notebook?")){
       this.apiService.deleteNotebook(notebook.id).subscribe(
         res => {
           let indexOfNotebook = this.notebooks.indexOf(notebook);
           this.notebooks.splice(indexOfNotebook, 1);
         }, 
         err => {
-          //alert("An error has occured. Could not delete notebook.");
+          alert("An error has occured. Could not delete notebook.");
         }
       );
     }
@@ -130,7 +130,6 @@ export class NotesComponent implements OnInit {
   }
 
   public selectNotebook(notebook: Notebook){
-    alert("notebook selected");
     this.selectedNotebook = notebook;
   }
 
