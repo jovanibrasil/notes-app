@@ -21,38 +21,14 @@ export class NotesComponent implements OnInit {
 
   ngOnInit() {
     this.getAllNotebooks();
-    //this.getAllNotes();
-    // this.notebooks = [ 
-    //   {id:1, name:"teste1", numberOfNotes: 1}, 
-    //   {id:2, name:"teste2", numberOfNotes: 1}, 
-    //   {id:3, name:"teste3", numberOfNotes: 1} ]
-
-    // this.notes = [
-    //     {id: 1,
-    //     title: "simple title",
-    //     text: "simple text",
-    //     notebookId: 1,
-    //     lastModifiedOn: "" },
-    //     {id: 2,
-    //       title: "I love angular",
-    //       text: "simple text",
-    //       notebookId: 1,
-    //       lastModifiedOn: "" }
-    // ]
-
     this.selectedNotebook = null;
-    //this.selectedNotebook = this.notebooks[0];
-
   }
 
   public getAllNotebooks(){
     this.apiService.getAllNotebooks().subscribe(
-      res => {
-        this.notebooks = res;
-        //this.selectedNotebook = this.notebooks[0];
-      } ,
+      res => { this.notebooks = res; } ,
       err => {
-        //alert("An error has occured");
+        alert("An error has occured");
       }
     );
   }
@@ -60,54 +36,53 @@ export class NotesComponent implements OnInit {
   public getAllNotes(){
     this.apiService.getAllNotes().subscribe(
       ret => { this.notes = ret; },
-      err => { }
+      err => { alert("An error has occured"); }
     );
   }
 
-  public getNotesById(id: string){
-    this.apiService.getNotesByNotebook(parseInt(id)).subscribe(
+  public getNotesById(id: number){
+    this.apiService.getNotesByNotebook(id).subscribe(
       ret => { this.notes = ret; },
-      err => { }
+      err => { alert("An error has occured") }
     );
   }
 
   public createNotebook(){
     let notebook: Notebook = {
-      id: 1,
+      notebookId: 0,
       name:"New notebook",
       numberOfNotes: 2
     };
     this.apiService.postNotebook(notebook).subscribe(
       res => {
-        notebook.id = res.id;
+        notebook.notebookId = res.notebookId;
         this.notebooks.push(notebook);
       },
-      err => {
-        alert("An error has occured");
-      }
+      err => { alert("An error has occured"); }
     );
   }
 
   public updateNotebook(notebook: Notebook){
     this.apiService.postNotebook(notebook).subscribe(
       res => {},
-      err => {
-        //alert("An error has occured");
-      }
+      err => { alert("An error has occured"); }
     );
+  }
+
+  public selectNotebook(notebook: Notebook){
+    this.selectedNotebook = notebook;
+    this.getNotesById(notebook.notebookId);
   }
 
   public deleteNotebook(notebook: Notebook){
     
     if(confirm("Are you sure you want to delete this notebook?")){
-      this.apiService.deleteNotebook(notebook.id).subscribe(
+      this.apiService.deleteNotebook(notebook.notebookId).subscribe(
         res => {
           let indexOfNotebook = this.notebooks.indexOf(notebook);
           this.notebooks.splice(indexOfNotebook, 1);
         }, 
-        err => {
-          alert("An error has occured. Could not delete notebook.");
-        }
+        err => { alert("An error has occured. Could not delete notebook."); }
       );
     }
   }
@@ -115,13 +90,19 @@ export class NotesComponent implements OnInit {
   public createNote(){
 
     let note: Note = {
-      id: null,
+      noteId: 0,
       title: "New Note",
       text: "Write some text here",
-      notebookId: this.selectedNotebook.id,
-      lastModifiedOn: null 
+      notebookId: this.selectedNotebook.notebookId,
+      lastModifiedOn: "" 
     }
-    this.notes.push(note);
+
+    this.apiService.saveNote(note).subscribe(
+      res => {
+        this.notes.push(note);
+      },
+      err => { alert("An error has occured. Could not save the note."); }
+    );
   }
 
   public selectAllNotes(){
@@ -129,17 +110,22 @@ export class NotesComponent implements OnInit {
     this.getAllNotes();
   }
 
-  public selectNotebook(notebook: Notebook){
-    this.selectedNotebook = notebook;
+  public deleteNote(note: Note){
+    if(confirm("Are you sure you want to delete this note?")){
+      this.apiService.deleteNote(note.noteId).subscribe(
+        res => {
+          let indexOfNote = this.notes.indexOf(note);
+          this.notes.splice(indexOfNote, 1);
+        },
+        err => {}
+      );
+    }
   }
 
-  public deleteNote(note: Note){
-    this.apiService.deleteNote(note.id).subscribe(
-      res => {
-        let indexOfNote = this.notes.indexOf(note);
-        this.notes.splice(indexOfNote, 1);
-      },
-      err => {}
+  public updateNote(note: Note){
+    this.apiService.updateNote(note).subscribe(
+      res => {},
+      err => { alert("An error has occured"); }
     );
   }
 

@@ -17,12 +17,12 @@ export class ApiService {
     private ALL_NOTEBOOKS_URL = `${this.BASE_URL}/notebook/all`;
     private DELETE_NOTEBOOK = `${this.BASE_URL}/notebook/`;
     private SAVE_UPDATE_NOTEBOOK = `${this.BASE_URL}/notebook`;
-    private ALL_NOTES_URL = `${this.BASE_URL}/note/all`;
     
-    private NOTES_BY_NOTEBOOK_URL = `${this.BASE_URL}/note/byNotebook/`;
-    private SAVE_UPDATE_NOTE = `${this.BASE_URL}/notes`
+    private ALL_NOTES_URL = `${this.BASE_URL}/note/all`;
     private DELETE_NOTE = `${this.BASE_URL}/note/`;
-
+    private SAVE_UPDATE_NOTE = `${this.BASE_URL}/note`
+    private NOTES_BY_NOTEBOOK_URL = `${this.BASE_URL}/note/byNotebookId/`;
+    
     constructor(private http: HttpClient) {}
 
     getAllNotebooks(): Observable<Notebook[]> {
@@ -51,6 +51,10 @@ export class ApiService {
 
     saveNote(note: Note): Observable<Note>{
         return this.http.post<Note>(this.SAVE_UPDATE_NOTE, note);
+    }
+
+    updateNote(note: Note): Observable<Note>{
+        return this.http.put<Note>(this.SAVE_UPDATE_NOTE, note);
     }
 
     deleteNote(id: number){

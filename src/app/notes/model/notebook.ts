@@ -1,5 +1,5 @@
 export interface Notebook {
-    id: number,
+    notebookId: number,
     name: string,
     numberOfNotes: number;
 }
