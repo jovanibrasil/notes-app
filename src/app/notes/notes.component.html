@@ -50,24 +50,11 @@
       </div>
       <div class="row">
         <!-- Note list -->
-        <div *ngFor="let note of notes" class="card bg-warning" style="border:4px solid white;">
-          <div class="card-body" style="padding:8px; margin-top:8px;">
-            <!-- Title -->            
-            <div>
-              <input type="text" class="input-label-lg" maxlength="18" 
-                (change)="updateNote(note)" style="width: 80%" [(ngModel)]=note.title>
-              <a class="pull-right text-danger" (click)="deleteNote(note)">
-                <i class="fa fa-trash-o"></i>
-              </a>
-            </div>
-            <!-- Text -->
-            <textarea class="input-label" style="width:100%;" rows="6" 
-              (change)="updateNote(note)" [(ngModel)]=note.text></textarea>
-            <!-- Text info: last modification -->
-            <strong class="text-info" style="font-size:small;"></strong>
-          </div>
-        </div>
-
+        <app-note  *ngFor="let n of notes" 
+          [note]="n"
+          (noteUpdated)="updateNote($event)" 
+          (noteDeleted)="deleteNote($event)">
+        </app-note>
       </div>
     </div>
   </div>

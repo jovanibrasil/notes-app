@@ -99,6 +99,7 @@ export class NotesComponent implements OnInit {
 
     this.apiService.saveNote(note).subscribe(
       res => {
+        note.noteId = res.noteId;
         this.notes.push(note);
       },
       err => { alert("An error has occured. Could not save the note."); }

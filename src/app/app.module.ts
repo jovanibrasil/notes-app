@@ -10,6 +10,7 @@ import { Router, Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { config } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
+import { NoteComponent } from './notes/note/note.component';
 
 const appRoutes: Routes = [
   { 
@@ -33,7 +34,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, NotesComponent
+    AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, NotesComponent, NoteComponent
   ],
   imports: [
     FormsModule, BrowserModule, HttpClientModule, RouterModule.forRoot(appRoutes, {enableTracing: true})
