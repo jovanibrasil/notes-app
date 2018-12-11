@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { config } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { NoteComponent } from './notes/note/note.component';
+import { NoteSearchFilterPipePipe } from './shared/note-search-filter.pipe';
 
 const appRoutes: Routes = [
   { 
@@ -34,7 +35,8 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, NotesComponent, NoteComponent
+    AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, NotesComponent,
+     NoteComponent, NoteSearchFilterPipePipe
   ],
   imports: [
     FormsModule, BrowserModule, HttpClientModule, RouterModule.forRoot(appRoutes, {enableTracing: true})

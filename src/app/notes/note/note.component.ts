@@ -14,8 +14,7 @@ export class NoteComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   updateNote(){
     this.noteUpdated.emit(this.note);

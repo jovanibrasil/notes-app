@@ -14,7 +14,7 @@ export class NotesComponent implements OnInit {
 
   notebooks: Notebook[] = [];
   notes: Note[] = [];
-
+  searchText: string;
   selectedNotebook: Notebook;
 
   constructor(private apiService: ApiService) { }
@@ -94,12 +94,13 @@ export class NotesComponent implements OnInit {
       title: "New Note",
       text: "Write some text here",
       notebookId: this.selectedNotebook.notebookId,
-      lastModifiedOn: "" 
+      lastModifiedOn: null
     }
 
     this.apiService.saveNote(note).subscribe(
       res => {
         note.noteId = res.noteId;
+        note.lastModifiedOn = res.lastModifiedOn
         this.notes.push(note);
       },
       err => { alert("An error has occured. Could not save the note."); }
@@ -124,8 +125,9 @@ export class NotesComponent implements OnInit {
   }
 
   public updateNote(note: Note){
+    //note.lastModifiedOn = new Date().toString();
     this.apiService.updateNote(note).subscribe(
-      res => {},
+      res => { note.lastModifiedOn = res.lastModifiedOn },
       err => { alert("An error has occured"); }
     );
   }

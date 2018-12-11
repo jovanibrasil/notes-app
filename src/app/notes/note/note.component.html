@@ -12,6 +12,6 @@
     <textarea class="input-label" style="width:100%;" rows="6" 
       (change)="updateNote()" [(ngModel)]=note.text></textarea>
     <!-- Text info: last modification -->
-    <strong class="text-info" style="font-size:small;"></strong>
+    <strong class="text-info" style="font-size:small;">{{note.lastModifiedOn | date:'dd-MM-yyyy HH:mm'}}</strong>
   </div>
 </div>
