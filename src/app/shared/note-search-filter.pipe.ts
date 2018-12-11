@@ -4,7 +4,7 @@ import { Note } from '../notes/model/note';
 @Pipe({
   name: 'noteSearchFilter'
 })
-export class NoteSearchFilterPipePipe implements PipeTransform {
+export class NoteSearchFilterPipe implements PipeTransform {
 
   transform(notes: Note[], text: string): Note[] {
     if(text == null || text == ""){
