@@ -14,7 +14,7 @@ export class ApiService {
     
     private SEND_FEEDBACK_URL = `${this.BASE_URL}/feedback`;
     
-    private ALL_NOTEBOOKS_URL = `${this.BASE_URL}/notebook/all`;
+    public ALL_NOTEBOOKS_URL = `${this.BASE_URL}/notebook/all`;
     private DELETE_NOTEBOOK = `${this.BASE_URL}/notebook/`;
     private SAVE_UPDATE_NOTEBOOK = `${this.BASE_URL}/notebook`;
     
