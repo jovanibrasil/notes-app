@@ -27,12 +27,9 @@ describe('NoteSearchFilterPipe', () => {
   it('', () => {
     let pipe = new NoteSearchFilterPipe();
     let emptySearchText = "text2";
-
     let filteredNotes = pipe.transform(notes, emptySearchText);
-    
     expect(filteredNotes.length).toBe(1);
     expect(filteredNotes[0].noteId).toBe(2);
-
   });
 
 });
