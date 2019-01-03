@@ -12,12 +12,14 @@ import { config } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { NoteComponent } from './notes/note/note.component';
 import { NoteSearchFilterPipe } from './shared/note-search-filter.pipe';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './auth/signin/signin.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'feedback', component: FeedbackComponent },
-  { path: '', component: NotesComponent, pathMatch: 'full' },
+  { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: '**', component: NotFoundComponent }
 ];
@@ -25,7 +27,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, NotesComponent,
-     NoteComponent, NoteSearchFilterPipe, LoginComponent
+     NoteComponent, NoteSearchFilterPipe, LoginComponent, SignupComponent
   ],
   imports: [
     FormsModule, BrowserModule, HttpClientModule, RouterModule.forRoot(appRoutes, {enableTracing: true})

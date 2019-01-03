@@ -12,24 +12,30 @@ export class AuthService {
 
     model: any = {};
   
-    constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
+    constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { 
+      if(sessionStorage.getItem('token') != ''){
+        this.router.navigate(['/notes']);  
+      }
+    }
   
     login(username: string, password: string){
-      let result = this.http.post<Observable<boolean>>(this.LOGIN_URL, 
-        {userName :username, password: password}
-      ).subscribe( res => {
-        if(res) {
-          sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
-          this.router.navigate(['']);
-        } else {
-          alert("Authenticantion failed.");
-        }
-      } );
+      // let result = this.http.post<Observable<boolean>>(this.LOGIN_URL, 
+      //   {userName :username, password: password}
+      // ).subscribe( res => {
+      //   if(res) {
+      //     sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
+      //     this.router.navigate(['']);
+      //   } else {
+      //     alert("Authenticantion failed.");
+      //   }
+      // } );
+      sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
+      this.router.navigate(['/notes']);
     }
 
     logout(){
         sessionStorage.removeItem('token');
-        this.router.navigate(['login']);
+        this.router.navigate(['']);
     }
 
 }

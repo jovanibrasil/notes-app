@@ -4,6 +4,7 @@ import { Notebook } from '../notes/model/notebook';
 import { Note } from '../notes/model/note';
 import { Observable } from 'rxjs';
 import { FeedbackViewModel } from '../feedback/feedback.component';
+import { User } from '../auth/model/user';
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +24,8 @@ export class ApiService {
     private SAVE_UPDATE_NOTE = `${this.BASE_URL}/note`
     private NOTES_BY_NOTEBOOK_URL = `${this.BASE_URL}/note/byNotebookId/`;
     
+    private SAVE_USER = `${this.BASE_URL}/user/`
+
     constructor(private http: HttpClient) {}
 
     getAllNotebooks(): Observable<Notebook[]> {
@@ -60,5 +63,14 @@ export class ApiService {
     deleteNote(id: number){
         return this.http.delete(this.DELETE_NOTE + id);
     }
+
+
+    /*  USERS     */
+
+    saveUser(user: User): Observable<User>{
+        return this.http.post<User>(this.SAVE_UPDATE_NOTEBOOK, user);
+    }
+
+    /* AUTH */
 
 }
