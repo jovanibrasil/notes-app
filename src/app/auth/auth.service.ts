@@ -8,7 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-    private LOGIN_URL = 'http://localhost:8080/login';
+    private BASE_URL = 'http://localhost:9000';
+    private AUTH_URL =  `${this.BASE_URL}/auth`;
+    private REFRESH_AUTH_URL =  `${this.BASE_URL}/auth/refresh`;
+    private GET_AUTHORITY = `${this.BASE_URL}/authorities`;
 
     model: any = {};
   
@@ -34,6 +37,7 @@ export class AuthService {
     }
 
     logout(){
+        // TODO send logout request to the server
         sessionStorage.removeItem('token');
         this.router.navigate(['']);
     }
