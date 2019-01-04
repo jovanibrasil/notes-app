@@ -1,5 +1,7 @@
 export interface JwtReponseData {
-    token: string
+    token: string,
+    //userName: string,
+    //authorities: string[]
 }
 
 export interface JwtResponse {

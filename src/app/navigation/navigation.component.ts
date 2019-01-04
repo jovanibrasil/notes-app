@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
+import { TokenStorageService } from '../auth/token.service';
 
 @Component({
     selector: 'app-navigation',
@@ -10,15 +11,22 @@ export class NavigationComponent implements OnInit {
 
     private authority: string;
 
-    constructor(private authService: AuthService) {};
+    constructor(private tokenStorageService: TokenStorageService) {};
 
     ngOnInit() {
         // get authority from using auth service
-        this.authority = this.authService.getAuthority();
+        let roles = this.tokenStorageService.getAuthorities();
+        roles.every(role => {
+            this.authority = role;
+            if(role === 'ROLE_ADMIN'){
+                return false
+            }
+            return true; // continue iterating the role vector
+        });
     }
 
     logout() {
-        this.authService.logout();
+        //this.authService.logout();
     }
 
 }

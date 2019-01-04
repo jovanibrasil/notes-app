@@ -33,8 +33,4 @@ export class AuthService {
       return this.http.post<JwtResponse>(this.LOGON_URL, user);
     }
 
-    getAuthority(){
-      return '';
-    }
-
 }
