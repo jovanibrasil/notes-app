@@ -9,11 +9,12 @@ import { NotesComponent } from './notes/notes.component';
 import { Router, Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { config } from 'rxjs';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NoteComponent } from './notes/note/note.component';
 import { NoteSearchFilterPipe } from './shared/note-search-filter.pipe';
 import { LoginComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent },
@@ -32,7 +33,7 @@ const appRoutes: Routes = [
   imports: [
     FormsModule, BrowserModule, HttpClientModule, RouterModule.forRoot(appRoutes, {enableTracing: true})
   ],
-  providers: [],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

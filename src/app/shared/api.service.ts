@@ -71,6 +71,5 @@ export class ApiService {
         return this.http.post<User>(this.SAVE_UPDATE_NOTEBOOK, user);
     }
 
-    /* AUTH */
 
 }

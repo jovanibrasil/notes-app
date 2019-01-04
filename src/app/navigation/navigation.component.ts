@@ -8,10 +8,13 @@ import { AuthService } from '../shared/auth.service';
 })
 export class NavigationComponent implements OnInit {
 
+    private authority: string;
+
     constructor(private authService: AuthService) {};
 
     ngOnInit() {
-
+        // get authority from using auth service
+        this.authority = this.authService.getAuthority();
     }
 
     logout() {

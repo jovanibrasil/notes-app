@@ -9,13 +9,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <!-- active -->
+            <li *ngIf="authority" class="nav-item ">
                 <a class="nav-link" routerLink="/notes">Notes</a>
             </li>
-            <li class="nav-item">
+            <li *ngIf="authority === 'user'" class="nav-item">
                 <a class="nav-link" routerLink="/feedback">Feedback</a>
             </li>
-            <li class="nav-item">
+            <li *ngIf="authority === 'admin'" class="nav-item">
+                <a class="nav-link" routerLink="/adminboard">Admin Board</a>
+            </li>
+            <li *ngIf="authority" class="nav-item">
                 <a class="nav-link" (click)="logout()">Logout</a>
             </li>
         </ul>

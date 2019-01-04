@@ -38,4 +38,8 @@ export class AuthService {
         this.router.navigate(['']);
     }
 
+    getAuthority(){
+      return '';
+    }
+
 }

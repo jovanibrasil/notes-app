@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
     this.apiService.saveUser(user).subscribe(
       res => {},
       err => { alert("An error has occurred. Could not save the user") }
-    );
+    );  
   
   }
 
