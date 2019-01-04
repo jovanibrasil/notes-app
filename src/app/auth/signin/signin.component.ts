@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { TokenStorageService } from '../token.service';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +14,29 @@ export class LoginComponent implements OnInit {
   
   model: any = {};
 
-  constructor(private authService: AuthService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private tokenStorage: TokenStorageService, private authService: AuthService) { 
+    // if(sessionStorage.getItem('token') != ''){
+    //   this.router.navigate(['/notes']);  
+    // }
+  }
 
   ngOnInit() {
-    sessionStorage.setItem('token', '');
+    // sessionStorage.setItem('token', '');
   }
 
   login(){
-    this.authService.login(this.model.username, this.model.password);
+    this.authService.login(this.model.username, this.model.password).subscribe( 
+      res => {
+        if(res) {
+          this.tokenStorage.saveToken(res.data.token);
+          // this.tokenStorage.saveUserName(res.userName);
+          // this.tokenStorage.saveAuthorities(res.authorities);
+          this.router.navigate(['/notes']);
+        } else {
+          alert("Authenticantion failed.");
+        }
+      },
+      error => { }
+    );   
   }
-
 }

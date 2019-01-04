@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { JwtResponse } from './model/jwt.response';
+import { User } from './model/user';
 
 @Injectable({
     providedIn: 'root'
@@ -9,37 +11,26 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
     private BASE_URL = 'http://localhost:9000';
-    private AUTH_URL =  `${this.BASE_URL}/auth`;
-    private REFRESH_AUTH_URL =  `${this.BASE_URL}/auth/refresh`;
+    private LOGIN_URL =  `${this.BASE_URL}/auth/login`;
+    private LOGOUT_URL =  `${this.BASE_URL}/auth/logout`;
+    private LOGON_URL = `${this.BASE_URL}/auth/logon`
     private GET_AUTHORITY = `${this.BASE_URL}/authorities`;
-
+    private REFRESH_AUTH_URL =  `${this.BASE_URL}/auth/refresh`;
+    
     model: any = {};
   
-    constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient) { 
-      if(sessionStorage.getItem('token') != ''){
-        this.router.navigate(['/notes']);  
-      }
-    }
+    constructor(private http: HttpClient) { }
   
     login(username: string, password: string){
-      // let result = this.http.post<Observable<boolean>>(this.LOGIN_URL, 
-      //   {userName :username, password: password}
-      // ).subscribe( res => {
-      //   if(res) {
-      //     sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
-      //     this.router.navigate(['']);
-      //   } else {
-      //     alert("Authenticantion failed.");
-      //   }
-      // } );
-      sessionStorage.setItem('token', btoa(this.model.username + ':' + this.model.password));
-      this.router.navigate(['/notes']);
+      return this.http.post<JwtResponse>(this.LOGIN_URL, {email :username, password: password})
     }
 
     logout(){
-        // TODO send logout request to the server
-        sessionStorage.removeItem('token');
-        this.router.navigate(['']);
+      return this.http.get<JwtResponse>(this.LOGOUT_URL);
+    }
+
+    logon(user: User){
+      return this.http.post<JwtResponse>(this.LOGON_URL, user);
     }
 
     getAuthority(){
