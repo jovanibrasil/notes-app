@@ -16,10 +16,12 @@ import { LoginComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
 
+import { AuthGuard } from './auth/auth.guard';
+
 const appRoutes: Routes = [
-  { path: 'notes', component: NotesComponent },
+  { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
-  { path: 'feedback', component: FeedbackComponent },
+  { path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard] },
   { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: '**', component: NotFoundComponent }
@@ -31,9 +33,9 @@ const appRoutes: Routes = [
      NoteComponent, NoteSearchFilterPipe, LoginComponent, SignupComponent
   ],
   imports: [
-    FormsModule, BrowserModule, HttpClientModule, RouterModule.forRoot(appRoutes, {enableTracing: true})
+    FormsModule, BrowserModule, HttpClientModule, RouterModule.forRoot(appRoutes, {enableTracing: false})
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true } ],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, AuthGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

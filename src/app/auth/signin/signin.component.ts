@@ -15,14 +15,12 @@ export class LoginComponent implements OnInit {
   model: any = {};
 
   constructor(private route: ActivatedRoute, private router: Router, private tokenStorage: TokenStorageService, private authService: AuthService) { 
-      // if(sessionStorage.getItem('token') != ''){
-      //   this.router.navigate(['/notes']);  
-      // }
+      if(this.tokenStorage.hasValidToken()){
+        this.router.navigate(['/notes']);  
+      }
   }
 
-  ngOnInit() {
-    // sessionStorage.setItem('token', '');
-  }
+  ngOnInit() { }
 
   parseJwt (token) {
     var base64Url = token.split('.')[1];
@@ -38,7 +36,9 @@ export class LoginComponent implements OnInit {
           console.log(this.parseJwt(res.data.token));
           this.tokenStorage.saveUserName(this.parseJwt(res.data.token).sub);
           this.tokenStorage.saveAuthorities([this.parseJwt(res.data.token).role]);
+          this.tokenStorage.setLoggedIn(true);
           this.router.navigate(['/notes']);
+          //window.location.reload();
         } else {
           alert("Authenticantion failed.");
         }

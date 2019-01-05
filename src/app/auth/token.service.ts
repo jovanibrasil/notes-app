@@ -9,16 +9,31 @@ export class TokenStorageService {
     private TOKEN_KEY = 'AuthToken';
     private USERNAME_KEY = 'AuthUserName';
     private AUTHORITIES_KEY = 'AuthAuthorities';
+    private loggedInStatus: boolean;
 
-    constructor() {}
+    constructor() {
+        this.loggedInStatus = false;
+    }
+
+    isLogged(): boolean{
+        return this.loggedInStatus;
+    }
+
+    setLoggedIn(status: boolean){
+        this.loggedInStatus = status;
+    }
 
     signOut() {
         window.sessionStorage.clear();
+        this.setLoggedIn(false);
+        window.sessionStorage.removeItem(this.TOKEN_KEY);
+        window.sessionStorage.removeItem(this.USERNAME_KEY);
     }
 
     saveToken(token: string){
         window.sessionStorage.removeItem(this.TOKEN_KEY);
         window.sessionStorage.setItem(this.TOKEN_KEY, token);
+        window.sessionStorage.removeItem(this.AUTHORITIES_KEY);
     }
 
     getToken(): string{
@@ -35,6 +50,7 @@ export class TokenStorageService {
     } 
 
     saveAuthorities(authorities: string[]) {
+        console.log(authorities);
         window.sessionStorage.removeItem(this.AUTHORITIES_KEY);
         window.sessionStorage.setItem(this.AUTHORITIES_KEY, JSON.stringify(authorities));
     }
@@ -43,10 +59,17 @@ export class TokenStorageService {
         let roles = [];
         if(window.sessionStorage.getItem(this.AUTHORITIES_KEY)){
             JSON.parse(window.sessionStorage.getItem(this.AUTHORITIES_KEY)).forEach(element => {
-                roles.push(element.authority);
+                roles.push(element);
             });
         }
         return roles;
+    }
+
+    hasValidToken(): boolean {
+        if(window.sessionStorage.getItem(this.TOKEN_KEY)){
+            return true;
+        }
+        return false;
     }
 
 }

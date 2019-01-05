@@ -13,10 +13,10 @@
             <li *ngIf="authority" class="nav-item ">
                 <a class="nav-link" routerLink="/notes">Notes</a>
             </li>
-            <li *ngIf="authority === 'user'" class="nav-item">
+            <li *ngIf="authority === 'ROLE_USER'" class="nav-item">
                 <a class="nav-link" routerLink="/feedback">Feedback</a>
             </li>
-            <li *ngIf="authority === 'admin'" class="nav-item">
+            <li *ngIf="authority === 'ROLE_ADMIN'" class="nav-item">
                 <a class="nav-link" routerLink="/adminboard">Admin Board</a>
             </li>
             <li *ngIf="authority" class="nav-item">
