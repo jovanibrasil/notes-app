@@ -1,10 +1,9 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http'
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { TokenStorageService } from './token.service';
 
 /*
-    This interceptor intercepts all http request sended by the services.
+    This interceptor intercepts all HTTP requests sended by the services.
 */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

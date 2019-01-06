@@ -77,6 +77,7 @@ export class TokenStorageService {
     }
 
     hasValidToken(): boolean {
+        // TODO test expiration date
         if(window.sessionStorage.getItem(this.TOKEN_KEY)){
             return true;
         }
