@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { JwtResponse } from './model/jwt.response';
 import { User } from './model/user';
 
+/*
+  The AuthService handles authentication operations using HttpClient.
+*/
 @Injectable({
     providedIn: 'root'
 })

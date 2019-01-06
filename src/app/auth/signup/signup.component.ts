@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/shared/api.service';
 import { User } from '../model/user';
  
+/*
+  SignupComponent constains the logic of the registration form.
+*/
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',

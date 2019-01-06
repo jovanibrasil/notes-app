@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { TokenStorageService } from '../token.service';
 
+/*
+  The LoginComponent contains the login form logic.
+*/
 @Component({
   selector: 'app-login',
   templateUrl: './signin.component.html',
@@ -14,8 +17,8 @@ export class LoginComponent implements OnInit {
   
   model: any = {};
 
-  constructor(private route: ActivatedRoute, private router: Router, private tokenStorage: TokenStorageService, private authService: AuthService) { 
-      if(this.tokenStorage.hasValidToken()){
+  constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService, private authService: AuthService) { 
+      if(this.tokenStorageService.hasValidToken()){
         this.router.navigate(['/notes']);  
       }
   }
@@ -32,11 +35,11 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.model.username, this.model.password).subscribe( 
       res => {
         if(res) {
-          this.tokenStorage.saveToken(res.data.token);
+          this.tokenStorageService.saveToken(res.data.token);
           console.log(this.parseJwt(res.data.token));
-          this.tokenStorage.saveUserName(this.parseJwt(res.data.token).sub);
-          this.tokenStorage.saveAuthorities([this.parseJwt(res.data.token).role]);
-          this.tokenStorage.setLoggedIn(true);
+          this.tokenStorageService.saveUserName(this.parseJwt(res.data.token).sub);
+          this.tokenStorageService.saveAuthorities([this.parseJwt(res.data.token).role]);
+          this.tokenStorageService.setLoggedIn(true);
           this.router.navigate(['/notes']);
           //window.location.reload();
         } else {
