@@ -14,7 +14,7 @@ import { NoteComponent } from './notes/note/note.component';
 import { NoteSearchFilterPipe } from './shared/note-search-filter.pipe';
 import { LoginComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
-import { AuthInterceptor } from './auth/auth-interceptor';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 import { AuthGuard } from './auth/auth.guard';
 
