@@ -25,15 +25,15 @@ export class AuthService {
     constructor(private http: HttpClient) { }
   
     login(username: string, password: string){
-      return this.http.post<JwtResponse>(this.LOGIN_URL, {email :username, password: password})
+      return this.http.post<JwtResponse>(this.LOGIN_URL, {email :username, password: password})//.shareReplay();
     }
 
     logout(){
-      return this.http.get<JwtResponse>(this.LOGOUT_URL);
+      return this.http.get<JwtResponse>(this.LOGOUT_URL);//.shareReplay();
     }
 
     logon(user: User){
-      return this.http.post<JwtResponse>(this.LOGON_URL, user);
+      return this.http.post<JwtResponse>(this.LOGON_URL, user);//.shareReplay();
     }
 
 }
