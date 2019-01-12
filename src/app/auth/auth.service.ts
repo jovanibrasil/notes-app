@@ -29,11 +29,13 @@ export class AuthService {
     }
 
     logout(){
-      return this.http.get<JwtResponse>(this.LOGOUT_URL);//.shareReplay();
+      return this.http.get<JwtResponse>(this.LOGOUT_URL)//.retry(5); // retryWhen //.shareReplay();
     }
 
     logon(user: User){
       return this.http.post<JwtResponse>(this.LOGON_URL, user);//.shareReplay();
     }
+
+    
 
 }

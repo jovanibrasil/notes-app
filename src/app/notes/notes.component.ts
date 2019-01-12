@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Notebook } from './model/notebook';
 import { Note } from './model/note';
 import { ApiService } from '../shared/api.service';
-import { Observable } from 'rxjs';
-
+import { Observable, Subject } from 'rxjs';
+import { debounceTime  } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notes',
@@ -14,6 +14,7 @@ export class NotesComponent implements OnInit {
 
   notebooks: Notebook[] = [];
   notes: Note[] = [];
+  //searchText: Subject<string> = new Subject<string>();
   searchText: string;
   selectedNotebook: Notebook;
 
@@ -22,6 +23,10 @@ export class NotesComponent implements OnInit {
   ngOnInit() {
     this.getAllNotebooks();
     this.selectedNotebook = null;
+    // this.searchText.pipe(
+    //   debounceTime(5000) // interval of time that events related with the content change will happen 
+    // );
+    //this.searchText.next(" ");
   }
 
   public getAllNotebooks(){
