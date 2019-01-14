@@ -26,7 +26,8 @@ export class SignupComponent implements OnInit {
     let user: User = {
       email: this.model.email,
       userName: this.model.userName,
-      password: this.model.password
+      password: this.model.password,
+      signDate: new Date()
     }
     
     this.authService.saveUser(user).subscribe(

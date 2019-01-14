@@ -18,8 +18,8 @@
         </div>
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" name="username"  class="form-control" [(ngModel)]="model.username" #username="ngModel"
-          [ngClass]="{'is-invalid': f.submitted && !username.valid}" placeholder="Username" required minlength="2" maxlength="10">
+          <input type="text" name="username"  class="form-control" [(ngModel)]="model.userName" #username="ngModel"
+          [ngClass]="{'is-invalid': f.submitted && !username.valid}" placeholder="Username" required minlength="2">
           <div *ngIf="f.submitted && email.invalid" class="invalid-input">
             <div class="text-danger" *ngIf="username.errors?.required">Username is required</div>
             <div class="text-danger" *ngIf="username.errors?.minlength">UserName minimum length is 2 characters</div>
@@ -28,7 +28,7 @@
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" name="password"  class="form-control" [(ngModel)]="model.password" #password="ngModel" 
-          [ngClass]="{'is-invalid': f.submitted && !password.valid}" placeholder="Password" required minlength="4" maxlength="10">
+          [ngClass]="{'is-invalid': f.submitted && !password.valid}" placeholder="Password" required minlength="4">
           <div *ngIf="f.submitted && email.invalid" class="invalid-input">
             <div class="text-danger" *ngIf="password.errors?.required">Password is required</div>
             <div class="text-danger" *ngIf="password.errors?.minlength">Password minimum length is 2 characters</div>

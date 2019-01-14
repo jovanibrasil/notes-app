@@ -1,5 +1,6 @@
 export interface User {
     email: string,
     userName: string,
-    password: string
+    password: string,
+    signDate: Date
 }
