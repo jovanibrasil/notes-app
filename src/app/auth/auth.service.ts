@@ -20,6 +20,8 @@ export class AuthService {
     private GET_AUTHORITY = `${this.BASE_URL}/authorities`;
     private REFRESH_AUTH_URL =  `${this.BASE_URL}/auth/refresh`;
     
+    private SIGNUP_URL =  `${this.BASE_URL}/auth/signup`;
+    
     model: any = {};
   
     constructor(private http: HttpClient) { }
@@ -36,6 +38,8 @@ export class AuthService {
       return this.http.post<JwtResponse>(this.LOGON_URL, user);//.shareReplay();
     }
 
+    saveUser(user: User): Observable<User>{
+      return this.http.post<User>(this.SIGNUP_URL, user);
+    }
     
-
 }

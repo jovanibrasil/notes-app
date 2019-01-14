@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/shared/api.service';
 import { User } from '../model/user';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
  
 /*
   SignupComponent constains the logic of the registration form.
@@ -15,7 +16,7 @@ export class SignupComponent implements OnInit {
 
   model: any = {};
 
-  constructor(private apiService: ApiService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -28,7 +29,7 @@ export class SignupComponent implements OnInit {
       password: this.model.password
     }
     
-    this.apiService.saveUser(user).subscribe(
+    this.authService.saveUser(user).subscribe(
       res => {
         this.router.navigate(['/']);
       },
