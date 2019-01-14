@@ -3,6 +3,8 @@ import { AuthService } from '../auth/auth.service';
 import { TokenStorageService } from '../auth/token.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { updateBinding } from '@angular/core/src/render3/instructions';
+import { $ } from 'protractor';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-navigation',
@@ -13,7 +15,12 @@ export class NavigationComponent implements OnInit {
 
     private authority: string;
 
-    constructor(private tokenStorageService: TokenStorageService, private router: Router) {};
+    constructor(private tokenStorageService: TokenStorageService, private router: Router, 
+        location: Location) {};
+
+    getLOcationPath(){
+        return location.pathname;
+    }
 
     ngOnInit() {
         this.updateNavigation();

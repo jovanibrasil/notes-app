@@ -10,7 +10,6 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <!-- active -->
-            
             <li *ngIf="authority" class="nav-item ">
                 <a class="nav-link" routerLink="/notes">Notes</a>
             </li>
@@ -26,10 +25,15 @@
         
         </ul>
         <ul class="navbar-nav">
-            <li *ngIf="!authority" >
+
+            <li *ngIf="!authority && getLOcationPath() != '/signup'" >
                 <a class="nav-link" routerLink="/signup">Signup</a>
             </li>
     
+            <li *ngIf="!authority && getLOcationPath() != '/'" >
+                <a class="nav-link" routerLink="/">Signin</a>
+            </li>
+
         </ul>
     </div>
 </nav>
