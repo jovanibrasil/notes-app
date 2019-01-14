@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/shared/api.service';
 import { User } from '../model/user';
+import { Router } from '@angular/router';
  
 /*
   SignupComponent constains the logic of the registration form.
@@ -12,11 +13,9 @@ import { User } from '../model/user';
 })
 export class SignupComponent implements OnInit {
 
-  email: string;
-  userName: string;
-  password: string;
+  model: any = {};
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -24,13 +23,15 @@ export class SignupComponent implements OnInit {
   createUser(){
     
     let user: User = {
-      email: this.email,
-      userName: this.userName,
-      password: this.password
+      email: this.model.email,
+      userName: this.model.userName,
+      password: this.model.password
     }
     
     this.apiService.saveUser(user).subscribe(
-      res => {},
+      res => {
+        this.router.navigate(['/']);
+      },
       err => { alert("An error has occurred. Could not save the user") }
     );  
   
