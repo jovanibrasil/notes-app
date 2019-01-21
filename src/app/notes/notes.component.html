@@ -1,63 +1,74 @@
-<div class="container" style="background-color: white; border-radius: 25px;">
-
-  <!-- Note menu -->
-  <div class="row mt-6" style="margin-top:12px; padding: 10px">
-    <div class="col-md-8">
-      <input type="text" [(ngModel)]="searchText" class="form-control" style="width:100%;" 
-        placeholder="Search notes ...">
-    </div>
-    <div class="col-md-4">
-      <!-- Create new notebook -->
-      <button type="button" class="btn btn-info pull-right" style="margin-left:12px;" 
-        (click)="createNotebook()">
-        <i class="fa fa-plus"></i> New Notebook
-      </button>
-      <!-- Create new note -->
-      <button type="button" class="btn btn-warning pull-right" style="margin-left:12px;" 
-        (click)="createNote()" [disabled]="selectedNotebook == null">
-        <i class="fa fa-plus"></i> New note
-      </button>
-    </div>
-  </div>
-
-  <div class="row" style="margin-top:29px;">
-    <!-- Notebook menu -->
-    <div class="col-md-3">
-      <br>
-      <div class="list-group list-group-flush">
-        <a class="list-group-item  list-group-item-action" (click)="selectAllNotes()">
-          <i class="fa fa-book"></i>&nbsp;All
-        </a>
-        <!-- Notebook list -->
-        <a *ngFor="let notebook of notebooks" (click)="selectNotebook(notebook)" class="list-group-item list-group-item-action">
-          <i class="fa fa-book"></i>&nbsp; 
-          <input [(ngModel)]="notebook.name" (change)="updateNotebook(notebook)" type="text" class="input-label"
-            style="width: 80%;">
-          <a class="pull-right text-danger" (click)="deleteNotebook(notebook)">
-            <i class="fa fa-trash-o"></i>
-          </a>
-        </a>
-      </div>
-    </div>
-    <!-- Notes panel -->
+<div class="container-fluid " >
+  <div class="row mt-12">
     <div class="col-md-9">
-      <div class="row">
-        <div class="col-md-12">
-          <!-- Message if there are no notes -->
-          <h3><p *ngIf="selectedNotebook != null">{{selectedNotebook.name}}</p></h3>
-          <h3><p *ngIf="selectedNotebook == null">All notes</p></h3>
-          <p *ngIf="this.notes.length === 0">There are no notes do display in this notebook</p>
+      <div style="background-color: white; border-radius: 10px;">
+        <!-- Note menu (search compoenent and buttons) -->
+        <div class="row mt-6" style="margin-top:12px; padding: 10px">
+          <div class="col-md-8">
+            <input type="text" [(ngModel)]="searchText" class="form-control" style="width:100%;" 
+              placeholder="Search notes ...">
+          </div>
+          <div class="col-md-4">
+            <!-- Create new notebook -->
+            <button type="button" class="btn btn-info pull-right" style="margin-left:12px;" 
+              (click)="createNotebook()">
+              <i class="fa fa-plus"></i> New Notebook
+            </button>
+            <!-- Create new note -->
+            <button type="button" class="btn btn-warning pull-right" style="margin-left:12px;" 
+              (click)="createNote()" [disabled]="selectedNotebook == null">
+              <i class="fa fa-plus"></i> New note
+            </button>
+          </div>
+        </div>
+        <div class="row" style="margin-top:29px;">
+          <!-- Notebook menu -->
+          <div class="col-md-3">
+            <br>
+            <div class="list-group list-group-flush">
+              <a class="list-group-item  list-group-item-action" (click)="selectAllNotes()">
+                <i class="fa fa-book"></i>&nbsp;All
+              </a>
+              <!-- Notebook list -->
+              <a *ngFor="let notebook of notebooks" (click)="selectNotebook(notebook)" class="list-group-item list-group-item-action">
+                <i class="fa fa-book"></i>&nbsp; 
+                <input [(ngModel)]="notebook.name" (change)="updateNotebook(notebook)" type="text" class="input-label"
+                  style="width: 80%;">
+                <a class="pull-right text-danger" (click)="deleteNotebook(notebook)">
+                  <i class="fa fa-trash-o"></i>
+                </a>
+              </a>
+            </div>
+          </div>
+          <!-- Notes panel -->
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-12">
+                <!-- Message if there are no notes -->
+                <h3><p *ngIf="selectedNotebook != null">{{selectedNotebook.name}}</p></h3>
+                <h3><p *ngIf="selectedNotebook == null">All notes</p></h3>
+                <p *ngIf="this.notes.length === 0">There are no notes do display in this notebook</p>
+              </div>
+            </div>
+            <div class="row">
+              <!-- Note list -->
+              <app-note  *ngFor="let n of notes | noteSearchFilter:searchText" 
+                [note]="n"
+                (noteUpdated)="updateNote($event)" 
+                (noteDeleted)="deleteNote($event)">
+              </app-note>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <!-- Note list -->
-        <app-note  *ngFor="let n of notes | noteSearchFilter:searchText" 
-          [note]="n"
-          (noteUpdated)="updateNote($event)" 
-          (noteDeleted)="deleteNote($event)">
-        </app-note>
+    </div>
+    <div class="col-md-3">
+      <div class="row mt-8">
+        <p style="background-color: white; padding: 10px; border-radius: 10px; margin: 10px 5px; width: 100%;">Note detail component</p>
+      </div>
+      <div class="row mt-4" >
+          <p style="background-color: white; padding: 10px; border-radius: 10px; margin: 5px; width: 100%">Notifications component</p>
       </div>
     </div>
-
   </div>
 </div>
