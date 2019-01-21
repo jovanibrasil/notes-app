@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { TokenStorageService } from '../token.service';
+import { IToast } from 'src/app/shared/itoast';
+import { ToasterService } from 'src/app/toaster.service';
 
 /*
   The LoginComponent contains the login form logic.
@@ -16,14 +18,25 @@ import { TokenStorageService } from '../token.service';
 export class LoginComponent implements OnInit {
   
   model: any = {};
+  toasts: IToast[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService, private authService: AuthService) { 
+  constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService,
+     private authService: AuthService, private toasterService: ToasterService) { 
       if(this.tokenStorageService.hasValidToken()){
         this.router.navigate(['/notes']);  
       }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.toasterService.getToast().subscribe((toast: IToast) => {
+      this.toasts.push(toast);
+      setTimeout(() => this.removeToast(toast), 3000);
+    });
+  }
+
+  removeToast(toast: IToast): void{
+    this.toasts = this.toasts.filter(x => x !== toast);
+  }
 
   parseJwt (token) {
     var base64Url = token.split('.')[1];
@@ -43,10 +56,12 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/notes']);
           //window.location.reload();
         } else {
-          alert("Authenticantion failed.");
+          this.toasterService.error("Authentication error. Invalid username or password!");
         }
       },
-      error => { }
+      error => {
+        this.toasterService.error("Authentication error. Check your user date and your internet connection!");
+      }
     );   
   }
 }

@@ -76,11 +76,29 @@ export class TokenStorageService {
         return roles;
     }
 
+    parseJwt (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace('-', '+').replace('_', '/');
+        return JSON.parse(window.atob(base64));
+    };
+
     hasValidToken(): boolean {
-        // TODO test expiration date
-        if(window.sessionStorage.getItem(this.TOKEN_KEY)){
-            return true;
+        let token = window.sessionStorage.getItem(this.TOKEN_KEY);
+        console.log("token ", token);
+        if(token){
+            // TODO test integrity
+            let parsedToken = this.parseJwt(token)
+            // test expiration time
+            console.log("exp: ", parsedToken.exp)
+            console.log("now: ", Date.now() / 1000)
+            if((Date.now() / 1000) < parsedToken.exp){
+                return true;
+            }else{
+                console.log("token expirou")
+                return false;
+            }
         }
+        console.log("token nulo");
         return false;
     }
 

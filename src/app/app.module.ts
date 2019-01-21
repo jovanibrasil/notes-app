@@ -14,9 +14,10 @@ import { NoteComponent } from './notes/note/note.component';
 import { NoteSearchFilterPipe } from './shared/note-search-filter.pipe';
 import { LoginComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
-import { AuthInterceptor } from './auth/auth.interceptor';
 
 import { AuthGuard } from './auth/auth.guard';
+import { RequestInterceptor } from './auth/request.interceptor';
+import { ResponseInterceptor } from './auth/response.interceptor';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
@@ -35,7 +36,8 @@ const appRoutes: Routes = [
   imports: [
     FormsModule, BrowserModule, HttpClientModule, RouterModule.forRoot(appRoutes, {enableTracing: false})
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, AuthGuard ],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
+      { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true }, AuthGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
