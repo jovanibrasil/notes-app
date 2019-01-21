@@ -14,14 +14,16 @@ import { IToast, ToastTypeEnum } from './shared/itoast';
 export class ToasterService {
 
   private subject: Subject<IToast> = new Subject<IToast>();
-  private keepAfterRouteChange: boolean = false;
+  private keepAfterRouteChange: boolean = true;
 
   constructor(private router: Router) {
     router.events.subscribe(event => {
       if(event instanceof NavigationStart){
         if(this.keepAfterRouteChange){
-          this.keepAfterRouteChange = false;
+          console.log("mantem lista de toasts")
+          this.keepAfterRouteChange = true;
         } else {
+          console.log("limpou lista de toasts")
           this.clear();
         }
       }
@@ -29,6 +31,7 @@ export class ToasterService {
   }
 
   getToast(): Observable<any> {
+    console.log(this.subject)
     return this.subject.asObservable();
   }
 
@@ -51,6 +54,7 @@ export class ToasterService {
   }
 
   clear(){
+    console.log("removeu toast")
     this.subject.next();
   }
 

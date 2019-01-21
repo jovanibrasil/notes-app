@@ -61,7 +61,6 @@ export class TokenStorageService {
     } 
 
     saveAuthorities(authorities: string[]) {
-        console.log(authorities);
         window.sessionStorage.removeItem(this.AUTHORITIES_KEY);
         window.sessionStorage.setItem(this.AUTHORITIES_KEY, JSON.stringify(authorities));
     }
@@ -84,21 +83,12 @@ export class TokenStorageService {
 
     hasValidToken(): boolean {
         let token = window.sessionStorage.getItem(this.TOKEN_KEY);
-        console.log("token ", token);
         if(token){
             // TODO test integrity
             let parsedToken = this.parseJwt(token)
             // test expiration time
-            console.log("exp: ", parsedToken.exp)
-            console.log("now: ", Date.now() / 1000)
-            if((Date.now() / 1000) < parsedToken.exp){
-                return true;
-            }else{
-                console.log("token expirou")
-                return false;
-            }
+            return (Date.now() / 1000) < parsedToken.exp;
         }
-        console.log("token nulo");
         return false;
     }
 

@@ -4,6 +4,7 @@ import { Note } from './model/note';
 import { ApiService } from '../shared/api.service';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime  } from 'rxjs/operators';
+import { ToasterService } from '../toaster.service';
 
 @Component({
   selector: 'app-notes',
@@ -18,7 +19,7 @@ export class NotesComponent implements OnInit {
   searchText: string;
   selectedNotebook: Notebook;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private toasterService: ToasterService) { }
 
   ngOnInit() {
     this.getAllNotebooks();
@@ -32,23 +33,21 @@ export class NotesComponent implements OnInit {
   public getAllNotebooks(){
     this.apiService.getAllNotebooks().subscribe(
       res => { this.notebooks = res; } ,
-      err => {
-        alert("An error has occured");
-      }
+      err => { this.toasterService.error("An error has occured getting all your notebooks."); }
     );
   }
 
   public getAllNotes(){
     this.apiService.getAllNotes().subscribe(
       ret => { this.notes = ret; },
-      err => { alert("An error has occured"); }
+      err => { this.toasterService.error("An error has occured when getting all the notes."); }
     );
   }
 
   public getNotesById(id: number){
     this.apiService.getNotesByNotebook(id).subscribe(
       ret => { this.notes = ret; },
-      err => { alert("An error has occured") }
+      err => { this.toasterService.error("An error has occured getting a note.") }
     );
   }
 
@@ -62,15 +61,16 @@ export class NotesComponent implements OnInit {
       res => {
         notebook.notebookId = res.notebookId;
         this.notebooks.push(notebook);
+        this.toasterService.success("Notebook created successfully.");
       },
-      err => { alert("An error has occured"); }
+      err => { this.toasterService.error("An error has occured when creating the notebook."); }
     );
   }
 
   public updateNotebook(notebook: Notebook){
     this.apiService.postNotebook(notebook).subscribe(
       res => {},
-      err => { alert("An error has occured"); }
+      err => { this.toasterService.error("An error has occured when updating the notebook."); }
     );
   }
 
@@ -86,14 +86,14 @@ export class NotesComponent implements OnInit {
         res => {
           let indexOfNotebook = this.notebooks.indexOf(notebook);
           this.notebooks.splice(indexOfNotebook, 1);
+          this.toasterService.success("Notebook deleted successfully.");
         }, 
-        err => { alert("An error has occured. Could not delete notebook."); }
+        err => { this.toasterService.error("An error has occured. Could not delete this notebook."); }
       );
     }
   }
 
   public createNote(){
-
     let note: Note = {
       noteId: 0,
       title: "New Note",
@@ -101,14 +101,14 @@ export class NotesComponent implements OnInit {
       notebookId: this.selectedNotebook.notebookId,
       lastModifiedOn: null
     }
-
     this.apiService.saveNote(note).subscribe(
       res => {
         note.noteId = res.noteId;
         note.lastModifiedOn = res.lastModifiedOn
         this.notes.push(note);
+        this.toasterService.success("Note created successfully.");
       },
-      err => { alert("An error has occured. Could not save the note."); }
+      err => { this.toasterService.error("An error has occured. Could not save the note."); }
     );
   }
 
@@ -123,17 +123,17 @@ export class NotesComponent implements OnInit {
         res => {
           let indexOfNote = this.notes.indexOf(note);
           this.notes.splice(indexOfNote, 1);
+          this.toasterService.success("Note deleted successfully.");
         },
-        err => {}
+        err => {this.toasterService.error("An error has occured when deleting this note.");}
       );
     }
   }
 
   public updateNote(note: Note){
-    //note.lastModifiedOn = new Date().toString();
     this.apiService.updateNote(note).subscribe(
       res => { note.lastModifiedOn = res.lastModifiedOn },
-      err => { alert("An error has occured"); }
+      err => { this.toasterService.error("An error has occured when updating the note."); }
     );
   }
 

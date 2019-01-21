@@ -18,7 +18,6 @@ import { ToasterService } from 'src/app/toaster.service';
 export class LoginComponent implements OnInit {
   
   model: any = {};
-  toasts: IToast[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService,
      private authService: AuthService, private toasterService: ToasterService) { 
@@ -27,16 +26,7 @@ export class LoginComponent implements OnInit {
       }
   }
 
-  ngOnInit() {
-    this.toasterService.getToast().subscribe((toast: IToast) => {
-      this.toasts.push(toast);
-      setTimeout(() => this.removeToast(toast), 3000);
-    });
-  }
-
-  removeToast(toast: IToast): void{
-    this.toasts = this.toasts.filter(x => x !== toast);
-  }
+  ngOnInit() {}
 
   parseJwt (token) {
     var base64Url = token.split('.')[1];

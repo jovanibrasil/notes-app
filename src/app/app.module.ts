@@ -18,6 +18,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { AuthGuard } from './auth/auth.guard';
 import { RequestInterceptor } from './auth/request.interceptor';
 import { ResponseInterceptor } from './auth/response.interceptor';
+import { ToasterComponent } from './toaster/toaster.component';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
@@ -31,7 +32,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, NotesComponent,
-     NoteComponent, NoteSearchFilterPipe, LoginComponent, SignupComponent
+     NoteComponent, NoteSearchFilterPipe, LoginComponent, SignupComponent, ToasterComponent
   ],
   imports: [
     FormsModule, BrowserModule, HttpClientModule, RouterModule.forRoot(appRoutes, {enableTracing: false})

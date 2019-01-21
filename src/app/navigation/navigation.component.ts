@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { updateBinding } from '@angular/core/src/render3/instructions';
 import { $ } from 'protractor';
 import { Location } from '@angular/common';
+import { ToasterService } from '../toaster.service';
 
 @Component({
     selector: 'app-navigation',
@@ -16,7 +17,7 @@ export class NavigationComponent implements OnInit {
     private authority: string;
 
     constructor(private tokenStorageService: TokenStorageService, private router: Router, 
-        location: Location) {};
+        location: Location, private toasterService: ToasterService) {};
 
     getLOcationPath(){
         return location.pathname;
@@ -50,6 +51,7 @@ export class NavigationComponent implements OnInit {
     logout() {
         this.tokenStorageService.signOut();
         //window.location.reload();
+        this.toasterService.success("You have been logged out successfully.");
         this.router.navigate(['']);
     }
 

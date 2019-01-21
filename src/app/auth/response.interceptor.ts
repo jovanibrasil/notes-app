@@ -15,13 +15,10 @@ export class ResponseInterceptor implements HttpInterceptor {
     constructor(private tokenStorageService: TokenStorageService, 
         private toasterService: ToasterService, private route: Router) {}
 
-
     /*
         Get token from TokenSTorageService and add this token to the authorization header of the HTTP request.
     */
     intercept(req: HttpRequest<any>, next: HttpHandler) {
- 
-
         /*
             When an response with an invalid/expired token is received, the user is
             immediately logged out from th application.
