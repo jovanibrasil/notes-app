@@ -14,43 +14,41 @@ import { IToast, ToastTypeEnum } from './shared/itoast';
 export class ToasterService {
 
   private subject: Subject<IToast> = new Subject<IToast>();
-  private keepAfterRouteChange: boolean = true;
+  private lastToast: IToast = null;
 
-  constructor(private router: Router) {
-    router.events.subscribe(event => {
-      if(event instanceof NavigationStart){
-        if(this.keepAfterRouteChange){
-          console.log("mantem lista de toasts")
-          this.keepAfterRouteChange = true;
-        } else {
-          console.log("limpou lista de toasts")
-          this.clear();
-        }
-      }
-    });
-  }
+  constructor(private router: Router) {}
 
   getToast(): Observable<any> {
-    console.log(this.subject)
     return this.subject.asObservable();
   }
 
-  success(message, keepAfterRouteChange = true) {
+  success(message, keepAfterRouteChange = false) {
     this.toast(message, ToastTypeEnum.Success, keepAfterRouteChange);
   }
-  error(message, keepAfterRouteChange = true) {
+  error(message, keepAfterRouteChange = false) {
     this.toast(message, ToastTypeEnum.Error, keepAfterRouteChange);
   }
-  info(message: string, keepAfterRouteChange = true) {
+  info(message: string, keepAfterRouteChange = false) {
     this.toast(message, ToastTypeEnum.Info, keepAfterRouteChange);
   }
-  warn(message: string, keepAfterRouteChange = true) {
+  warn(message: string, keepAfterRouteChange = false) {
     this.toast(message, ToastTypeEnum.Warning, keepAfterRouteChange);
   }
 
-  toast(message: string, type: ToastTypeEnum, keepAfterRouteChange = true) {
-    this.keepAfterRouteChange = keepAfterRouteChange;
-    this.subject.next(<IToast>{ message: message, type});
+  toast(message: string, type: ToastTypeEnum, keepAfterRouteChange = false) {
+    let toast = <IToast>{ message: message, type};
+    this.subject.next(toast);
+    if(keepAfterRouteChange){
+      this.lastToast = toast;
+    }
+  }
+
+  loadRoutedToast(){
+    let toast = this.lastToast;
+    if(toast){
+      this.lastToast = null;
+      this.subject.next(toast);
+    }
   }
 
   clear(){

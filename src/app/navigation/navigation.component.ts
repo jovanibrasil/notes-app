@@ -51,7 +51,7 @@ export class NavigationComponent implements OnInit {
     logout() {
         this.tokenStorageService.signOut();
         //window.location.reload();
-        this.toasterService.success("You have been logged out successfully.");
+        this.toasterService.success("You have been logged out successfully.", true);
         this.router.navigate(['']);
     }
 
