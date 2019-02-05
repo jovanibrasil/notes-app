@@ -6,7 +6,7 @@ pipeline {
         stage("Building project") {
             steps {
                 echo 'Cloning git'
-                git([url: 'https://github.com/jovanibrasil/notes-app.git', branch: 'master', credentialsId: ''])
+                git([url: 'https://github.com/jovanibrasil/notes-app.git', branch: 'master', credentialsId: '6f0b7a49-f376-4b3b-892e-0bebdc4a9182'])
                 echo 'Installing dependencies ...'
                 sh 'npm install'
                 echo 'Building ...'
