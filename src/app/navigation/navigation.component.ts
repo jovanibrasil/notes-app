@@ -14,7 +14,7 @@ import { ToasterService } from '../toaster.service';
 })
 export class NavigationComponent implements OnInit {
 
-    private authority: string;
+    authority: string;
 
     constructor(private tokenStorageService: TokenStorageService, private router: Router, 
         location: Location, private toasterService: ToasterService) {};

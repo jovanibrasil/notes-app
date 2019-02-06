@@ -19,6 +19,8 @@ export class LoginComponent implements OnInit {
   
   model: any = {};
 
+  loading: any = null;
+
   constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService,
      private authService: AuthService, private toasterService: ToasterService) { 
       if(this.tokenStorageService.hasValidToken()){

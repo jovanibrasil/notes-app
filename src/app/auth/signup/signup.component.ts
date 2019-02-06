@@ -15,6 +15,7 @@ import { AuthService } from '../auth.service';
 export class SignupComponent implements OnInit {
 
   model: any = {};
+  loading: any = null;
 
   constructor(private authService: AuthService, private router: Router) { }
 
