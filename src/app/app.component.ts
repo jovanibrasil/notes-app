@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  title = 'notes-ng-app';
+  title = 'notes-app';
 
   ngOnInit(): void {
     

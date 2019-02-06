@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "notes-ng-app": {
+    "notes-app": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/notes-ng-app",
+            "outputPath": "dist/notes-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -57,18 +57,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "notes-ng-app:build"
+            "browserTarget": "notes-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "notes-ng-app:build:production"
+              "browserTarget": "notes-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "notes-ng-app:build"
+            "browserTarget": "notes-app:build"
           }
         },
         "test": {
@@ -102,7 +102,7 @@
         }
       }
     },
-    "notes-ng-app-e2e": {
+    "notes-app-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -111,11 +111,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "notes-ng-app:serve"
+            "devServerTarget": "notes-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "notes-ng-app:serve:production"
+              "devServerTarget": "notes-app:serve:production"
             }
           }
         },
@@ -131,5 +131,5 @@
       }
     }
   },
-  "defaultProject": "notes-ng-app"
+  "defaultProject": "notes-app"
 }
