@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
-import { TokenStorageService } from '../auth/token.service';
+import { AuthService } from '../shared/services/auth.service';
+import { TokenStorageService } from '../shared/services/token.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { updateBinding } from '@angular/core/src/render3/instructions';
 import { $ } from 'protractor';
 import { Location } from '@angular/common';
-import { ToasterService } from '../toaster.service';
+import { ToasterService } from '../shared/services/toaster.service';
 
 @Component({
     selector: 'app-navigation',

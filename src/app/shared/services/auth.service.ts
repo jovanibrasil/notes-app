@@ -2,8 +2,10 @@ import { Injectable } from "@angular/core";
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JwtResponse } from './model/jwt.response';
-import { User } from './model/user';
+import { JwtResponse } from '../../auth/model/jwt.response';
+import { User } from '../../auth/model/user';
+
+import * as CONS from './vars';
 
 /*
   The AuthService handles authentication operations using HttpClient.
@@ -13,7 +15,7 @@ import { User } from './model/user';
 })
 export class AuthService {
 
-    private BASE_URL = 'http://localhost:9000';
+    private BASE_URL = CONS.AUTH_BASE_URL;
     private LOGIN_URL =  `${this.BASE_URL}/auth/login`;
     private LOGOUT_URL =  `${this.BASE_URL}/auth/logout`;
     private LOGON_URL = `${this.BASE_URL}/auth/logon`

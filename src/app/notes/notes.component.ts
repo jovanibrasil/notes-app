@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Notebook } from './model/notebook';
 import { Note } from './model/note';
-import { ApiService } from '../shared/api.service';
+import { ApiService } from '../shared/services/api.service';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime  } from 'rxjs/operators';
-import { ToasterService } from '../toaster.service';
+import { ToasterService } from '../shared/services/toaster.service';
 
 @Component({
   selector: 'app-notes',

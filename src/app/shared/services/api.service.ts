@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Notebook } from '../notes/model/notebook';
-import { Note } from '../notes/model/note';
+import { Notebook } from '../../notes/model/notebook';
+import { Note } from '../../notes/model/note';
 import { Observable } from 'rxjs';
-import { FeedbackViewModel } from '../feedback/feedback.component';
-import { User } from '../auth/model/user';
+import { FeedbackViewModel } from '../../feedback/feedback.component';
+import { User } from '../../auth/model/user';
+
+import * as CONS from './vars';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ApiService {
 
-    private BASE_URL = "http://localhost:8080/api"; 
+    private BASE_URL = CONS.NOTES_BASE_URL; 
     
     private SEND_FEEDBACK_URL = `${this.BASE_URL}/feedback`;
     

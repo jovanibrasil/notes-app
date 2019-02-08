@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { Router, NavigationStart } from '@angular/router';
-import { IToast, ToastTypeEnum } from './shared/itoast';
+import { IToast, ToastTypeEnum } from '../../toaster/itoast';
 
 /*
   This service is responsable for connecting the angular components to the toast component 

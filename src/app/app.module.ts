@@ -11,13 +11,13 @@ import { FormsModule } from '@angular/forms';
 import { config } from 'rxjs';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NoteComponent } from './notes/note/note.component';
-import { NoteSearchFilterPipe } from './shared/note-search-filter.pipe';
+import { NoteSearchFilterPipe } from './shared/filters/note-search-filter.pipe';
 import { LoginComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
 
-import { AuthGuard } from './auth/auth.guard';
-import { RequestInterceptor } from './auth/request.interceptor';
-import { ResponseInterceptor } from './auth/response.interceptor';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { RequestInterceptor } from './shared/interceptors/request.interceptor';
+import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
 import { ToasterComponent } from './toaster/toaster.component';
 
 const appRoutes: Routes = [

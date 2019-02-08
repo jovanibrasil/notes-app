@@ -1,5 +1,5 @@
 import { NoteSearchFilterPipe } from './note-search-filter.pipe';
-import { Note } from '../notes/model/note'
+import { Note } from '../../notes/model/note'
 
 let notes: Note[] = [ 
   {noteId: 1, title: "title1", text: "text1", notebookId: 10, lastModifiedOn: "" },

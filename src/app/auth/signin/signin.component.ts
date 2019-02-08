@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../auth.service';
-import { TokenStorageService } from '../token.service';
-import { IToast } from 'src/app/shared/itoast';
-import { ToasterService } from 'src/app/toaster.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { TokenStorageService } from '../../shared/services/token.service';
+import { IToast } from 'src/app/toaster/itoast';
+import { ToasterService } from 'src/app/shared/services/toaster.service';
 
 /*
   The LoginComponent contains the login form logic.

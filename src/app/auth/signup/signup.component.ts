@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/shared/api.service';
+import { ApiService } from 'src/app/shared/services/api.service';
 import { User } from '../model/user';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../shared/services/auth.service';
  
 /*
   SignupComponent constains the logic of the registration form.

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { TokenStorageService } from './token.service';
+import { TokenStorageService } from '../services/token.service';
 import { tap, map } from 'rxjs/operators';
-import { ToasterService } from '../toaster.service';
+import { ToasterService } from '../services/toaster.service';
 import { Router } from '@angular/router';
 
 
 /*
-    This interceptor intercepts all HTTP requests sended by the services.
+    This interceptor intercepts all HTTP requests received.
 */
 @Injectable()
 export class ResponseInterceptor implements HttpInterceptor {
