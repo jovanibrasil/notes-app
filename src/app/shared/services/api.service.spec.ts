@@ -38,7 +38,5 @@ describe('ApiService', () => {
         req.flush(notebooks);
 
     });
-    
- 
 
 });

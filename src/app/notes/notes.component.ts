@@ -53,13 +53,13 @@ export class NotesComponent implements OnInit {
 
   public createNotebook(){
     let notebook: Notebook = {
-      notebookId: 0,
+      id: 0,
       name:"New notebook",
       numberOfNotes: 2
     };
     this.apiService.postNotebook(notebook).subscribe(
       res => {
-        notebook.notebookId = res.notebookId;
+        notebook.id = res.id;
         this.notebooks.push(notebook);
         this.toasterService.success("Notebook created successfully.");
       },
@@ -76,13 +76,13 @@ export class NotesComponent implements OnInit {
 
   public selectNotebook(notebook: Notebook){
     this.selectedNotebook = notebook;
-    this.getNotesById(notebook.notebookId);
+    this.getNotesById(notebook.id);
   }
 
   public deleteNotebook(notebook: Notebook){
     
     if(confirm("Are you sure you want to delete this notebook?")){
-      this.apiService.deleteNotebook(notebook.notebookId).subscribe(
+      this.apiService.deleteNotebook(notebook.id).subscribe(
         res => {
           let indexOfNotebook = this.notebooks.indexOf(notebook);
           this.notebooks.splice(indexOfNotebook, 1);
@@ -95,15 +95,15 @@ export class NotesComponent implements OnInit {
 
   public createNote(){
     let note: Note = {
-      noteId: 0,
+      id: null,
       title: "New Note",
       text: "Write some text here",
-      notebookId: this.selectedNotebook.notebookId,
+      notebookId: this.selectedNotebook.id,
       lastModifiedOn: null
     }
     this.apiService.saveNote(note).subscribe(
       res => {
-        note.noteId = res.noteId;
+        note.id = res.id;
         note.lastModifiedOn = res.lastModifiedOn
         this.notes.push(note);
         this.toasterService.success("Note created successfully.");
@@ -119,7 +119,7 @@ export class NotesComponent implements OnInit {
 
   public deleteNote(note: Note){
     if(confirm("Are you sure you want to delete this note?")){
-      this.apiService.deleteNote(note.noteId).subscribe(
+      this.apiService.deleteNote(note.id).subscribe(
         res => {
           let indexOfNote = this.notes.indexOf(note);
           this.notes.splice(indexOfNote, 1);
