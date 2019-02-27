@@ -24,7 +24,7 @@ describe('ApiService', () => {
     });
 
     it('should get all notebooks from http', () => {
-        let notebooks: Notebook[] = [ { notebookId: 1, name: "notebook name", numberOfNotes: 0 } ];
+        let notebooks: Notebook[] = [ { id: 1, name: "notebook name", numberOfNotes: 0 } ];
 
         // Tests
         apiService.getAllNotebooks().subscribe( res => {

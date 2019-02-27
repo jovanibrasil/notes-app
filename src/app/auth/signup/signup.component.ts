@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { User } from '../model/user';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
+import { ReCaptcha2Component } from 'ngx-captcha';
+import { Globals } from 'src/app/globals';
  
 /*
   SignupComponent constains the logic of the registration form.
@@ -16,14 +18,27 @@ export class SignupComponent implements OnInit {
 
   model: any = {};
   loading: any = null;
+  captchaError: boolean;
+  captchaSuccess: boolean;
+  @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  key: String = this.globals.RECAPTCHA_KEY;
+
+  constructor(private authService: AuthService, private router: Router, private globals: Globals) { }
 
   ngOnInit() {
   }
 
   createUser(){
     
+    // verify recaptcha component status
+    let recapchaValue = this.captchaElem.getResponse();
+    if(!recapchaValue) {
+      this.captchaError = true;
+      return;
+    }
+    this.model.captchaCode = recapchaValue;
+
     let user: User = {
       email: this.model.email,
       userName: this.model.userName,
@@ -38,6 +53,15 @@ export class SignupComponent implements OnInit {
       err => { alert("An error has occurred. Could not save the user") }
     );  
   
+  }
+
+  handleSuccess(captchaResponse: string): void {
+    this.captchaSuccess = true;
+    this.captchaError = false;
+  }
+
+  reloadCaptcha(): void {
+    this.captchaElem.reloadCaptcha();
   }
 
 }

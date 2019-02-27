@@ -47,10 +47,23 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-info pull-right">
-          <i class="fa fa-envelope-o"></i>
-          <span>Send Feedback</span>
-        </button>
+        <div style="display: flex; flex-direction: row; margin-bottom: 50px">     
+          <!-- Recaptcha component -->
+          <div>
+            <ngx-recaptcha2 #captchaElem
+            [siteKey]="key" 
+            [ngModel]="recaptcha"
+            name="captchaElem"
+            (success)="handleSuccess($event)">
+            </ngx-recaptcha2>
+            <div class="invalid-input" *ngIf="captchaError">Captcha is required!</div>
+          </div>
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-info" style="margin-left: auto; height: 40px;" >
+            <i class="fa fa-envelope-o"></i>
+            <span>Send Feedback</span>
+          </button>      
+        </div>
 
       </form>
     </div>

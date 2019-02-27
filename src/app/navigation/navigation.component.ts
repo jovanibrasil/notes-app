@@ -34,13 +34,10 @@ export class NavigationComponent implements OnInit {
 
     updateNavigation(){
         this.authority = null;
-        // get authority from using auth service
-        console.log("Updating navigaation component")
+        // get authority using auth service
         let roles = this.tokenStorageService.getAuthorities();
-        console.log(roles);
         roles.every(role => {
             this.authority = role;
-            console.log(this.authority)
             if(role === 'ROLE_ADMIN'){
                 return false
             }

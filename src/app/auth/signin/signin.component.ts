@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { AuthService } from '../../shared/services/auth.service';
 import { TokenStorageService } from '../../shared/services/token.service';
-import { IToast } from 'src/app/toaster/itoast';
 import { ToasterService } from 'src/app/shared/services/toaster.service';
+import { ReCaptcha2Component } from 'ngx-captcha';
+import { Globals } from 'src/app/globals';
 
 /*
   The LoginComponent contains the login form logic.
@@ -18,11 +17,15 @@ import { ToasterService } from 'src/app/shared/services/toaster.service';
 export class LoginComponent implements OnInit {
   
   model: any = {};
-
   loading: any = null;
+  captchaError: boolean;
+  captchaSuccess: boolean;
+  @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
 
+  key: String = this.globals.RECAPTCHA_KEY;
+  
   constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService,
-     private authService: AuthService, private toasterService: ToasterService) { 
+     private authService: AuthService, private toasterService: ToasterService, private globals: Globals) { 
       if(this.tokenStorageService.hasValidToken()){
         this.router.navigate(['/notes']);  
       }
@@ -37,6 +40,17 @@ export class LoginComponent implements OnInit {
   };
 
   login(){
+
+    // verify recaptcha component status
+    let recapchaValue = this.captchaElem.getResponse();
+    if(!recapchaValue) {
+      this.captchaError = true;
+      return;
+    }
+    this.model.captchaCode = recapchaValue;
+
+    console.log(this.model.captchaCode);
+
     this.authService.login(this.model.username, this.model.password).subscribe( 
       res => {
         if(res) {
@@ -56,4 +70,14 @@ export class LoginComponent implements OnInit {
       }
     );   
   }
+
+  handleSuccess(captchaResponse: string): void {
+    this.captchaSuccess = true;
+    this.captchaError = false;
+  }
+
+  reloadCaptcha(): void {
+    this.captchaElem.reloadCaptcha();
+  }
+
 }

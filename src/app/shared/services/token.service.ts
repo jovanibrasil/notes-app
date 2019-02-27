@@ -15,8 +15,13 @@ export class TokenStorageService {
     private theBoolean: BehaviorSubject<boolean>;
 
     constructor() {
-        this.loggedInStatus = false;
-        this.theBoolean = new BehaviorSubject<boolean>(false);
+        if(!this.hasValidToken()){
+            this.loggedInStatus = false;
+            this.theBoolean = new BehaviorSubject<boolean>(false);
+        }else{
+            this.loggedInStatus = true;
+            this.theBoolean = new BehaviorSubject<boolean>(true);
+        }
     }
 
     public getTheBoolean(): Observable<boolean> {
@@ -33,42 +38,43 @@ export class TokenStorageService {
     }
 
     signOut() {
-        window.sessionStorage.removeItem(this.TOKEN_KEY);
-        window.sessionStorage.removeItem(this.USERNAME_KEY);
-        window.sessionStorage.removeItem(this.AUTHORITIES_KEY);
-        window.sessionStorage.clear();
+        window.localStorage.removeItem(this.TOKEN_KEY);
+        window.localStorage.removeItem(this.USERNAME_KEY);
+        window.localStorage.removeItem(this.AUTHORITIES_KEY);
+        window.localStorage.clear();
+        
         this.setLoggedIn(false);
         this.theBoolean.next(false);
     }
 
     saveToken(token: string){
-        window.sessionStorage.removeItem(this.TOKEN_KEY);
-        window.sessionStorage.setItem(this.TOKEN_KEY, token);
-        window.sessionStorage.removeItem(this.AUTHORITIES_KEY);
+        window.localStorage.removeItem(this.TOKEN_KEY);
+        window.localStorage.setItem(this.TOKEN_KEY, token);
+        window.localStorage.removeItem(this.AUTHORITIES_KEY);
     }
 
     getToken(): string{
-        return sessionStorage.getItem(this.TOKEN_KEY);
+        return localStorage.getItem(this.TOKEN_KEY);
     }
 
     saveUserName(userName: string){
-        window.sessionStorage.removeItem(this.USERNAME_KEY);
-        window.sessionStorage.setItem(this.USERNAME_KEY, userName);
+        window.localStorage.removeItem(this.USERNAME_KEY);
+        window.localStorage.setItem(this.USERNAME_KEY, userName);
     }
 
     getUserName(): string {
-        return sessionStorage.getItem(this.USERNAME_KEY);
+        return localStorage.getItem(this.USERNAME_KEY);
     } 
 
     saveAuthorities(authorities: string[]) {
-        window.sessionStorage.removeItem(this.AUTHORITIES_KEY);
-        window.sessionStorage.setItem(this.AUTHORITIES_KEY, JSON.stringify(authorities));
+        window.localStorage.removeItem(this.AUTHORITIES_KEY);
+        window.localStorage.setItem(this.AUTHORITIES_KEY, JSON.stringify(authorities));
     }
 
     getAuthorities(): string[] {
         let roles = [];
-        if(window.sessionStorage.getItem(this.AUTHORITIES_KEY)){
-            JSON.parse(window.sessionStorage.getItem(this.AUTHORITIES_KEY)).forEach(element => {
+        if(window.localStorage.getItem(this.AUTHORITIES_KEY)){
+            JSON.parse(window.localStorage.getItem(this.AUTHORITIES_KEY)).forEach(element => {
                 roles.push(element);
             });
         }
@@ -82,7 +88,7 @@ export class TokenStorageService {
     };
 
     hasValidToken(): boolean {
-        let token = window.sessionStorage.getItem(this.TOKEN_KEY);
+        let token = window.localStorage.getItem(this.TOKEN_KEY);
         if(token){
             // TODO test integrity
             let parsedToken = this.parseJwt(token)

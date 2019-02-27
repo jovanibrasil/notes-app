@@ -34,8 +34,24 @@
             <div class="text-danger" *ngIf="password.errors?.minlength">Password minimum length is 2 characters</div>
           </div>
         </div>
-        <div class="text-center">
-          <button class="btn btn-info my-4" [disabled]="loading">Sign up</button>
+        
+        <div style="display: flex; align-items: center; flex-direction: column">
+          <div>
+            <ngx-recaptcha2 #captchaElem
+            [siteKey]="key" 
+            [ngModel]="recaptcha"
+            name="captchaElem"
+            (success)="handleSuccess($event)">
+            </ngx-recaptcha2>
+            <div class="text-danger" *ngIf="captchaError">Captcha is required!</div>
+          </div>
+
+          <div class="text-center">
+            <button class="btn btn-info my-4" [disabled]="loading">Sign up</button>
+          </div>
+
+          <!-- Messages component -->
+          <app-toaster></app-toaster>
         </div>
 
       </form>

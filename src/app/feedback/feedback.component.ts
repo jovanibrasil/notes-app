@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../shared/services/api.service';
+import { ReCaptcha2Component } from 'ngx-captcha';
+import { Globals } from '../globals';
 
 @Component({
   selector: 'app-feedback',
@@ -12,10 +14,18 @@ export class FeedbackComponent implements OnInit {
   model: FeedbackViewModel = {
     name: '',
     email: '',
-    feedback: ''
+    feedback: '',
+    captchaCode: ''
   };
 
-  constructor(private http: HttpClient, private apiService: ApiService) { }
+  captchaError: boolean;
+  captchaSuccess: boolean;
+  @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
+
+  key: String = this.globals.RECAPTCHA_KEY;
+
+
+  constructor(private http: HttpClient, private apiService: ApiService, private globals:Globals) { }
 
   ngOnInit() {
     
@@ -24,6 +34,14 @@ export class FeedbackComponent implements OnInit {
   sendFeedback(): void {
     let url = "http://localhost:8080/api/feedback";
     //alert(this.model.name);
+
+    // verify recaptcha component status
+    let recapchaValue = this.captchaElem.getResponse();
+    if(!recapchaValue) {
+      this.captchaError = true;
+      return;
+    }
+    this.model.captchaCode = recapchaValue;
 
     this.apiService.postFeedback(this.model).subscribe(
       res => {
@@ -35,10 +53,20 @@ export class FeedbackComponent implements OnInit {
     );
   }
 
+  handleSuccess(captchaResponse: string): void {
+    this.captchaSuccess = true;
+    this.captchaError = false;
+  }
+
+  reloadCaptcha(): void {
+    this.captchaElem.reloadCaptcha();
+  }
+
 }
 
 export interface FeedbackViewModel{
   name: string;
   email: string;
   feedback: string;
+  captchaCode: string
 }

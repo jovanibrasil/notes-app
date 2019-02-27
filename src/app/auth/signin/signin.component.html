@@ -5,7 +5,7 @@
 
       <!-- novalidade is used to disable browsers native form validation -->
       <form class="border border-light p-5 mt-5 center-block" style="background-color: white; border-radius: 25px;"
-        name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+        name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm">
 
         <p class="h4 mb-4 text-center">Sign In</p>
 
@@ -28,15 +28,28 @@
           </div>
         </div>
 
-        <div class="text-center">
-          <button class="btn btn-info my-4" [disabled]="loading">Sign In</button>
+        <div style="display: flex; align-items: center; flex-direction: column">
+          <div>
+            <ngx-recaptcha2 #captchaElem
+            [siteKey]="key" 
+            [ngModel]="recaptcha"
+            name="captchaElem"
+            (success)="handleSuccess($event)">
+            </ngx-recaptcha2>
+            <div class="text-danger" *ngIf="captchaError">Captcha is required!</div>
+          </div>
+
+          <div class="text-center">
+            <button class="btn btn-info my-4" [disabled]="loading">Sign In</button>
+          </div>
+          <!-- Register -->
+          <p class="text-center">Not a member?
+              <a routerLink="/signup">Sign Up</a>
+          </p>
+
+          <!-- Messages component -->
+          <app-toaster></app-toaster>
         </div>
-        <!-- Register -->
-        <p class="text-center">Not a member?
-            <a routerLink="/signup">Sign Up</a>
-        </p>
-        
-        <app-toaster></app-toaster>
 
       </form>
 
