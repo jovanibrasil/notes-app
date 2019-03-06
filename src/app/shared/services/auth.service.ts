@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { JwtResponse } from '../../auth/model/jwt.response';
 import { User } from '../../auth/model/user';
+import { environment } from 'src/environments/environment';
 
-import * as CONS from './vars';
 
 /*
   The AuthService handles authentication operations using HttpClient.
@@ -15,7 +15,7 @@ import * as CONS from './vars';
 })
 export class AuthService {
 
-    private BASE_URL = CONS.AUTH_BASE_URL;
+    private BASE_URL = environment.AUTH_BASE_URL;
     private LOGIN_URL =  `${this.BASE_URL}/auth/login`;
     private LOGOUT_URL =  `${this.BASE_URL}/auth/logout`;
     private LOGON_URL = `${this.BASE_URL}/auth/logon`

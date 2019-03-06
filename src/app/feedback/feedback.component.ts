@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../shared/services/api.service';
 import { ReCaptcha2Component } from 'ngx-captcha';
-import { Globals } from '../globals';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-feedback',
@@ -21,11 +21,11 @@ export class FeedbackComponent implements OnInit {
   captchaError: boolean;
   captchaSuccess: boolean;
   @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
+  recaptcha: any;
+  key: String = environment.RECAPTCHA_KEY;
 
-  key: String = this.globals.RECAPTCHA_KEY;
 
-
-  constructor(private http: HttpClient, private apiService: ApiService, private globals:Globals) { }
+  constructor(private http: HttpClient, private apiService: ApiService) { }
 
   ngOnInit() {
     

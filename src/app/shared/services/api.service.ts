@@ -5,15 +5,15 @@ import { Note } from '../../notes/model/note';
 import { Observable } from 'rxjs';
 import { FeedbackViewModel } from '../../feedback/feedback.component';
 import { User } from '../../auth/model/user';
+import { environment } from 'src/environments/environment';
 
-import * as CONS from './vars';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ApiService {
 
-    private BASE_URL = CONS.NOTES_BASE_URL; 
+    private BASE_URL = environment.NOTES_BASE_URL; 
     
     private SEND_FEEDBACK_URL = `${this.BASE_URL}/feedback`;
     

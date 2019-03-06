@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  RECAPTCHA_KEY: $ENV.RECAPTCHA_KEY,
+  NOTES_BASE_URL: "http://localhost:8082",
+  AUTH_BASE_URL: 'http://localhost:8083',
+    
 };
 
 /*

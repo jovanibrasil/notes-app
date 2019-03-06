@@ -19,7 +19,6 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { RequestInterceptor } from './shared/interceptors/request.interceptor';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
 import { ToasterComponent } from './toaster/toaster.component';
-import { Globals } from './globals';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
 const appRoutes: Routes = [
@@ -43,7 +42,7 @@ const appRoutes: Routes = [
     NgxCaptchaModule,
     RouterModule.forRoot(appRoutes, {enableTracing: false})
   ],
-  providers: [Globals, { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
       { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true }, AuthGuard ],
   bootstrap: [AppComponent]
 })

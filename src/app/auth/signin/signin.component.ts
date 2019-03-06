@@ -4,7 +4,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { TokenStorageService } from '../../shared/services/token.service';
 import { ToasterService } from 'src/app/shared/services/toaster.service';
 import { ReCaptcha2Component } from 'ngx-captcha';
-import { Globals } from 'src/app/globals';
+import { environment } from 'src/environments/environment';
 
 /*
   The LoginComponent contains the login form logic.
@@ -21,11 +21,11 @@ export class LoginComponent implements OnInit {
   captchaError: boolean;
   captchaSuccess: boolean;
   @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
-
-  key: String = this.globals.RECAPTCHA_KEY;
+  recaptcha: any;
+  key: String = environment.RECAPTCHA_KEY;
   
   constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService,
-     private authService: AuthService, private toasterService: ToasterService, private globals: Globals) { 
+     private authService: AuthService, private toasterService: ToasterService) { 
       if(this.tokenStorageService.hasValidToken()){
         this.router.navigate(['/notes']);  
       }

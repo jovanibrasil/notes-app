@@ -1,6 +1,11 @@
 pipeline {
     agent { label 'jenkins-slave' }
     
+    environment {
+        RECAPTCHA_CREDENTIALS = credentials('recaptcha_key');
+        RECAPTCHA_KEY = "${env.RECAPTCHA_CREDENTIALS_PSW}"
+    }
+
     stages {
  
         stage("Building project") {
@@ -10,7 +15,7 @@ pipeline {
                 echo 'Installing dependencies ...'
                 sh 'npm install'
                 echo 'Building ...'
-                sh 'node --max_old_space_size=480 ./node_modules/@angular/cli/bin/ng build --prod --build-optimizer'
+                sh 'node --max_old_space_size=480 ./node_modules/@angular/cli/bin/ng build --prod --build-optimizer --configuration=production'
             }
         }
 

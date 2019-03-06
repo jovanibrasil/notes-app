@@ -4,7 +4,7 @@ import { User } from '../model/user';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { ReCaptcha2Component } from 'ngx-captcha';
-import { Globals } from 'src/app/globals';
+import { environment } from 'src/environments/environment';
  
 /*
   SignupComponent constains the logic of the registration form.
@@ -21,10 +21,10 @@ export class SignupComponent implements OnInit {
   captchaError: boolean;
   captchaSuccess: boolean;
   @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
+  recaptcha: any;
+  key: String = environment.RECAPTCHA_KEY;
 
-  key: String = this.globals.RECAPTCHA_KEY;
-
-  constructor(private authService: AuthService, private router: Router, private globals: Globals) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
