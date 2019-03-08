@@ -68,7 +68,7 @@ export class NotesComponent implements OnInit {
   }
 
   public updateNotebook(notebook: Notebook){
-    this.apiService.postNotebook(notebook).subscribe(
+    this.apiService.updateNotebook(notebook).subscribe(
       res => {},
       err => { this.toasterService.error("An error has occured when updating the notebook."); }
     );

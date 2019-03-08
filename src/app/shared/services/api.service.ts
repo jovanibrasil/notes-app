@@ -28,29 +28,25 @@ export class ApiService {
     
     constructor(private http: HttpClient) {}
 
-    getAllNotebooks(): Observable<Notebook[]> {
-        return this.http.get<Notebook[]>(this.ALL_NOTEBOOKS_URL);
-    }
-
-    getAllNotes(): Observable<Note[]> {
-        return this.http.get<Note[]>(this.ALL_NOTES_URL);
-    }
-
-    getNotesByNotebook(id: number): Observable<Note[]> {
-        return this.http.get<Note[]>(this.NOTES_BY_NOTEBOOK_URL + id);
-    }
-
-    postFeedback(feedback: FeedbackViewModel): Observable<any> {
-        return this.http.post(this.SEND_FEEDBACK_URL, feedback);
-    }
+    // Notebook functions
 
     postNotebook(notebook: Notebook): Observable<Notebook> {
         return this.http.post<Notebook>(this.SAVE_UPDATE_NOTEBOOK, notebook);
     }
 
+    updateNotebook(notebook: Notebook): Observable<Notebook>{
+        return this.http.put<Notebook>(this.SAVE_UPDATE_NOTEBOOK, notebook);
+    }
+
     deleteNotebook(id: number): Observable<any> {
         return this.http.delete(this.DELETE_NOTEBOOK + id);
     }
+
+    getAllNotebooks(): Observable<Notebook[]> {
+        return this.http.get<Notebook[]>(this.ALL_NOTEBOOKS_URL);
+    }
+
+    // Note functions
 
     saveNote(note: Note): Observable<Note>{
         return this.http.post<Note>(this.SAVE_UPDATE_NOTE, note);
@@ -62,6 +58,20 @@ export class ApiService {
 
     deleteNote(id: number){
         return this.http.delete(this.DELETE_NOTE + id);
+    }
+
+    getAllNotes(): Observable<Note[]> {
+        return this.http.get<Note[]>(this.ALL_NOTES_URL);
+    }
+
+    getNotesByNotebook(id: number): Observable<Note[]> {
+        return this.http.get<Note[]>(this.NOTES_BY_NOTEBOOK_URL + id);
+    }
+
+    // Feedback functions
+
+    postFeedback(feedback: FeedbackViewModel): Observable<any> {
+        return this.http.post(this.SEND_FEEDBACK_URL, feedback);
     }
 
 }

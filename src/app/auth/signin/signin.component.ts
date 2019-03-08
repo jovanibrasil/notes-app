@@ -49,13 +49,16 @@ export class LoginComponent implements OnInit {
     }
     this.model.captchaCode = recapchaValue;
 
-    console.log(this.model.captchaCode);
+    let data =  {
+      userName: this.model.username, 
+      password: this.model.password,
+      application: "NOTES_APP"
+    }
 
-    this.authService.login(this.model.username, this.model.password).subscribe( 
+    this.authService.login(data).subscribe( 
       res => {
         if(res) {
           this.tokenStorageService.saveToken(res.data.token);
-          console.log(this.parseJwt(res.data.token));
           this.tokenStorageService.saveUserName(this.parseJwt(res.data.token).sub);
           this.tokenStorageService.saveAuthorities([this.parseJwt(res.data.token).role]);
           this.tokenStorageService.setLoggedIn(true);

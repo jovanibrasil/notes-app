@@ -28,20 +28,16 @@ export class AuthService {
   
     constructor(private http: HttpClient) { }
   
-    login(username: string, password: string){
-      return this.http.post<JwtResponse>(this.LOGIN_URL, {userName: username, password: password})//.shareReplay();
+    login(data: any){
+      return this.http.post<JwtResponse>(this.LOGIN_URL, data)//.shareReplay();
     }
 
     logout(){
       return this.http.get<JwtResponse>(this.LOGOUT_URL)//.retry(5); // retryWhen //.shareReplay();
     }
 
-    logon(user: User){
-      return this.http.post<JwtResponse>(this.LOGON_URL, user);//.shareReplay();
-    }
-
-    saveUser(user: User): Observable<User>{
-      return this.http.post<User>(this.SIGNUP_URL, user);
+    saveUser(data: any): Observable<User>{
+      return this.http.post<User>(this.SIGNUP_URL, data);
     }
     
 }

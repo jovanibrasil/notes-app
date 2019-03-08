@@ -26,8 +26,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {  }
 
   createUser(){
     
@@ -39,11 +38,11 @@ export class SignupComponent implements OnInit {
     }
     this.model.captchaCode = recapchaValue;
 
-    let user: User = {
+    let user = {
       email: this.model.email,
       userName: this.model.userName,
       password: this.model.password,
-      signDate: new Date()
+      application: "NOTES_APP"
     }
     
     this.authService.saveUser(user).subscribe(
