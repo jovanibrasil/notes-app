@@ -16,12 +16,10 @@ export class ToasterComponent implements OnInit {
   ngOnInit() {
     this.toasterService.getToast().subscribe((toast: IToast) => {
       if (!toast) {
-        console.log("toast list vazia")
         this.toasts = [];
         return;
        }
       this.toasts.push(toast);
-      console.log("adicionou toast: ", toast.message)
       setTimeout(() => this.removeToast(toast), 3000);
     });
     // load toast throwed by the previous component. Only

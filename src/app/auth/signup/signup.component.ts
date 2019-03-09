@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { environment } from 'src/environments/environment';
+import { ToasterService } from 'src/app/shared/services/toaster.service';
  
 /*
   SignupComponent constains the logic of the registration form.
@@ -24,7 +25,7 @@ export class SignupComponent implements OnInit {
   recaptcha: any;
   key: String = environment.RECAPTCHA_KEY;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router, private toasterService: ToasterService) { }
 
   ngOnInit() {  }
 
@@ -47,9 +48,12 @@ export class SignupComponent implements OnInit {
     
     this.authService.saveUser(user).subscribe(
       res => {
+        this.toasterService.success("User successfuly registered! Please, login using your new credentials.", true);
         this.router.navigate(['/']);
       },
-      err => { alert("An error has occurred. Could not save the user") }
+      err => { 
+        this.toasterService.error("Authentication error. Check your username and password.");
+      }
     );  
   
   }

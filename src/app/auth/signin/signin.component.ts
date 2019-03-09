@@ -65,11 +65,11 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/notes']);
           //window.location.reload();
         } else {
-          this.toasterService.error("Authentication error. Invalid username or password!");
+          this.toasterService.error("Authentication error. Check your username and password.");
         }
       },
       error => {
-        this.toasterService.error("Authentication error. Check your user date and your internet connection!");
+        this.toasterService.error("Authentication error. Check your username and password.");
       }
     );   
   }

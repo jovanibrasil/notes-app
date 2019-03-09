@@ -23,17 +23,16 @@ export class ResponseInterceptor implements HttpInterceptor {
             When an response with an invalid/expired token is received, the user is
             immediately logged out from th application.
         */
-        console.log("verificando response")
         tap(
             (event: HttpEvent<any>) => { 
                 if(event instanceof HttpResponse) {
-                    console.log("Valid request received!");
+                    //console.log("Valid request received!");
                 } 
             },
             (err: any) => {  
                 if(err instanceof HttpErrorResponse) {
                     if(err.status === 401){ // Error 401 = Unauthorized access
-                        console.log("Invalid request received!");
+                        //console.log("Invalid request received!");
                         // If received Unauthorized access, then redirect to login page
                         this.toasterService.info("Unauthorized access. Please, login to continue.");
                         this.route.navigate(['login']);

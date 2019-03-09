@@ -51,8 +51,10 @@ export class ToasterService {
     }
   }
 
+  /*
+    Remove toast.
+  */
   clear(){
-    console.log("removeu toast")
     this.subject.next();
   }
 
