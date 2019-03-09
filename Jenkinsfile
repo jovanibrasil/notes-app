@@ -2,8 +2,7 @@ pipeline {
     agent { label 'jenkins-slave' }
     
     environment {
-        RECAPTCHA_CREDENTIALS = credentials('recaptcha_key');
-        RECAPTCHA_KEY = "${env.RECAPTCHA_CREDENTIALS_PSW}"
+        RECAPTCHA_KEY = credentials('RECAPTCHA_KEY');
     }
 
     stages {
