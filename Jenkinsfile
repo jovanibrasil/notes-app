@@ -36,7 +36,7 @@ pipeline {
         stage("Remove temporary files"){
             steps {
                 echo 'cleaning ...'
-                sh 'rm ~/workspace/notes-app ~/workspace/notes-app@tmp -rf'
+                //sh 'rm ~/workspace/notes-app ~/workspace/notes-app@tmp -rf'
             }
         }
 
