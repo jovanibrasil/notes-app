@@ -16,13 +16,14 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
 
     private BASE_URL = environment.AUTH_BASE_URL;
-    private LOGIN_URL =  `${this.BASE_URL}/auth/login`;
-    private LOGOUT_URL =  `${this.BASE_URL}/auth/logout`;
+    private LOGIN_URL =  `${this.BASE_URL}/token/create`;
+    private TOKEN_REFRESH_URL =  `${this.BASE_URL}/token/refresh`;
+    private LOGOUT_URL =  `${this.BASE_URL}/token/remove`;
     private LOGON_URL = `${this.BASE_URL}/auth/logon`
     private GET_AUTHORITY = `${this.BASE_URL}/authorities`;
     private REFRESH_AUTH_URL =  `${this.BASE_URL}/auth/refresh`;
     
-    private SIGNUP_URL =  `${this.BASE_URL}/auth/signup`;
+    private SIGNUP_URL =  `${this.BASE_URL}/users`;
     
     model: any = {};
   

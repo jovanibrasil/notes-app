@@ -10,11 +10,12 @@ pipeline {
         stage("Building project") {
             steps {
                 echo 'Cloning git'
+                sh 'rm notes-app -rf'
                 git([url: 'https://github.com/jovanibrasil/notes-app.git', branch: 'master', credentialsId: '6f0b7a49-f376-4b3b-892e-0bebdc4a9182'])
                 echo 'Installing dependencies ...'
                 sh 'npm install'
                 echo 'Building ...'
-                sh 'node --max_old_space_size=480 ./node_modules/@angular/cli/bin/ng build --prod --build-optimizer --configuration=production'
+                sh 'npm run build --prod --build-optimizer --configuration=production --max_old_space_size=512'
             }
         }
 
@@ -35,8 +36,7 @@ pipeline {
         stage("Remove temporary files"){
             steps {
                 echo 'cleaning ...'
-                echo 'TODO'
-                // echo 'rm ~/workspace/notes-app ~/workspace/notes-app@tmp -rf'
+                sh 'rm ~/workspace/notes-app ~/workspace/notes-app@tmp -rf'
             }
         }
 

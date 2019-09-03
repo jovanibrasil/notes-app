@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { FeedbackViewModel } from '../../feedback/feedback.component';
 import { User } from '../../auth/model/user';
 import { environment } from 'src/environments/environment';
-
+import { ResponseWrapper } from '../services/response-wrapper';
 
 @Injectable({
     providedIn: 'root'
@@ -17,55 +17,55 @@ export class ApiService {
     
     private SEND_FEEDBACK_URL = `${this.BASE_URL}/feedback`;
     
-    public ALL_NOTEBOOKS_URL = `${this.BASE_URL}/notebook/all`;
-    private DELETE_NOTEBOOK = `${this.BASE_URL}/notebook/`;
-    private SAVE_UPDATE_NOTEBOOK = `${this.BASE_URL}/notebook`;
+    public ALL_NOTEBOOKS_URL = `${this.BASE_URL}/notebooks`;
+    private DELETE_NOTEBOOK = `${this.BASE_URL}/notebooks/`;
+    private SAVE_UPDATE_NOTEBOOK = `${this.BASE_URL}/notebooks`;
     
-    private ALL_NOTES_URL = `${this.BASE_URL}/note/all`;
-    private DELETE_NOTE = `${this.BASE_URL}/note/`;
-    private SAVE_UPDATE_NOTE = `${this.BASE_URL}/note`
-    private NOTES_BY_NOTEBOOK_URL = `${this.BASE_URL}/note/byNotebookId/`;
+    private ALL_NOTES_URL = `${this.BASE_URL}/notes`;
+    private DELETE_NOTE = `${this.BASE_URL}/notes/`;
+    private SAVE_UPDATE_NOTE = `${this.BASE_URL}/notes`
+    private NOTES_BY_NOTEBOOK_URL = `${this.BASE_URL}/notebooks/`;
     
     constructor(private http: HttpClient) {}
 
     // Notebook functions
 
-    postNotebook(notebook: Notebook): Observable<Notebook> {
-        return this.http.post<Notebook>(this.SAVE_UPDATE_NOTEBOOK, notebook);
+    postNotebook(notebook: Notebook): Observable<ResponseWrapper> {
+        return this.http.post<ResponseWrapper>(this.SAVE_UPDATE_NOTEBOOK, notebook);
     }
 
-    updateNotebook(notebook: Notebook): Observable<Notebook>{
-        return this.http.put<Notebook>(this.SAVE_UPDATE_NOTEBOOK, notebook);
+    updateNotebook(notebook: Notebook): Observable<ResponseWrapper>{
+        return this.http.put<ResponseWrapper>(this.SAVE_UPDATE_NOTEBOOK, notebook);
     }
 
     deleteNotebook(id: number): Observable<any> {
         return this.http.delete(this.DELETE_NOTEBOOK + id);
     }
 
-    getAllNotebooks(): Observable<Notebook[]> {
-        return this.http.get<Notebook[]>(this.ALL_NOTEBOOKS_URL);
+    getAllNotebooks(): Observable<ResponseWrapper> {
+        return this.http.get<ResponseWrapper>(this.ALL_NOTEBOOKS_URL);
     }
 
     // Note functions
 
-    saveNote(note: Note): Observable<Note>{
-        return this.http.post<Note>(this.SAVE_UPDATE_NOTE, note);
+    saveNote(note: Note): Observable<ResponseWrapper>{
+        return this.http.post<ResponseWrapper>(this.SAVE_UPDATE_NOTE, note);
     }
 
-    updateNote(note: Note): Observable<Note>{
-        return this.http.put<Note>(this.SAVE_UPDATE_NOTE, note);
+    updateNote(note: Note): Observable<ResponseWrapper>{
+        return this.http.put<ResponseWrapper>(this.SAVE_UPDATE_NOTE, note);
     }
 
     deleteNote(id: number){
         return this.http.delete(this.DELETE_NOTE + id);
     }
 
-    getAllNotes(): Observable<Note[]> {
-        return this.http.get<Note[]>(this.ALL_NOTES_URL);
+    getAllNotes(): Observable<ResponseWrapper> {
+        return this.http.get<ResponseWrapper>(this.ALL_NOTES_URL);
     }
 
-    getNotesByNotebook(id: number): Observable<Note[]> {
-        return this.http.get<Note[]>(this.NOTES_BY_NOTEBOOK_URL + id);
+    getNotesByNotebook(id: number): Observable<ResponseWrapper> {
+        return this.http.get<ResponseWrapper>(this.NOTES_BY_NOTEBOOK_URL + id + "/notes");
     }
 
     // Feedback functions

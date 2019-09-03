@@ -32,21 +32,21 @@ export class NotesComponent implements OnInit {
 
   public getAllNotebooks(){
     this.apiService.getAllNotebooks().subscribe(
-      res => { this.notebooks = res; } ,
+      res => { this.notebooks = res.data as Notebook[]; } ,
       err => { this.toasterService.error("An error has occured getting all your notebooks."); }
     );
   }
 
   public getAllNotes(){
     this.apiService.getAllNotes().subscribe(
-      ret => { this.notes = ret; },
+      ret => { this.notes = ret.data as Note[]; },
       err => { this.toasterService.error("An error has occured when getting all the notes."); }
     );
   }
 
   public getNotesById(id: number){
     this.apiService.getNotesByNotebook(id).subscribe(
-      ret => { this.notes = ret; },
+      ret => { this.notes = ret.data as Note[]; },
       err => { this.toasterService.error("An error has occured getting a note.") }
     );
   }
@@ -59,7 +59,8 @@ export class NotesComponent implements OnInit {
     };
     this.apiService.postNotebook(notebook).subscribe(
       res => {
-        notebook.id = res.id;
+        let receivedNotebook = res.data as Notebook;
+        notebook.id = receivedNotebook.id;
         this.notebooks.push(notebook);
         this.toasterService.success("Notebook created successfully.");
       },
@@ -103,8 +104,9 @@ export class NotesComponent implements OnInit {
     }
     this.apiService.saveNote(note).subscribe(
       res => {
-        note.id = res.id;
-        note.lastModifiedOn = res.lastModifiedOn
+        let savedNote = res.data as Note;
+        note.id = savedNote.id;
+        note.lastModifiedOn = savedNote.lastModifiedOn
         this.notes.push(note);
         this.toasterService.success("Note created successfully.");
       },
@@ -132,7 +134,10 @@ export class NotesComponent implements OnInit {
 
   public updateNote(note: Note){
     this.apiService.updateNote(note).subscribe(
-      res => { note.lastModifiedOn = res.lastModifiedOn },
+      res => { 
+        let savedNote = res.data as Note;
+        note.lastModifiedOn = savedNote.lastModifiedOn 
+      },
       err => { this.toasterService.error("An error has occured when updating the note."); }
     );
   }
