@@ -11,7 +11,7 @@ pipeline {
             steps {
                 echo 'Cloning git'
                 sh 'rm notes-app -rf'
-                git([url: 'https://github.com/jovanibrasil/notes-app.git', branch: 'master', credentialsId: '6f0b7a49-f376-4b3b-892e-0bebdc4a9182'])
+                git([url: 'https://github.com/jovanibrasil/notes-app.git', branch: 'master', credentialsId: '9bae9c61-0a29-483c-a07f-47273c351555'])
                 echo 'Installing dependencies ...'
                 sh 'npm install'
                 echo 'Building ...'
