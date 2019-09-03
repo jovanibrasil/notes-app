@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'jenkins-slave' }
+    agent { label 'aws-agent' }
     
     environment {
         RECAPTCHA_KEY = credentials('RECAPTCHA_KEY');
