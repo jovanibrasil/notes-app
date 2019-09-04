@@ -11,8 +11,6 @@ pipeline {
             steps {
                 echo 'Cloning git'
                 sh 'rm notes-app -rf'
-		sh 'npm install -g node-gyp'
-		sh 'npm install socket.io'
                 git([url: 'https://github.com/jovanibrasil/notes-app.git', branch: 'master', credentialsId: '9bae9c61-0a29-483c-a07f-47273c351555'])
                 echo 'Installing dependencies ...'
                 sh 'npm install'
