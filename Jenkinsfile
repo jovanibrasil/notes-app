@@ -15,7 +15,7 @@ pipeline {
                 echo 'Installing dependencies ...'
                 sh 'npm install'
                 echo 'Building ...'
-                sh 'npm run build --prod --build-optimizer --configuration=production --max_old_space_size=512'
+                sh 'npm run build --prod --build-optimizer --configuration=production --max_old_space_size=384'
             }
         }
 
