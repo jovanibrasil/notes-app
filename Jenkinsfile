@@ -15,7 +15,7 @@ pipeline {
                 echo 'Installing dependencies ...'
                 sh 'npm install'
                 echo 'Building ...'
-                sh 'node --max_old_space_size=384 node_modules/@angular/cli/bin/ng build --configuration=production'
+                sh 'node --max_old_space_size=512 node_modules/@angular/cli/bin/ng build --configuration=production'
             }
         }
 
