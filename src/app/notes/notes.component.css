@@ -1,0 +1,41 @@
+.notes-panel {
+    padding-left: 35px;
+}
+
+.creation-menu {
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow-x: auto;
+    float: right;
+}
+
+.create-notebook-btn {
+    float: right;
+    margin-bottom: 10px; 
+    margin-left: 10px;
+}
+
+.create-note-btn {
+    float: right;
+    margin-left: 10px;
+}
+
+.search-menu {
+    margin-bottom: 10px;
+}
+
+.note-details {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px; 
+    margin: 10px 0px;
+    width: 100%;
+}
+
+.notifications {
+    background-color: white; 
+    padding: 10px; 
+    border-radius: 10px; 
+    margin: 10px 0px; 
+    width: 100%;
+}

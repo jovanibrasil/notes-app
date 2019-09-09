@@ -4,18 +4,18 @@
       <div style="background-color: white; border-radius: 10px;">
         <!-- Note menu (search compoenent and buttons) -->
         <div class="row mt-6" style="margin-top:12px; padding: 10px">
-          <div class="col-md-8">
+          <div class="col-md-8 search-menu">
             <input type="text" [(ngModel)]="searchText" class="form-control" style="width:100%;" 
               placeholder="Search notes ...">
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 creation-menu">
             <!-- Create new notebook -->
-            <button type="button" class="btn btn-info pull-right" style="margin-left:12px;" 
+            <button type="button" class="btn btn-info create-notebook-btn"  
               (click)="createNotebook()">
               <i class="fa fa-plus"></i> New Notebook
             </button>
             <!-- Create new note -->
-            <button type="button" class="btn btn-warning pull-right" style="margin-left:12px;" 
+            <button type="button" class="btn btn-warning create-note-btn" style="margin-left:12px;" 
               (click)="createNote()" [disabled]="selectedNotebook == null">
               <i class="fa fa-plus"></i> New note
             </button>
@@ -41,7 +41,7 @@
             </div>
           </div>
           <!-- Notes panel -->
-          <div class="col-md-9">
+          <div class="col-md-9 notes-panel">
             <div class="row">
               <div class="col-md-12">
                 <!-- Message if there are no notes -->
@@ -63,12 +63,12 @@
       </div>
     </div>
     <div class="col-md-3">
-      <div class="row mt-8" style="background-color: white; padding: 10px; border-radius: 10px; margin: 10px 0px; width: 100%;">
+      <div class="row mt-8 note-details">
         <div class="col-md-12">
             <p class="text-center">Note Details</p> 
         </div>
       </div>
-      <div class="row mt-4" style="background-color: white; padding: 10px; border-radius: 10px; margin: 10px 0px; width: 100%">
+      <div class="row mt-4 notifications">
         <div class="col-md-12"> 
           <p class="text-center">Notifications</p>
           <app-toaster></app-toaster>
