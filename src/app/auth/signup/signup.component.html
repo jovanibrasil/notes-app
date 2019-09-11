@@ -51,7 +51,11 @@
           </div>
 
           <div class="text-center">
-            <button class="btn btn-info my-4" [disabled]="loading">Sign up</button>
+            <button class="btn btn-info my-4" [disabled]="logging">
+              <span *ngIf="logging" class="spinner-border spinner-border-sm text-warning" role="status" 
+              aria-hidden="true"></span>
+              Sign Up
+            </button>
           </div>
 
           <!-- Messages component -->

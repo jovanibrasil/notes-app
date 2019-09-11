@@ -28,7 +28,7 @@ export class AuthService {
     model: any = {};
   
     constructor(private http: HttpClient) { }
-  
+
     login(data: any){
       return this.http.post<JwtResponse>(this.LOGIN_URL, data)//.shareReplay();
     }

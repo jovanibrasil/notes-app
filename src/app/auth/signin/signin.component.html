@@ -40,8 +40,13 @@
           </div>
 
           <div class="text-center">
-            <button class="btn btn-info my-4" [disabled]="loading">Sign In</button>
+            <button class="btn btn-info my-4" [disabled]="logging">
+              <span *ngIf="logging" class="spinner-border spinner-border-sm text-warning" role="status" 
+              aria-hidden="true"></span>
+              Sign In
+            </button>
           </div>
+
           <!-- Register -->
           <p class="text-center">Not a member?
               <a routerLink="/signup">Sign Up</a>

@@ -18,8 +18,16 @@ export class NotesComponent implements OnInit {
   //searchText: Subject<string> = new Subject<string>();
   searchText: string;
   selectedNotebook: Notebook;
+  selectedNote: Note;
+  
+  deletingNotebook:boolean = false;
+  deletingNote:boolean = false;
+
+  savingNote:boolean = false;
+  savingNotebook:boolean = false;
 
   constructor(private apiService: ApiService, private toasterService: ToasterService) { }
+
 
   ngOnInit() {
     this.getAllNotebooks();
@@ -52,6 +60,7 @@ export class NotesComponent implements OnInit {
   }
 
   public createNotebook(){
+    this.savingNotebook = true;
     let notebook: Notebook = {
       id: 0,
       name:"New notebook",
@@ -63,8 +72,12 @@ export class NotesComponent implements OnInit {
         notebook.id = receivedNotebook.id;
         this.notebooks.push(notebook);
         this.toasterService.success("Notebook created successfully.");
+        this.savingNotebook = false;
       },
-      err => { this.toasterService.error("An error has occured when creating the notebook."); }
+      err => { 
+        this.toasterService.error("An error has occured when creating the notebook."); 
+        this.savingNotebook = false;
+      }
     );
   }
 
@@ -81,20 +94,26 @@ export class NotesComponent implements OnInit {
   }
 
   public deleteNotebook(notebook: Notebook){
-    
     if(confirm("Are you sure you want to delete this notebook?")){
+      this.deletingNotebook = true;
       this.apiService.deleteNotebook(notebook.id).subscribe(
         res => {
           let indexOfNotebook = this.notebooks.indexOf(notebook);
           this.notebooks.splice(indexOfNotebook, 1);
           this.toasterService.success("Notebook deleted successfully.");
+          this.deletingNotebook = false;
+          this.selectedNotebook = null;
         }, 
-        err => { this.toasterService.error("An error has occured. Could not delete this notebook."); }
+        err => { 
+          this.toasterService.error("An error has occured. Could not delete this notebook."); 
+          this.deletingNotebook = false;
+        }
       );
     }
   }
 
   public createNote(){
+    this.savingNote = true;
     let note: Note = {
       id: null,
       title: "New Note",
@@ -109,8 +128,12 @@ export class NotesComponent implements OnInit {
         note.lastModifiedOn = savedNote.lastModifiedOn
         this.notes.push(note);
         this.toasterService.success("Note created successfully.");
+        this.savingNote = false;
       },
-      err => { this.toasterService.error("An error has occured. Could not save the note."); }
+      err => { 
+        this.savingNote = false;
+        this.toasterService.error("An error has occured. Could not save the note.");
+      }
     );
   }
 
@@ -120,14 +143,19 @@ export class NotesComponent implements OnInit {
   }
 
   public deleteNote(note: Note){
+    this.deletingNote = true;
     if(confirm("Are you sure you want to delete this note?")){
       this.apiService.deleteNote(note.id).subscribe(
         res => {
           let indexOfNote = this.notes.indexOf(note);
           this.notes.splice(indexOfNote, 1);
           this.toasterService.success("Note deleted successfully.");
+          this.deletingNote = false;
         },
-        err => {this.toasterService.error("An error has occured when deleting this note.");}
+        err => {
+          this.toasterService.error("An error has occured when deleting this note.");
+          this.deletingNote = false;
+        }
       );
     }
   }
@@ -140,6 +168,15 @@ export class NotesComponent implements OnInit {
       },
       err => { this.toasterService.error("An error has occured when updating the note."); }
     );
+  }
+
+  public checkNotebookDeletingStatus(notebook: Notebook){
+    if(this.selectedNotebook == null)
+      return false;
+    if(this.selectedNotebook.id == notebook.id && this.deletingNotebook
+      )
+      return true;
+    return false;
   }
 
 }

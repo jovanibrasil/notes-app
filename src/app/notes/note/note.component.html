@@ -5,7 +5,9 @@
       <input type="text" class="input-label-lg" maxlength="18" 
         (change)="updateNote()" style="width: 80%" [(ngModel)]=note.title>
       <a class="pull-right text-danger" (click)="deleteNote()">
-        <i class="fa fa-trash-o"></i>
+          <span *ngIf="deletingNote" class="spinner-border spinner-border-sm text-danger" 
+          role="status" aria-hidden="true"></span>
+        <i *ngIf="!deletingNote" class="fa fa-trash-o"></i>
       </a>
     </div>
     <!-- Text -->

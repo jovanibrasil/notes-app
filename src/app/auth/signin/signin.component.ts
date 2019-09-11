@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem: ReCaptcha2Component;
   recaptcha: any;
   key: String = environment.RECAPTCHA_KEY;
+
+  logging: boolean = false;
   
   constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService,
      private authService: AuthService, private toasterService: ToasterService) { 
@@ -40,11 +42,15 @@ export class LoginComponent implements OnInit {
   };
 
   login(){
-
-    // verify recaptcha component status
+    try {
+      
+    this.logging = true;
+    
+    //verify recaptcha component status
     let recapchaValue = this.captchaElem.getResponse();
     if(!recapchaValue) {
       this.captchaError = true;
+      this.logging = false;
       return;
     }
     this.model.captchaCode = recapchaValue;
@@ -56,22 +62,29 @@ export class LoginComponent implements OnInit {
     }
 
     this.authService.login(data).subscribe( 
-      res => {
-        if(res) {
-          this.tokenStorageService.saveToken(res.data.token);
-          this.tokenStorageService.saveUserName(this.parseJwt(res.data.token).sub);
-          this.tokenStorageService.saveAuthorities([this.parseJwt(res.data.token).role]);
-          this.tokenStorageService.setLoggedIn(true);
-          this.router.navigate(['/notes']);
-          //window.location.reload();
-        } else {
+        res => {
+          if(res) {
+            this.tokenStorageService.saveToken(res.data.token);
+            this.tokenStorageService.saveUserName(this.parseJwt(res.data.token).sub);
+            this.tokenStorageService.saveAuthorities([this.parseJwt(res.data.token).role]);
+            this.tokenStorageService.setLoggedIn(true);
+            this.router.navigate(['/notes']);
+            //window.location.reload();
+          } else {
+            this.toasterService.error("Authentication error. Check your username and password.");
+            this.logging = false;   
+          }
+        },
+        error => {
           this.toasterService.error("Authentication error. Check your username and password.");
+          this.logging = false;
         }
-      },
-      error => {
-        this.toasterService.error("Authentication error. Check your username and password.");
-      }
-    );   
+      );
+    } catch (error) {
+      this.toasterService.error("Authentication error."); // TODO Tratar adequadamente
+      this.logging = false;
+    }
+    
   }
 
   handleSuccess(captchaResponse: string): void {

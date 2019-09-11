@@ -12,6 +12,8 @@ export class NoteComponent implements OnInit {
   @Output() noteUpdated: EventEmitter<Note> = new EventEmitter<Note>();
   @Output() noteDeleted: EventEmitter<Note> = new EventEmitter<Note>();
 
+  @Input() deletingNote: boolean;
+
   constructor() { }
 
   ngOnInit() {}

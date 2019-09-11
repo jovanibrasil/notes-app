@@ -11,13 +11,15 @@
           <div class="col-md-4 creation-menu">
             <!-- Create new notebook -->
             <button type="button" class="btn btn-info create-notebook-btn"  
-              (click)="createNotebook()">
-              <i class="fa fa-plus"></i> New Notebook
+              (click)="createNotebook()" [disabled]="savingNotebook">
+              <span *ngIf="savingNotebook" class="spinner-border spinner-border-sm text-light" role="status" aria-hidden="true"></span>
+              <i *ngIf="!savingNotebook" class="fa fa-plus"></i> New Notebook
             </button>
             <!-- Create new note -->
             <button type="button" class="btn btn-warning create-note-btn" style="margin-left:12px;" 
-              (click)="createNote()" [disabled]="selectedNotebook == null">
-              <i class="fa fa-plus"></i> New note
+              (click)="createNote()" [disabled]="selectedNotebook == null || savingNote">
+              <span *ngIf="savingNote" class="spinner-border spinner-border-sm text-text-light" role="status" aria-hidden="true"></span>
+              <i *ngIf="!savingNote" class="fa fa-plus"></i> New note
             </button>
           </div>
         </div>
@@ -35,7 +37,9 @@
                 <input [(ngModel)]="notebook.name" (change)="updateNotebook(notebook)" type="text" class="input-label"
                   style="width: 80%;">
                 <a class="pull-right text-danger" (click)="deleteNotebook(notebook)">
-                  <i class="fa fa-trash-o"></i>
+                  <span *ngIf="checkNotebookDeletingStatus(notebook)" class="spinner-border spinner-border-sm text-danger" 
+                    role="status" aria-hidden="true"></span>
+                  <i *ngIf="!checkNotebookDeletingStatus(notebook)" class="fa fa-trash-o"></i>
                 </a>
               </a>
             </div>
@@ -55,7 +59,8 @@
               <app-note  *ngFor="let n of notes | noteSearchFilter:searchText" 
                 [note]="n"
                 (noteUpdated)="updateNote($event)" 
-                (noteDeleted)="deleteNote($event)">
+                (noteDeleted)="deleteNote($event)"
+                [deletingNote]="deletingNote">
               </app-note>
             </div>
           </div>
