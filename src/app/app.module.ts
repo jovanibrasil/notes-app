@@ -20,11 +20,13 @@ import { RequestInterceptor } from './shared/interceptors/request.interceptor';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
 import { ToasterComponent } from './toaster/toaster.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { ConfirmationComponent } from './auth/confirmation/confirmation.component';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
   { path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard] },
+  { path: 'confirmation', component: ConfirmationComponent },
   { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: '**', component: NotFoundComponent }
@@ -32,8 +34,9 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, NotesComponent,
-     NoteComponent, NoteSearchFilterPipe, LoginComponent, SignupComponent, ToasterComponent
+    AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, 
+    NotesComponent, NoteComponent, NoteSearchFilterPipe, LoginComponent, 
+    SignupComponent, ToasterComponent, ConfirmationComponent
   ],
   imports: [
     FormsModule, 

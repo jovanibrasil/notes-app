@@ -51,7 +51,7 @@ export class SignupComponent implements OnInit {
       
       this.authService.saveUser(user).subscribe(
         res => {
-          this.toasterService.success("User successfuly registered! Please, login using your new credentials.", true);
+          this.toasterService.success("Please, for security reasons, visit your email and confirm the registration.", true);
           this.router.navigate(['/']);
         },
         err => { 

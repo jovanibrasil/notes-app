@@ -22,7 +22,8 @@ export class AuthService {
     private LOGON_URL = `${this.BASE_URL}/auth/logon`
     private GET_AUTHORITY = `${this.BASE_URL}/authorities`;
     private REFRESH_AUTH_URL =  `${this.BASE_URL}/auth/refresh`;
-    
+
+    private VERIFY_REGISTRATION = `${this.BASE_URL}/users/confirmation`;
     private SIGNUP_URL =  `${this.BASE_URL}/users`;
     
     model: any = {};
@@ -39,6 +40,10 @@ export class AuthService {
 
     saveUser(data: any): Observable<User>{
       return this.http.post<User>(this.SIGNUP_URL, data);
+    }
+
+    verifyRegistrationToken(token: string) {
+      return this.http.post(this.VERIFY_REGISTRATION, null, { params : { token: token }  });
     }
     
 }
