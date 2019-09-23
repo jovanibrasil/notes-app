@@ -5,6 +5,7 @@ import { TokenStorageService } from '../../shared/services/token.service';
 import { ToasterService } from 'src/app/shared/services/toaster.service';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { environment } from 'src/environments/environment';
+import { Timer } from 'src/app/toaster/itoast';
 
 /*
   The LoginComponent contains the login form logic.
@@ -71,12 +72,12 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/notes']);
             //window.location.reload();
           } else {
-            this.toasterService.error("Authentication error. Check your username and password.");
+            this.toasterService.error("Authentication error. Check your username and password.", false, Timer.Long);
             this.logging = false;   
           }
         },
         error => {
-          this.toasterService.error("Authentication error. Check your username and password.");
+          this.toasterService.error("Authentication error. Check your username and password.", false, Timer.Long);
           this.logging = false;
         }
       );

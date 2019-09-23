@@ -20,7 +20,7 @@ export class ToasterComponent implements OnInit {
         return;
        }
       this.toasts.push(toast);
-      setTimeout(() => this.removeToast(toast), 3000);
+      setTimeout(() => this.removeToast(toast), toast.timer);
     });
     // load toast throwed by the previous component. Only
     // routing persistent toasts can be returned by the function.

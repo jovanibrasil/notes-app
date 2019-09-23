@@ -7,6 +7,8 @@ import { ReCaptcha2Component } from 'ngx-captcha';
 import { environment } from 'src/environments/environment';
 import { ToasterService } from 'src/app/shared/services/toaster.service';
 import { CustomResponse } from '../model/jwt.response';
+import { timer } from 'rxjs';
+import { Timer } from 'src/app/toaster/itoast';
  
 /*
   SignupComponent constains the logic of the registration form.
@@ -52,21 +54,17 @@ export class SignupComponent implements OnInit {
       
       this.authService.saveUser(user).subscribe(
         res => {
-          this.toasterService.success("Please, for security reasons, visit your email and confirm the registration.", true);
+          this.toasterService.success("Please, for security reasons, visit your email" 
+            + "and confirm the registration.", true, Timer.Long);
           this.router.navigate(['/']);
         },
         err => { 
-          console.log(err);
-          //console.log(err.errors[0].errors[0].message);
-          
           let response: CustomResponse = <CustomResponse>err.error;
-          console.log(response)
           let message = "Errors:";
           response.errors[0].errors.forEach(element => {
               message += " " + element.message;
           });
-
-          this.toasterService.error("User registration error. " + message);
+          this.toasterService.error("User registration error. " + message, false, Timer.Long);
           this.logging = false;
         }
       );

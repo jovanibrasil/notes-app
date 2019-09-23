@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { Router, NavigationStart } from '@angular/router';
-import { IToast, ToastTypeEnum } from '../../toaster/itoast';
+import { IToast, ToastTypeEnum, Timer } from '../../toaster/itoast';
 
 /*
   This service is responsable for connecting the angular components to the toast component 
@@ -22,21 +22,21 @@ export class ToasterService {
     return this.subject.asObservable();
   }
 
-  success(message, keepAfterRouteChange = false) {
-    this.toast(message, ToastTypeEnum.Success, keepAfterRouteChange);
+  success(message, keepAfterRouteChange = false, timer=Timer.Short) {
+    this.toast(message, ToastTypeEnum.Success, keepAfterRouteChange, timer);
   }
-  error(message, keepAfterRouteChange = false) {
-    this.toast(message, ToastTypeEnum.Error, keepAfterRouteChange);
+  error(message, keepAfterRouteChange = false, timer=Timer.Short) {
+    this.toast(message, ToastTypeEnum.Error, keepAfterRouteChange, timer);
   }
-  info(message: string, keepAfterRouteChange = false) {
-    this.toast(message, ToastTypeEnum.Info, keepAfterRouteChange);
+  info(message: string, keepAfterRouteChange = false, timer=Timer.Short) {
+    this.toast(message, ToastTypeEnum.Info, keepAfterRouteChange, timer);
   }
-  warn(message: string, keepAfterRouteChange = false) {
-    this.toast(message, ToastTypeEnum.Warning, keepAfterRouteChange);
+  warn(message: string, keepAfterRouteChange = false, timer=Timer.Short) {
+    this.toast(message, ToastTypeEnum.Warning, keepAfterRouteChange, timer);
   }
 
-  toast(message: string, type: ToastTypeEnum, keepAfterRouteChange = false) {
-    let toast = <IToast>{ message: message, type};
+  toast(message: string, type: ToastTypeEnum, keepAfterRouteChange = false, timer: number) {
+    let toast = <IToast>{ message: message, type, timer: timer};
     this.subject.next(toast);
     if(keepAfterRouteChange){
       this.lastToast = toast;

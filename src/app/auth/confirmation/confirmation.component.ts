@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToasterService } from 'src/app/shared/services/toaster.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { Timer } from 'src/app/toaster/itoast';
 
 @Component({
   selector: 'app-confirmation',
@@ -39,19 +40,19 @@ export class ConfirmationComponent implements OnInit {
       this.authService.verifyRegistrationToken(token).subscribe(
         res => {
           this.sleep(50000);
-          this.toasterService.success("Confirmed! Please, login with your credentials.", true);
+          this.toasterService.success("Confirmed! Please, login with your credentials.", true, Timer.Long);
           this.router.navigate(['/']);
         },
         err => { 
           this.sleep(50000);
-          this.toasterService.error("Error! Please, contact the support.", true);
+          this.toasterService.error("Error! Please, contact the support.", true, Timer.Long);
           this.router.navigate(['/']);  
         }
       );
     }else{
       // token is not present
       // show a spinner by five seconds
-      this.toasterService.error("Error! Invalid token. Please, contact the support.", true);
+      this.toasterService.error("Error! Invalid token. Please, contact the support.", true, Timer.Long);
       this.router.navigate(['/']);  
     }
   }

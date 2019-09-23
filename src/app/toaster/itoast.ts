@@ -1,7 +1,8 @@
 export class IToast {
     message: string;
     keepAfterRouterChange: boolean;
-    type: ToastTypeEnum
+    type: ToastTypeEnum;
+    timer: number
 }
 
 export enum ToastTypeEnum {
@@ -9,4 +10,10 @@ export enum ToastTypeEnum {
     Error = "danger", 
     Info = "info", 
     Warning = "warning"
+}
+
+export enum Timer {
+    Short = 4000,
+    Medium = 8000,
+    Long = 16000
 }
