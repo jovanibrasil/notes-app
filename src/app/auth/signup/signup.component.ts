@@ -6,6 +6,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { environment } from 'src/environments/environment';
 import { ToasterService } from 'src/app/shared/services/toaster.service';
+import { CustomResponse } from '../model/jwt.response';
  
 /*
   SignupComponent constains the logic of the registration form.
@@ -55,7 +56,17 @@ export class SignupComponent implements OnInit {
           this.router.navigate(['/']);
         },
         err => { 
-          this.toasterService.error("User registration error. Check your username, email and password.");
+          console.log(err);
+          //console.log(err.errors[0].errors[0].message);
+          
+          let response: CustomResponse = <CustomResponse>err.error;
+          console.log(response)
+          let message = "Errors:";
+          response.errors[0].errors.forEach(element => {
+              message += " " + element.message;
+          });
+
+          this.toasterService.error("User registration error. " + message);
           this.logging = false;
         }
       );
