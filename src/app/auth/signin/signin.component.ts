@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
       this.logging = false;
       return;
     }
-    this.model.captchaCode = recapchaValue;
 
     let data =  {
       userName: this.model.username, 
@@ -62,7 +61,7 @@ export class LoginComponent implements OnInit {
       application: "NOTES_APP"
     }
 
-    this.authService.login(data).subscribe( 
+    this.authService.login(data, recapchaValue).subscribe( 
         res => {
           if(res) {
             this.tokenStorageService.saveToken(res.data.token);

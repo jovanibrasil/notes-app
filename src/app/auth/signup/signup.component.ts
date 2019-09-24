@@ -43,7 +43,6 @@ export class SignupComponent implements OnInit {
         this.logging = false;
         return;
       }
-      this.model.captchaCode = recapchaValue;
 
       let user = {
         email: this.model.email,
@@ -52,7 +51,7 @@ export class SignupComponent implements OnInit {
         application: "NOTES_APP"
       }
       
-      this.authService.saveUser(user).subscribe(
+      this.authService.saveUser(user, recapchaValue).subscribe(
         res => {
           this.toasterService.success("Please, for security reasons, visit your email" 
             + "and confirm the registration.", true, Timer.Long);

@@ -30,20 +30,23 @@ export class AuthService {
   
     constructor(private http: HttpClient) { }
 
-    login(data: any){
-      return this.http.post<JwtResponse>(this.LOGIN_URL, data)//.shareReplay();
+    login(data: any, recapchaValue: string){
+      return this.http.post<JwtResponse>(this.LOGIN_URL, data, 
+        { params : { recaptchaResponseToken : recapchaValue } })//.shareReplay();
     }
 
     logout(){
       return this.http.get<JwtResponse>(this.LOGOUT_URL)//.retry(5); // retryWhen //.shareReplay();
     }
 
-    saveUser(data: any): Observable<User>{
-      return this.http.post<User>(this.SIGNUP_URL, data);
+    saveUser(data: any, recapchaValue: string): Observable<User>{
+      return this.http.post<User>(this.SIGNUP_URL, data, 
+        { params : { recaptchaResponseToken : recapchaValue } });
     }
 
     verifyRegistrationToken(token: string) {
-      return this.http.post(this.VERIFY_REGISTRATION, null, { params : { token: token }  });
+      return this.http.post(this.VERIFY_REGISTRATION, null, 
+        { params : { token: token }  });
     }
     
 }
