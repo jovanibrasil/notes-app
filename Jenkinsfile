@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'aws-agent' }
+    agent { label 'digital-ocean-agent' }
     
     environment {
         RECAPTCHA_KEY = credentials('RECAPTCHA_KEY');
