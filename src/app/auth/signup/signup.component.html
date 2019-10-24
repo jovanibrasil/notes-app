@@ -10,10 +10,12 @@
         <div class="form-group">
           <label for="email">Email</label>
           <input type="text" name="email" class="form-control" [(ngModel)]="model.email" #email="ngModel" placeholder="Email"
-          [ngClass]="{'is-invalid': f.submitted && !email.valid}" required email/>
+          [ngClass]="{'is-invalid': f.submitted && !email.valid}" maxlength="30" required email/>
           <div *ngIf="f.submitted && email.invalid" class="invalid-input">
             <div class="text-danger" *ngIf="email.errors?.required">Email is required</div>
-            <div class="text-danger" *ngIf="email.errors?.email">Email is not valid</div>
+          </div>
+          <div *ngIf="model.email != '' && email.invalid" class="invalid-input">
+            <div class="text-danger" *ngIf="email.errors?.email">Email format is not valid</div>
           </div>
         </div>
         <div class="form-group">
@@ -23,6 +25,8 @@
           required minlength="2" maxlength="12">
           <div *ngIf="f.submitted && email.invalid" class="invalid-input">
             <div class="text-danger" *ngIf="username.errors?.required">Username is required</div>
+          </div>
+          <div *ngIf="model.userName != '' && email.invalid" class="invalid-input">
             <div class="text-danger" *ngIf="username.errors?.minlength">UserName minimum length is 2 characters</div>
             <div class="text-danger" *ngIf="username.errors?.maxlength">UserName maximum length is 12 characters</div>
           </div>
@@ -34,6 +38,8 @@
           required minlength="4" maxlength="12">
           <div *ngIf="f.submitted && email.invalid" class="invalid-input">
             <div class="text-danger" *ngIf="password.errors?.required">Password is required</div>
+          </div>
+          <div *ngIf="model.password != '' && email.invalid" class="invalid-input">
             <div class="text-danger" *ngIf="password.errors?.minlength">Password minimum length is 4 characters</div>
             <div class="text-danger" *ngIf="password.errors?.maxlength">Password maximum length is 12 characters</div>
           </div>

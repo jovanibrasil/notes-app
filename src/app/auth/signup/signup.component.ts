@@ -29,7 +29,11 @@ export class SignupComponent implements OnInit {
   key: String = environment.RECAPTCHA_KEY;
   logging: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router, private toasterService: ToasterService) { }
+  constructor(private authService: AuthService, private router: Router, private toasterService: ToasterService) { 
+    this.model.userName = '';
+    this.model.password = '';
+    this.model.email = '';
+  }
 
   ngOnInit() {  }
   

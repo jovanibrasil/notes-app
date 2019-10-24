@@ -29,6 +29,10 @@ export class LoginComponent implements OnInit {
   
   constructor(private route: ActivatedRoute, private router: Router, private tokenStorageService: TokenStorageService,
      private authService: AuthService, private toasterService: ToasterService) { 
+
+      this.model.username = '';
+      this.model.password = '';
+
       if(this.tokenStorageService.hasValidToken()){
         this.router.navigate(['/notes']);  
       }
