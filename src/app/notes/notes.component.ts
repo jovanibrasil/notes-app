@@ -26,6 +26,8 @@ export class NotesComponent implements OnInit {
   savingNote:boolean = false;
   savingNotebook:boolean = false;
 
+  loadingNotes:boolean = false;
+
   constructor(private apiService: ApiService, private toasterService: ToasterService) { }
 
 
@@ -46,16 +48,32 @@ export class NotesComponent implements OnInit {
   }
 
   public getAllNotes(){
+    this.notes = [];
+    this.loadingNotes = true;
     this.apiService.getAllNotes().subscribe(
-      ret => { this.notes = ret.data as Note[]; },
-      err => { this.toasterService.error("An error has occured when getting all the notes."); }
+      ret => { 
+        this.notes = ret.data as Note[]; 
+        this.loadingNotes = false;
+      },
+      err => { 
+        this.toasterService.error("An error has occured when getting all the notes."); 
+        this.loadingNotes = false;
+      }
     );
   }
 
   public getNotesById(id: number){
+    this.notes = [];
+    this.loadingNotes = true;
     this.apiService.getNotesByNotebook(id).subscribe(
-      ret => { this.notes = ret.data as Note[]; },
-      err => { this.toasterService.error("An error has occured getting a note.") }
+      ret => { 
+        this.notes = ret.data as Note[]; 
+        this.loadingNotes = false;
+      },
+      err => { 
+        this.toasterService.error("An error has occured getting a note.");
+        this.loadingNotes = false;
+      }
     );
   }
 

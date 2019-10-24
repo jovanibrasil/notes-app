@@ -45,23 +45,31 @@
             </div>
           </div>
           <!-- Notes panel -->
-          <div class="col-md-9 notes-panel">
-            <div class="row">
-              <div class="col-md-12">
-                <!-- Message if there are no notes -->
-                <h3><p *ngIf="selectedNotebook != null">{{selectedNotebook.name}}</p></h3>
-                <h3><p *ngIf="selectedNotebook == null">All notes</p></h3>
-                <p *ngIf="this.notes.length === 0">There are no notes do display in this notebook</p>
+          <div class="col-md-9 notes-panel">  
+            <div *ngIf="!loadingNotes">
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- Message if there are no notes -->
+                  <h3><p *ngIf="selectedNotebook != null">{{selectedNotebook.name}}</p></h3>
+                  <h3><p *ngIf="selectedNotebook == null">All notes</p></h3>
+                  <p *ngIf="this.notes.length === 0">There are no notes do display in this notebook</p>
+                </div>
+              </div>
+              <div class="row">
+                <!-- Note list --> 
+                <app-note *ngFor="let n of notes | noteSearchFilter:searchText" 
+                  [note]="n"
+                  (noteUpdated)="updateNote($event)" 
+                  (noteDeleted)="deleteNote($event)"
+                  [deletingNote]="deletingNote">
+                </app-note>
               </div>
             </div>
-            <div class="row">
-              <!-- Note list -->
-              <app-note  *ngFor="let n of notes | noteSearchFilter:searchText" 
-                [note]="n"
-                (noteUpdated)="updateNote($event)" 
-                (noteDeleted)="deleteNote($event)"
-                [deletingNote]="deletingNote">
-              </app-note>
+            <!-- Loading spinner -->
+            <div *ngIf="loadingNotes" style="text-align: center;">
+              <div class="spinner-border" style="width: 6rem; height: 6rem; color: brown; " role="status">
+                  <span class="sr-only">Loading...</span>
+              </div>  
             </div>
           </div>
         </div>
