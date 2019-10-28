@@ -21,6 +21,7 @@ export class ConfirmationComponent implements OnInit {
   ) {
     this.model.userName = '';
     this.model.password = '';
+    this.model.passwordConfirmation = '';
   }
 
   ngOnInit() {}
@@ -37,6 +38,10 @@ export class ConfirmationComponent implements OnInit {
   //     }
   //   }
   // }
+
+  passwordMatch() : boolean {
+    return this.model.password === this.model.passwordConfirmation;
+  }
 
   createUser(){
     let token: string = this.route.snapshot.queryParamMap.get('token');
