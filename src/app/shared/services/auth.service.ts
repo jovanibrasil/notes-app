@@ -23,8 +23,8 @@ export class AuthService {
     private GET_AUTHORITY = `${this.BASE_URL}/authorities`;
     private REFRESH_AUTH_URL =  `${this.BASE_URL}/auth/refresh`;
 
-    private VERIFY_REGISTRATION = `${this.BASE_URL}/users/confirmation`;
-    private SIGNUP_URL =  `${this.BASE_URL}/users`;
+    private CREATE_USER = `${this.BASE_URL}/users`;
+    private CONFIRM_USER_EMAIL_URL =  `${this.BASE_URL}/users/confirmation`;
     
     model: any = {};
   
@@ -39,14 +39,13 @@ export class AuthService {
       return this.http.get<JwtResponse>(this.LOGOUT_URL)//.retry(5); // retryWhen //.shareReplay();
     }
 
-    saveUser(data: any, recapchaValue: string): Observable<User>{
-      return this.http.post<User>(this.SIGNUP_URL, data, 
+    confirmUserEmail(data: any, recapchaValue: string): Observable<User>{
+      return this.http.post<User>(this.CONFIRM_USER_EMAIL_URL, data, 
         { params : { recaptchaResponseToken : recapchaValue } });
     }
 
-    verifyRegistrationToken(token: string) {
-      return this.http.post(this.VERIFY_REGISTRATION, null, 
-        { params : { token: token }  });
+    createUser(data: any) {
+      return this.http.post(this.CREATE_USER, data);
     }
     
 }

@@ -18,33 +18,6 @@
             <div class="text-danger" *ngIf="email.errors?.email">Email format is not valid</div>
           </div>
         </div>
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" name="username"  class="form-control" [(ngModel)]="model.userName" #username="ngModel"
-          [ngClass]="{'is-invalid': f.submitted && !username.valid}" placeholder="Username (Between 2 and 12 characters)" 
-          required minlength="2" maxlength="12">
-          <div *ngIf="f.submitted && email.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="username.errors?.required">Username is required</div>
-          </div>
-          <div *ngIf="model.userName != '' && email.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="username.errors?.minlength">UserName minimum length is 2 characters</div>
-            <div class="text-danger" *ngIf="username.errors?.maxlength">UserName maximum length is 12 characters</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" name="password"  class="form-control" [(ngModel)]="model.password" #password="ngModel" 
-          [ngClass]="{'is-invalid': f.submitted && !password.valid}" placeholder="Password (Between 4 and 12 characters)" 
-          required minlength="4" maxlength="12">
-          <div *ngIf="f.submitted && email.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="password.errors?.required">Password is required</div>
-          </div>
-          <div *ngIf="model.password != '' && email.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="password.errors?.minlength">Password minimum length is 4 characters</div>
-            <div class="text-danger" *ngIf="password.errors?.maxlength">Password maximum length is 12 characters</div>
-          </div>
-        </div>
-        
         <div style="display: flex; align-items: center; flex-direction: column">
           <div>
             <ngx-recaptcha2 #captchaElem

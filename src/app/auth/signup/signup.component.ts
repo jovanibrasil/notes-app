@@ -55,7 +55,7 @@ export class SignupComponent implements OnInit {
         application: "NOTES_APP"
       }
       
-      this.authService.saveUser(user, recapchaValue).subscribe(
+      this.authService.confirmUserEmail(user, recapchaValue).subscribe(
         res => {
           this.toasterService.success("Please, for security reasons, visit your email" 
             + "and confirm the registration.", true, Timer.Long);

@@ -11,40 +11,52 @@ import { Timer } from 'src/app/toaster/itoast';
 })
 export class ConfirmationComponent implements OnInit {
 
+  model: any = {};
+
   constructor(
     private route: ActivatedRoute, 
     private toasterService:ToasterService,
     private router: Router,
     private authService: AuthService
-  ) { }
+  ) {
+    this.model.userName = '';
+    this.model.password = '';
+  }
 
   ngOnInit() {}
 
-  ngAfterViewInit(){
-    this.verifyTokenInformation();
-  }
+  // ngAfterViewInit(){
+  //   this.verifyTokenInformation();
+  // }
 
-  sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-      if ((new Date().getTime() - start) > milliseconds){
-        break;
-      }
-    }
-  }
+  // sleep(milliseconds) {
+  //   var start = new Date().getTime();
+  //   for (var i = 0; i < 1e7; i++) {
+  //     if ((new Date().getTime() - start) > milliseconds){
+  //       break;
+  //     }
+  //   }
+  // }
 
-  verifyTokenInformation(){
+  createUser(){
     let token: string = this.route.snapshot.queryParamMap.get('token');
+    
+    let user = {
+      userName: this.model.userName,
+      password: this.model.password,
+      token: token
+    }
+    
     if(token){
       // if the token is present, wait server verification response     
-      this.authService.verifyRegistrationToken(token).subscribe(
+      this.authService.createUser(user).subscribe(
         res => {
-          this.sleep(50000);
+          // this.sleep(50000);
           this.toasterService.success("Confirmed! Please, login with your credentials.", true, Timer.Long);
           this.router.navigate(['/']);
         },
         err => { 
-          this.sleep(50000);
+          // this.sleep(50000);
           this.toasterService.error("Error! Please, contact the support.", true, Timer.Long);
           this.router.navigate(['/']);  
         }
