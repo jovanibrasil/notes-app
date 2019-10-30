@@ -1,3 +1,16 @@
 .nav-link {
     cursor: pointer;
 }
+
+.navbar {
+    height: 90px;
+}
+
+.navbar-toggler-icon {
+    size: 150%;
+}   
+
+.navbar-brand {
+    font-size:200%;
+    margin-left: 30px;
+}
