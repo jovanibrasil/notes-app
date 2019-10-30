@@ -19,49 +19,50 @@
       <form name="form" class="border border-light p-5 mt-5 center-block" style="background-color: white; border-radius: 25px;" 
       name="form" (ngSubmit)="f.form.valid && passwordMatch() && createUser()" #f="ngForm" novalidate>
 
-        <p class="h4 mb-4 text-center">Sign up</p>
+        <p class="h4 mb-4 text-center">Cadastro</p>
+
+        <p> Seu email foi confirmado e agora vamos cadastrar mais algumas informações importantes.</p>
         
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">Nome do usuário</label>
           <input type="text" name="username"  class="form-control" [(ngModel)]="model.userName" #username="ngModel"
-          [ngClass]="{'is-invalid': f.submitted && !username.valid}" placeholder="Username (Between 2 and 12 characters)" 
+          [ngClass]="{'is-invalid': f.submitted && !username.valid}" placeholder="Nome do usuário (entre 2 e 12 caracteres)" 
           required minlength="2" maxlength="12">
           <div *ngIf="f.submitted && username.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="username.errors?.required">Username is required</div>
+            <div class="text-danger" *ngIf="username.errors?.required">Nome de usuário é obrigatório</div>
           </div>
           <div *ngIf="model.userName != '' && username.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="username.errors?.minlength">UserName minimum length is 2 characters</div>
-            <div class="text-danger" *ngIf="username.errors?.maxlength">UserName maximum length is 12 characters</div>
+            <div class="text-danger" *ngIf="username.errors?.minlength">No mínimo 2 caracteres</div>
+            <div class="text-danger" *ngIf="username.errors?.maxlength">No máximo 12 caracteres</div>
           </div>
         </div>
         <div class="form-group">
           <!-- Password field -->
           <div>
-            <label for="password">Password</label>
+            <label for="password">Senha</label>
             <input type="password" name="password"  class="form-control" [(ngModel)]="model.password" #password="ngModel" 
             [ngClass]="{'is-invalid': (f.submitted && !password.valid) || (f.submitted && !passwordMatch())}" 
-            placeholder="Password (Between 4 and 12 characters)" required minlength="4" maxlength="12">
+            placeholder="Senha (entre 4 e 12 caracteres)" required minlength="4" maxlength="12">
             <!-- Error messages -->
             <div *ngIf="f.submitted && password.invalid" class="invalid-input">
-              <div class="text-danger" *ngIf="password.errors?.required">Password is required</div>
+              <div class="text-danger" *ngIf="password.errors?.required">Senha é obrigatória</div>
             </div>
             <div *ngIf="model.password != '' && password.invalid" class="invalid-input">
-              <div class="text-danger" *ngIf="password.errors?.minlength">Password minimum length is 4 characters</div>
-              <div class="text-danger" *ngIf="password.errors?.maxlength">Password maximum length is 12 characters</div>
+              <div class="text-danger" *ngIf="password.errors?.minlength">No mínimo 4 caracteres</div>
+              <div class="text-danger" *ngIf="password.errors?.maxlength">No máximo 12 caracteres</div>
             </div>
           </div>
           <!-- Password confirmation field -->
           <div style="margin-top: 10px;">
-            <label for="password">Password Confirmation</label> 
+            <label for="password">Confirmação de senha</label> 
             <input type="password" name="passwordConfirmation"  class="form-control" [(ngModel)]="model.passwordConfirmation" 
-              #passwordConfirmation="ngModel" placeholder="Password" [ngClass]="{'is-invalid': f.submitted && !passwordMatch()}" 
+              #passwordConfirmation="ngModel" placeholder="Senha" [ngClass]="{'is-invalid': f.submitted && !passwordMatch()}" 
               required minlength="4" maxlength="12">
             <!-- Error message -->
             <div class="invalid-input" *ngIf="f.submitted && !passwordMatch() && model.passwordConfirmation != ''">
-              <div class="text-danger">Passwords do not match</div>
+              <div class="text-danger">As senhas não conferem</div>
             </div>
           </div>
-
         </div>
         
         <div style="display: flex; align-items: center; flex-direction: column">
@@ -72,17 +73,15 @@
             name="captchaElem"
             (success)="handleSuccess($event)">
             </ngx-recaptcha2>
-            <div class="text-danger" *ngIf="captchaError">Captcha is required!</div>
+            <div class="text-danger" *ngIf="captchaError">Captcha é obrigatório!</div>
           </div>
-
           <div class="text-center">
             <button class="btn btn-info my-4" [disabled]="logging">
               <span *ngIf="logging" class="spinner-border spinner-border-sm text-warning" role="status" 
               aria-hidden="true"></span>
-              Sign Up
+              Finalizar cadastro
             </button>
           </div>
-
           <!-- Messages component -->
           <app-toaster></app-toaster>
         </div>
