@@ -10,26 +10,26 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <!-- active -->
-            <li *ngIf="authority" class="nav-item ">
+            <li *ngIf="authority" class="nav-item" data-toggle="collapse">
                 <a class="nav-link" routerLink="/notes">Notes</a>
             </li>
-            <li *ngIf="authority === 'ROLE_USER'" class="nav-item">
+            <li *ngIf="authority === 'ROLE_USER'" class="nav-item" data-toggle="collapse">
                 <a class="nav-link" routerLink="/feedback">Feedback</a>
             </li>
-            <li *ngIf="authority === 'ROLE_ADMIN'" class="nav-item">
+            <li *ngIf="authority === 'ROLE_ADMIN'" class="nav-item" data-toggle="collapse">
                 <a class="nav-link" routerLink="/adminboard">Admin Board</a>
             </li>
         </ul>
         <ul class="navbar-nav">
-
-            <li *ngIf="authority" class="nav-item">
+            
+            <li *ngIf="authority" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                 <a class="nav-link" (click)="logout()">Sair</a>
             </li>
-            <li *ngIf="!authority && getLOcationPath() != '/signup'" >
+            <li *ngIf="!authority && getLOcationPath() != '/signup'" data-toggle="collapse">
                 <a class="nav-link" routerLink="/signup">Cadastre-se</a>
             </li>
     
-            <li *ngIf="!authority && getLOcationPath() != '/'" >
+            <li *ngIf="!authority && getLOcationPath() != '/'" data-toggle="collapse">
                 <a class="nav-link" routerLink="/">Entrar</a>
             </li>
 

@@ -2,10 +2,6 @@
     cursor: pointer;
 }
 
-.navbar {
-    height: 90px;
-}
-
 .navbar-toggler-icon {
     size: 150%;
 }   
