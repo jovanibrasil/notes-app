@@ -1,8 +1,9 @@
-<div class="container ">
-  <div class="row">
-    <div class="offset-3"></div>
-    <div class="col-md-6">
-
+<div class="container-fluid" >
+  <div class="row mt-12" style="margin: 50px;">
+    <div class="col-md-8" style="margin:0; padding:0;">
+      <app-main-banner></app-main-banner>
+    </div>
+    <div class="col-md-3" style="padding: 10px;">
       <!-- novalidade is used to disable browsers native form validation -->
       <form class="border border-light p-5 mt-5 center-block" style="background-color: white; border-radius: 25px;"
         name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm">
@@ -65,5 +66,6 @@
 
      
     </div>
+    <div class="col-md-1"></div>
   </div>
 </div>

@@ -21,6 +21,7 @@ import { ResponseInterceptor } from './shared/interceptors/response.interceptor'
 import { ToasterComponent } from './toaster/toaster.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ConfirmationComponent } from './auth/confirmation/confirmation.component';
+import { MainBannerComponent } from './main-banner/main-banner.component';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
@@ -36,7 +37,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, 
     NotesComponent, NoteComponent, NoteSearchFilterPipe, LoginComponent, 
-    SignupComponent, ToasterComponent, ConfirmationComponent
+    SignupComponent, ToasterComponent, ConfirmationComponent, MainBannerComponent
   ],
   imports: [
     FormsModule, 
