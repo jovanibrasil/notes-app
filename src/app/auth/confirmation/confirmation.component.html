@@ -76,8 +76,8 @@
             <div class="text-danger" *ngIf="captchaError">Captcha é obrigatório!</div>
           </div>
           <div class="text-center">
-            <button class="btn btn-info my-4" [disabled]="logging">
-              <span *ngIf="logging" class="spinner-border spinner-border-sm text-warning" role="status" 
+            <button class="btn btn-info my-4" [disabled]="loading">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm text-warning" role="status" 
               aria-hidden="true"></span>
               Finalizar cadastro
             </button>
