@@ -33,6 +33,7 @@ export class NotesComponent implements OnInit {
 
   ngOnInit() {
     this.getAllNotebooks();
+    this.getAllNotes();
     this.selectedNotebook = null;
     // this.searchText.pipe(
     //   debounceTime(5000) // interval of time that events related with the content change will happen 
