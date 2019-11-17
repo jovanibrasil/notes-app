@@ -14,6 +14,9 @@
                 <a class="nav-link" routerLink="/notes">Notes</a>
             </li>
             <li *ngIf="authority === 'ROLE_USER'" class="nav-item" data-toggle="collapse">
+                <a class="nav-link" routerLink="/configuration">Configuração</a>
+            </li>
+            <li *ngIf="authority === 'ROLE_USER'" class="nav-item" data-toggle="collapse">
                 <a class="nav-link" routerLink="/feedback">Feedback</a>
             </li>
             <li *ngIf="authority === 'ROLE_ADMIN'" class="nav-item" data-toggle="collapse">

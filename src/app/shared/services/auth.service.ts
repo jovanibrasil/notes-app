@@ -24,6 +24,8 @@ export class AuthService {
     private REFRESH_AUTH_URL =  `${this.BASE_URL}/auth/refresh`;
 
     private CREATE_USER = `${this.BASE_URL}/users`;
+    private UPDATE_USER_PASSWORD = `${this.BASE_URL}/users`;
+
     private CONFIRM_USER_EMAIL_URL =  `${this.BASE_URL}/users/confirmation`;
     
     model: any = {};
@@ -46,6 +48,10 @@ export class AuthService {
 
     createUser(data: any) {
       return this.http.post(this.CREATE_USER, data);
+    }
+
+    updateUserPassword(data: any){
+      return this.http.put(this.UPDATE_USER_PASSWORD, data);
     }
     
 }

@@ -23,11 +23,13 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { ConfirmationComponent } from './auth/confirmation/confirmation.component';
 import { MainBannerComponent } from './main-banner/main-banner.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { ConfigurationComponent } from './configuration/configuration.component';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent },
   { path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard] },
+  { path: 'configuration', component: ConfigurationComponent, canActivate: [AuthGuard] },
   { path: 'confirmation', component: ConfirmationComponent },
   { path: '', component: LoginComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -38,7 +40,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, 
     NotesComponent, NoteComponent, NoteSearchFilterPipe, LoginComponent, 
-    SignupComponent, ToasterComponent, ConfirmationComponent, MainBannerComponent
+    SignupComponent, ToasterComponent, ConfirmationComponent, MainBannerComponent, ConfigurationComponent
   ],
   imports: [
     ColorPickerModule,

@@ -1,0 +1,109 @@
+<div class="container mt-5">
+
+    <div class="accordion" id="configurations">
+        <!-- Update password -->
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Alterar Senha
+              </button>
+            </h5>
+          </div>
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#configurations">
+            <div class="card-body">
+                <div class="row">
+                    <div class="offset-3"></div>
+                    <div class="col-md-6">
+                      <form name="form" class="border border-light p-5 mt-5 center-block" style="background-color: white; border-radius: 25px;" 
+                      name="form" (ngSubmit)="f.form.valid && passwordMatch() && updateUserPassword()" #f="ngForm" *ngIf="!passwordChanged" novalidate>
+                
+                        <div class="form-group">
+                          <!-- Actual password -->
+                          <div>
+                            <label for="actualPassword">Senha Atual</label>
+                            <input type="password" name="actualPassword"  class="form-control" [(ngModel)]="model.actualPassword" #actualPassword="ngModel" 
+                            [ngClass]="{'is-invalid': (f.submitted && !actualPassword.valid) || (f.submitted && !passwordMatch())}" 
+                            placeholder="Senha atual (entre 4 e 12 caracteres)" required minlength="4" maxlength="12">
+                            <!-- Error messages -->
+                            <div *ngIf="f.submitted && actualPassword.invalid" class="invalid-input">
+                              <div class="text-danger" *ngIf="actualPassword.errors?.required">Senha é obrigatória</div>
+                            </div>
+                            <div *ngIf="model.actualPassword != '' && actualPassword.invalid" class="invalid-input">
+                              <div class="text-danger" *ngIf="actualPassword.errors?.minlength">No mínimo 4 caracteres</div>
+                              <div class="text-danger" *ngIf="actualPassword.errors?.maxlength">No máximo 12 caracteres</div>
+                            </div>
+                          </div>
+                          <!-- New password -->
+                          <div style="margin-top: 10px;">
+                            <label for="newPassword">Nova senha</label>
+                            <input type="password" name="newPassword"  class="form-control" [(ngModel)]="model.newPassword" #newPassword="ngModel" 
+                            [ngClass]="{'is-invalid': (f.submitted && !newPassword.valid) || (f.submitted && !passwordMatch())}" 
+                            placeholder="Nova senha (entre 4 e 12 caracteres)" required minlength="4" maxlength="12">
+                            <!-- Error messages -->
+                            <div *ngIf="f.submitted && newPassword.invalid" class="invalid-input">
+                              <div class="text-danger" *ngIf="newPassword.errors?.required">Senha é obrigatória</div>
+                            </div>
+                            <div *ngIf="model.newPassword != '' && newPassword.invalid" class="invalid-input">
+                              <div class="text-danger" *ngIf="newPassword.errors?.minlength">No mínimo 4 caracteres</div>
+                              <div class="text-danger" *ngIf="newPassword.errors?.maxlength">No máximo 12 caracteres</div>
+                            </div>
+                          </div>
+                          <!-- New password confirmation -->
+                          <div style="margin-top: 10px;">
+                            <label for="newPasswordConfirmation">Confirmação de senha</label> 
+                            <input type="password" name="newPasswordConfirmation"  class="form-control" [(ngModel)]="model.newPasswordConfirmation" 
+                              #passwordConfirmation="ngModel" placeholder="Confirmação de senha" [ngClass]="{'is-invalid': f.submitted && !passwordMatch()}" 
+                              required minlength="4" maxlength="12">
+                            <!-- Error message -->
+                            <div class="invalid-input" *ngIf="f.submitted && !passwordMatch() && model.newPasswordConfirmation != ''">
+                              <div class="text-danger">As senhas não conferem</div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: center; flex-direction: column">
+                          <div>
+                            <ngx-recaptcha2 #captchaElem
+                            [siteKey]="key" 
+                            [ngModel]="recaptcha"
+                            name="captchaElem"
+                            (success)="handleSuccess($event)">
+                            </ngx-recaptcha2>
+                            <div class="text-danger" *ngIf="captchaError">Captcha é obrigatório!</div>
+                          </div>
+                          <div class="text-center">
+                            <button class="btn btn-info my-4" [disabled]="loading">
+                              <span *ngIf="loading" class="spinner-border spinner-border-sm text-warning" role="status" 
+                              aria-hidden="true"></span>
+                              Finalizar cadastro
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <!-- Messages component -->
+                      <app-toaster></app-toaster>
+                    </div>
+                    <div class="offset-3"></div>
+                  </div>
+            </div>
+          </div>
+        </div>
+        <!-- Disable account -->
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Desativar conta
+              </button>
+            </h5>
+          </div>
+          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#configurations">
+            <div class="card-body">
+              Em breve.
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
