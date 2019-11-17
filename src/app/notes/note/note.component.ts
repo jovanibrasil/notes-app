@@ -14,7 +14,7 @@ export class NoteComponent implements OnInit {
 
   @Input() deletingNote: boolean;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 

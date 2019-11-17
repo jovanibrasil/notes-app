@@ -3,5 +3,6 @@ export interface Note {
     title: string;
     text: string;
     notebookId: number;
-    lastModifiedOn: string; 
+    lastModifiedOn: string;
+    backgroundColor: string;
 }

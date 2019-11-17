@@ -22,6 +22,7 @@ import { ToasterComponent } from './toaster/toaster.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ConfirmationComponent } from './auth/confirmation/confirmation.component';
 import { MainBannerComponent } from './main-banner/main-banner.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
     SignupComponent, ToasterComponent, ConfirmationComponent, MainBannerComponent
   ],
   imports: [
+    ColorPickerModule,
     FormsModule, 
     BrowserModule, 
     HttpClientModule, 

@@ -1,10 +1,11 @@
-<div class="card bg-warning" style="border:4px solid white;">
+<div [ngStyle]="{'background-color': note == null ? 'pink' : note.backgroundColor}"
+   class="card" style=" border:2px groove; margin: 5px;">
   <div class="card-body" style="padding:8px; margin-top:8px;">
     <!-- Title -->            
     <div>
       <input type="text" class="input-label-lg" maxlength="18" 
         (change)="updateNote()" style="width: 80%" [(ngModel)]=note.title>
-      <a class="pull-right text-danger" (click)="deleteNote()">
+        <a class="pull-right text-danger" (click)="deleteNote()">
           <span *ngIf="deletingNote" class="spinner-border spinner-border-sm text-danger" 
           role="status" aria-hidden="true"></span>
         <i *ngIf="!deletingNote" class="fa fa-trash-o"></i>

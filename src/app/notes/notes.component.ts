@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Notebook } from './model/notebook';
 import { Note } from './model/note';
 import { ApiService } from '../shared/services/api.service';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime  } from 'rxjs/operators';
 import { ToasterService } from '../shared/services/toaster.service';
+import { not } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-notes',
@@ -30,15 +31,31 @@ export class NotesComponent implements OnInit {
 
   constructor(private apiService: ApiService, private toasterService: ToasterService) { }
 
-
   ngOnInit() {
     this.getAllNotebooks();
     this.getAllNotes();
     this.selectedNotebook = null;
+    this.selectedNote = null;
     // this.searchText.pipe(
     //   debounceTime(5000) // interval of time that events related with the content change will happen 
     // );
     //this.searchText.next(" ");
+  }
+
+  public noteClickEvent(note: Note){
+    this.selectedNote = note;
+  }
+
+  /**
+   * 
+   * @param value is a RGBA value.
+   */
+  public noteColorChangeEvent(value: string){
+    this.selectedNote.backgroundColor=value; 
+  }
+
+  public noteColorDialogClosed(event: boolean){
+    this.updateNote(this.selectedNote);
   }
 
   public getAllNotebooks(){
@@ -80,6 +97,7 @@ export class NotesComponent implements OnInit {
 
   public createNotebook(){
     this.savingNotebook = true;
+    this.selectedNote = null;
     let notebook: Notebook = {
       id: 0,
       name:"New notebook",
@@ -108,11 +126,13 @@ export class NotesComponent implements OnInit {
   }
 
   public selectNotebook(notebook: Notebook){
+    this.selectedNote = null;
     this.selectedNotebook = notebook;
     this.getNotesById(notebook.id);
   }
 
   public deleteNotebook(notebook: Notebook){
+    this.selectedNote = null;
     if(confirm("Are you sure you want to delete this notebook?")){
       this.deletingNotebook = true;
       this.apiService.deleteNotebook(notebook.id).subscribe(
@@ -122,23 +142,28 @@ export class NotesComponent implements OnInit {
           this.toasterService.success("Notebook deleted successfully.");
           this.deletingNotebook = false;
           this.selectedNotebook = null;
+          this.notebooks = [];
         }, 
         err => { 
           this.toasterService.error("An error has occured. Could not delete this notebook."); 
           this.deletingNotebook = false;
         }
       );
+    }else{
+      this.deletingNotebook = false;
     }
   }
 
   public createNote(){
+    this.selectedNote = null;
     this.savingNote = true;
     let note: Note = {
       id: null,
       title: "New Note",
       text: "Write some text here",
       notebookId: this.selectedNotebook.id,
-      lastModifiedOn: null
+      lastModifiedOn: null,
+      backgroundColor: 'rgba(251, 243, 129, 0.74)'
     }
     this.apiService.saveNote(note).subscribe(
       res => {
@@ -163,6 +188,7 @@ export class NotesComponent implements OnInit {
 
   public deleteNote(note: Note){
     this.deletingNote = true;
+    this.selectedNote = null;
     if(confirm("Are you sure you want to delete this note?")){
       this.apiService.deleteNote(note.id).subscribe(
         res => {
@@ -176,6 +202,8 @@ export class NotesComponent implements OnInit {
           this.deletingNote = false;
         }
       );
+    }else{
+      this.deletingNote = false;
     }
   }
 
