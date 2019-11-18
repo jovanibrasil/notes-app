@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class RequestInterceptor implements HttpInterceptor {
 
     private TOKEN_HEADER_KEY = "Authorization";
+    private LOCATE_HEADER_KEY = "Accept-Language";
 
     constructor(private tokenStorageService: TokenStorageService, 
         private toasterService: ToasterService, private route: Router) {}
@@ -22,6 +23,9 @@ export class RequestInterceptor implements HttpInterceptor {
     */
     intercept(req: HttpRequest<any>, next: HttpHandler) {
          if(req){
+
+            req = req.clone({ headers: req.headers.set(this.LOCATE_HEADER_KEY, "Test") });
+            
             const token = this.tokenStorageService.getToken();
             // Check if JWT token is present
             if(token != null){       

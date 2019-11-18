@@ -34,7 +34,7 @@ export class AuthService {
 
     login(data: any, recapchaValue: string){
       return this.http.post<JwtResponse>(this.LOGIN_URL, data, 
-        { params : { recaptchaResponseToken : recapchaValue } })//.shareReplay();
+          { params : { recaptchaResponseToken : recapchaValue } })//.shareReplay();
     }
 
     logout(){
