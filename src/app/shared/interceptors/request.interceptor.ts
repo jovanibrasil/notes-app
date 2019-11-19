@@ -23,8 +23,9 @@ export class RequestInterceptor implements HttpInterceptor {
     */
     intercept(req: HttpRequest<any>, next: HttpHandler) {
          if(req){
-
-            req = req.clone({ headers: req.headers.set(this.LOCATE_HEADER_KEY, "Test") });
+            let userLang = navigator.language || "en-US";
+            console.log(userLang);
+            req = req.clone({ headers: req.headers.set(this.LOCATE_HEADER_KEY, userLang) });
             
             const token = this.tokenStorageService.getToken();
             // Check if JWT token is present
