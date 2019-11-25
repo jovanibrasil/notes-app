@@ -1,4 +1,4 @@
-[![Build Status](http://13.58.51.172:8085/buildStatus/icon?job=notes-app)](http://13.58.51.172:8085/job/notes-app/)
+[![Build Status](http://jovanibrasil.com:8085/buildStatus/icon?job=notes-app)](http://13.58.51.172:8085/job/notes-app/)
 
 # APP web para um aplicativo de lembretes/notas
 
