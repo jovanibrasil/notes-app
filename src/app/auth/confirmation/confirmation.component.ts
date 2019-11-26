@@ -56,7 +56,7 @@ export class ConfirmationComponent implements OnInit {
     
     if(token){
       // if the token is present, wait server verification response     
-      this.authService.createUser(user).subscribe(
+      this.authService.createUser(user, recapchaValue).subscribe(
         res => {
           this.toasterService.success("Confirmed! Please, login with your credentials.", true, Timer.Long);
           this.loading = false;

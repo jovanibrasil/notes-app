@@ -46,8 +46,9 @@ export class AuthService {
         { params : { recaptchaResponseToken : recapchaValue } });
     }
 
-    createUser(data: any) {
-      return this.http.post(this.CREATE_USER, data);
+    createUser(data: any, recapchaValue: string) {
+      return this.http.post(this.CREATE_USER, data,
+        { params : { recaptchaResponseToken : recapchaValue } });
     }
 
     updateUserPassword(data: any){

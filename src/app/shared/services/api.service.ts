@@ -7,6 +7,7 @@ import { FeedbackViewModel } from '../../feedback/feedback.component';
 import { User } from '../../auth/model/user';
 import { environment } from 'src/environments/environment';
 import { ResponseWrapper } from '../services/response-wrapper';
+import { PARAMETERS } from '@angular/core/src/util/decorators';
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +16,7 @@ export class ApiService {
 
     private BASE_URL = environment.NOTES_BASE_URL; 
     
-    private SEND_FEEDBACK_URL = `${this.BASE_URL}/feedback`;
+    private SEND_FEEDBACK_URL = `${this.BASE_URL}/feedbacks`;
     
     public ALL_NOTEBOOKS_URL = `${this.BASE_URL}/notebooks`;
     private DELETE_NOTEBOOK = `${this.BASE_URL}/notebooks/`;
@@ -70,8 +71,9 @@ export class ApiService {
 
     // Feedback functions
 
-    postFeedback(feedback: FeedbackViewModel): Observable<any> {
-        return this.http.post(this.SEND_FEEDBACK_URL, feedback);
+    postFeedback(feedback: FeedbackViewModel, recapchaValue: string): Observable<any> {
+        return this.http.post(this.SEND_FEEDBACK_URL, feedback, 
+            { params: { recapchaValue } });
     }
 
 }

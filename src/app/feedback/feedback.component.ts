@@ -14,8 +14,7 @@ export class FeedbackComponent implements OnInit {
   model: FeedbackViewModel = {
     name: '',
     email: '',
-    feedback: '',
-    captchaCode: ''
+    feedback: ''
   };
 
   captchaError: boolean;
@@ -31,7 +30,6 @@ export class FeedbackComponent implements OnInit {
     
   }
 
-
   sleep(milliseconds) {
     var start = new Date().getTime();
     for (var i = 0; i < 1e7; i++) {
@@ -42,7 +40,6 @@ export class FeedbackComponent implements OnInit {
   }
 
   sendFeedback(): void {
-    let url = "http://localhost:8080/api/feedback";
     //alert(this.model.name);
 
     // verify recaptcha component status
@@ -51,9 +48,8 @@ export class FeedbackComponent implements OnInit {
       this.captchaError = true;
       return;
     }
-    this.model.captchaCode = recapchaValue;
 
-    this.apiService.postFeedback(this.model).subscribe(
+    this.apiService.postFeedback(this.model, recapchaValue).subscribe(
       res => {
         location.reload(); // refresh page
       },
@@ -77,6 +73,5 @@ export class FeedbackComponent implements OnInit {
 export interface FeedbackViewModel{
   name: string;
   email: string;
-  feedback: string;
-  captchaCode: string
+  feedback: string
 }
