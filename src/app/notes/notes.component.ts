@@ -142,7 +142,6 @@ export class NotesComponent implements OnInit {
           this.toasterService.success("Notebook deleted successfully.");
           this.deletingNotebook = false;
           this.selectedNotebook = null;
-          this.notebooks = [];
         }, 
         err => { 
           this.toasterService.error("An error has occured. Could not delete this notebook."); 
