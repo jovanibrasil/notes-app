@@ -2,7 +2,6 @@
     font-family:arial,sans-serif;
     font-size:100%;
     margin:3em;
-    background:#666;
     color:#fff;
 }
 
@@ -109,6 +108,7 @@ ul li p{
     -o-transform: scale(1.25);
     position:relative;
     z-index:5;
+    cursor: pointer;
   }
 
 .banner ul li{
