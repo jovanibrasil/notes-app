@@ -6,6 +6,14 @@
     color:#fff;
 }
 
+ul {
+    padding: 0px;
+    width: fit-content; 
+    height: 100%;
+    margin: 0px;
+    margin: auto;
+}
+
 ul li h2{
     font-size:140%;
     font-weight:bold;
@@ -27,7 +35,7 @@ ul li p{
     background:#ffc;
     display:block;
     height:18em;
-    width:18em;
+    max-width:18em;
     padding:1em;
 
     /* Setup a shadow using box-shadow */
