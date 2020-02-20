@@ -29,6 +29,7 @@
             <ngx-recaptcha2 #captchaElem
             [siteKey]="key" 
             [ngModel]="recaptcha"
+            size="compact"
             name="captchaElem"
             (success)="handleSuccess($event)">
             </ngx-recaptcha2>

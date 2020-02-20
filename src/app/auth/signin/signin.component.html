@@ -1,6 +1,6 @@
 <div class="container-fluid" >
   <div class="row mt-12" style="margin: 50px;">
-    <div class="col-md-8" style="margin:0; padding:0;">
+    <div class="col-md-9" style="margin:0; padding:0;">
       <app-main-banner></app-main-banner>
     </div>
     <div class="col-md-3" style="padding: 10px;">
@@ -35,11 +35,13 @@
         </div>
 
         <div style="display: flex; align-items: center; flex-direction: column">
+          
           <div>
             <ngx-recaptcha2 #captchaElem
             [siteKey]="key" 
             [ngModel]="recaptcha"
             name="captchaElem"
+            size="compact"
             (success)="handleSuccess($event)">
             </ngx-recaptcha2>
             <div class="text-danger" *ngIf="captchaError">Captcha é obrigatório!</div>
@@ -63,6 +65,5 @@
         </div>
       </form>     
     </div>
-    <div class="col-md-1"></div>
   </div>
 </div>

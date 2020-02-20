@@ -54,6 +54,7 @@
             [siteKey]="key" 
             [ngModel]="recaptcha"
             name="captchaElem"
+            size="compact"
             (success)="handleSuccess($event)">
             </ngx-recaptcha2>
             <div class="invalid-input" *ngIf="captchaError">Captcha is required!</div>
