@@ -1,3 +1,16 @@
+.container-fluid {
+    margin-top: 80px;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.right-side-bar {
+    position: relative; 
+    padding: 0px;
+}
+
 .notes-panel {
     padding-left: 35px;
 }

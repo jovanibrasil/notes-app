@@ -1,6 +1,6 @@
-<div class="container-fluid " >
-  <div class="row mt-12">
-    <div class="col-md-9">
+<div class="container-fluid">
+  <div class="row ">
+    <div class="col-lg-9">
       <div style="background-color: white; border-radius: 10px;">
         <!-- Note menu (search compoenent and buttons) -->
         <div class="row mt-6" style="margin-top:12px; padding: 10px">
@@ -76,29 +76,31 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="row mt-8 note-details">
-        <div class="col-md-12">
-          <p class="text-center">Detalhes da nota selecionada</p> 
-          <div *ngIf="selectedNote != null">
-            <p>Título: {{selectedNote.title}}</p>
-            <p>Último update: {{selectedNote.lastModifiedOn | date:'dd-MM-yyyy HH:mm'}}</p>
-            Cor <input size="1px" 
-                      [cpOKButton]="true"
-                      [(colorPicker)]="selectedNote.backgroundColor" 
-                      [style.background]="selectedNote.backgroundColor"
-                      [cpPosition]="'bottom-right'"
-                      (cpToggleChange)="noteColorDialogClosed($event)"
-                      (colorPickerChange)="noteColorChangeEvent($event)"/>    
+    <div class="col-lg-3 right-side-bar">
+        <div class="col-lg-3 fixed"> 
+          <div class="row mt-8 note-details">
+            <div class="col-md-12">
+              <p class="text-center">Detalhes da nota selecionada</p> 
+              <div *ngIf="selectedNote != null">
+                <p>Título: {{selectedNote.title}}</p>
+                <p>Último update: {{selectedNote.lastModifiedOn | date:'dd-MM-yyyy HH:mm'}}</p>
+                Cor <input size="1px" 
+                          [cpOKButton]="true"
+                          [(colorPicker)]="selectedNote.backgroundColor" 
+                          [style.background]="selectedNote.backgroundColor"
+                          [cpPosition]="'bottom-right'"
+                          (cpToggleChange)="noteColorDialogClosed($event)"
+                          (colorPickerChange)="noteColorChangeEvent($event)"/>    
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="row mt-4 notifications">
-        <div class="col-md-12"> 
-          <p class="text-center">Notificações</p>
-          <app-toaster></app-toaster>
-        </div>  
-      </div>
+          <div class="row mt-4 notifications">
+            <div class="col-md-12"> 
+              <p class="text-center">Notificações</p>
+              <app-toaster></app-toaster>
+            </div>  
+          </div>
+    </div>
     </div>
   </div>
 </div>
