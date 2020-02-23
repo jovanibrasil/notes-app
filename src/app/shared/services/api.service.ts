@@ -27,6 +27,8 @@ export class ApiService {
     private SAVE_UPDATE_NOTE = `${this.BASE_URL}/notes`
     private NOTES_BY_NOTEBOOK_URL = `${this.BASE_URL}/notebooks/`;
     
+    private NOTE_COLORS_URL = `${this.BASE_URL}/notes/colors`;
+
     constructor(private http: HttpClient) {}
 
     // Notebook functions
@@ -70,10 +72,18 @@ export class ApiService {
     }
 
     // Feedback functions
-
     postFeedback(feedback: FeedbackViewModel, recapchaValue: string): Observable<any> {
         return this.http.post(this.SEND_FEEDBACK_URL, feedback, 
             { params: { recapchaValue } });
+    }
+
+    // Saved colors
+    getSavedColors(): Observable<ResponseWrapper>{
+        return this.http.get<ResponseWrapper>(this.NOTE_COLORS_URL);
+    }
+
+    saveColors(colors: string[]) : Observable<ResponseWrapper>{
+        return this.http.post<ResponseWrapper>(this.NOTE_COLORS_URL, colors);
     }
 
 }

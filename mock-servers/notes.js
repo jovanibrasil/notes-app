@@ -1,7 +1,9 @@
 var express = require("express");
 var app = express();
 var cors = require("cors");
+const bodyParser = require('body-parser')
 
+app.use(bodyParser.json())
 app.use(cors())
 
 app.listen(8082, () => {
@@ -32,6 +34,8 @@ var notes = [note, note, note,
     note, note, note, note, note, 
     note, note, note, note];
 
+var colors = [];
+
 app.get("/notes-api/notebooks", (req, rest) => {
     return rest.status(200).send({
         data: notebooks ,
@@ -46,3 +50,14 @@ app.get("/notes-api/notes", (req, rest) => {
     });
 });
 
+app.get("/notes-api/notes/colors", (req, rest) => {
+    return rest.status(200).send({
+        data: colors,
+        errors: []
+    });
+})
+
+app.post("/notes-api/notes/colors", (req, rest) => {
+    colors = req.body;
+    return rest.status(201).send();
+})

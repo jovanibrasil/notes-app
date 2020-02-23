@@ -84,13 +84,27 @@
               <div *ngIf="selectedNote != null">
                 <p>Título: {{selectedNote.title}}</p>
                 <p>Último update: {{selectedNote.lastModifiedOn | date:'dd-MM-yyyy HH:mm'}}</p>
-                Cor <input size="1px" 
+                Cor da nota <input class="circle" size="1px" 
                           [cpOKButton]="true"
+                          [cpOKButtonText]="'Usar cor'"
                           [(colorPicker)]="selectedNote.backgroundColor" 
                           [style.background]="selectedNote.backgroundColor"
                           [cpPosition]="'bottom-right'"
+                          [cpPresetLabel]="'Cores salvas'"
+                          [cpSaveClickOutside]="false"
+
+                          [cpAddColorButton]="true"
+                          [cpAddColorButtonText]="'Salvar cor'"
+
+                          [cpPresetColors]="presetColors"
+                          [cpMaxPresetColorsLength]="'10'" 
+                          [cpPresetEmptyMessage]="'Nenhuma cor salva.'"
+                          (cpPresetColorsChange)="presetColorsChange($event)"
+
+                          (colorPickerOpen)="colorPickerOpen($event)"
                           (cpToggleChange)="noteColorDialogClosed($event)"
-                          (colorPickerChange)="noteColorChangeEvent($event)"/>    
+                          (colorPickerChange)="noteColorChangeEvent($event)"
+                          (colorPickerSelect)="colorPickerSelect($event)"/>    
               </div>
             </div>
           </div>

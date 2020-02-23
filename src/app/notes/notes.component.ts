@@ -28,6 +28,9 @@ export class NotesComponent implements OnInit {
   savingNotebook:boolean = false;
 
   loadingNotes:boolean = false;
+  presetColors: string[] = [];
+
+  oldColor: string;
 
   constructor(private apiService: ApiService, private toasterService: ToasterService) { }
 
@@ -40,6 +43,27 @@ export class NotesComponent implements OnInit {
     //   debounceTime(5000) // interval of time that events related with the content change will happen 
     // );
     //this.searchText.next(" ");
+    this.apiService.getSavedColors().subscribe(
+      res => {
+        this.presetColors = res.data as string[];
+        if(this.presetColors.length == 0){
+          this.presetColors = ['#fff', '#000', '#2889e9',
+          '#e920e9', '#fff500', 'rgb(236,64,64)'];
+        }   
+      },
+      err => { this.toasterService.error("An error has occured setting your saved colors."); }
+    );
+  }
+
+  public colorPickerOpen(event: string){
+    this.oldColor = this.selectedNote.backgroundColor;
+  }
+
+  public presetColorsChange(event: string[]){
+    this.apiService.saveColors(event).subscribe(
+      res => { this.toasterService.success("Color successfully saved."); },
+      err => { this.toasterService.error("An error has occured saving your color."); }
+    );
   }
 
   public noteClickEvent(note: Note){
@@ -54,7 +78,11 @@ export class NotesComponent implements OnInit {
     this.selectedNote.backgroundColor=value; 
   }
 
-  public noteColorDialogClosed(event: boolean){
+  public noteColorDialogClosed(open: boolean){
+    this.selectedNote.backgroundColor = this.oldColor;
+  }
+
+  public colorPickerSelect(color: string){
     this.updateNote(this.selectedNote);
   }
 
