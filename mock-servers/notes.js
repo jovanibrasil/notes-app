@@ -24,7 +24,7 @@ var note = {
     text: "text",
     notebookId: 1,
     lastModifiedOn: Date(),
-    backgroundColor: ""
+    backgroundColor: "#3a5393"
 }
 
 var notes = [note, note, note, 
@@ -50,14 +50,14 @@ app.get("/notes-api/notes", (req, rest) => {
     });
 });
 
-app.get("/notes-api/notes/colors", (req, rest) => {
+app.get("/notes-api/colorPallet", (req, rest) => {
     return rest.status(200).send({
         data: colors,
         errors: []
     });
 })
 
-app.post("/notes-api/notes/colors", (req, rest) => {
+app.post("/notes-api/colorPallet", (req, rest) => {
     colors = req.body;
     return rest.status(201).send();
 })

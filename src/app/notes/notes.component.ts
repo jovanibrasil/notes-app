@@ -30,7 +30,7 @@ export class NotesComponent implements OnInit {
   loadingNotes:boolean = false;
   presetColors: string[] = [];
 
-  oldColor: string;
+  oldColor: string = "#aa1ebc";
 
   constructor(private apiService: ApiService, private toasterService: ToasterService) { }
 
@@ -55,8 +55,8 @@ export class NotesComponent implements OnInit {
     );
   }
 
-  public colorPickerOpen(event: string){
-    this.oldColor = this.selectedNote.backgroundColor;
+  public colorPickerOpen(color: string){
+    this.selectedNote.backgroundColor = color;
   }
 
   public presetColorsChange(event: string[]){
@@ -68,6 +68,7 @@ export class NotesComponent implements OnInit {
 
   public noteClickEvent(note: Note){
     this.selectedNote = note;
+    this.oldColor = this.selectedNote.backgroundColor;
   }
 
   /**
@@ -75,11 +76,13 @@ export class NotesComponent implements OnInit {
    * @param value is a RGBA value.
    */
   public noteColorChangeEvent(value: string){
-    this.selectedNote.backgroundColor=value; 
+    this.selectedNote.backgroundColor = value; 
   }
 
   public noteColorDialogClosed(open: boolean){
-    this.selectedNote.backgroundColor = this.oldColor;
+    if(open){
+      this.selectedNote.backgroundColor = this.oldColor;
+    }
   }
 
   public colorPickerSelect(color: string){
