@@ -27,7 +27,7 @@ export class ApiService {
     private SAVE_UPDATE_NOTE = `${this.BASE_URL}/notes`
     private NOTES_BY_NOTEBOOK_URL = `${this.BASE_URL}/notebooks/`;
     
-    private NOTE_COLORS_URL = `${this.BASE_URL}/notes/colors`;
+    private NOTE_COLORS_URL = `${this.BASE_URL}/colorpallet`;
 
     constructor(private http: HttpClient) {}
 
