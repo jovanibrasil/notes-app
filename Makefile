@@ -7,7 +7,6 @@ build:
 test:
 	npm test
 
-
 # Mock servers
 install-mock-dependencies:
 	npm install express --save
@@ -16,3 +15,7 @@ run-auth-server:
 	node mock-servers/auth.js
 run-notes-server:
 	node mock-servers/notes.js
+
+generate-deployables:
+	ng build --prod --build-optimizer --configuration=production
+	cp CNAME ./docs/
