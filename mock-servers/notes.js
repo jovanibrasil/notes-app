@@ -37,15 +37,49 @@ var notes = [note, note, note,
 var colors = [];
 
 app.get("/notes-api/notebooks", (req, rest) => {
+    let page = req.params.page;
+    let hasNext = true;
+    if(page){
+        begin = page * 9;
+        end = begin + 9 < notebooks.length ? begin + 9 : notebooks.length -1;
+    }else{
+        begin = 0;
+        end = notebooks.length;
+    }
+
+    if(end + 9 > notebook.length) {
+        hasNext = false;
+    }
+
     return rest.status(200).send({
-        data: notebooks ,
+        data: notebooks.slice(begin, end),
+        hasNext, 
         errors: []
     });
 });
 
 app.get("/notes-api/notes", (req, rest) => {
+    let page = req.query.page;
+    console.log(page);
+    let hasNext = true;
+    
+    if(page != null && page < page + 9 < notes.length){
+        begin = page * 9;
+        end = begin + 9;
+    }else{
+        begin = page * 9;
+        end = notes.length;
+    }
+
+    console.log(begin + " --- " + end);
+    
+    if(end + 9 > notes.length) {
+        hasNext = false;
+    }
+
     return rest.status(200).send({
-        data: notes ,
+        data: notes.slice(begin, end),
+        hasNext,
         errors: []
     });
 });

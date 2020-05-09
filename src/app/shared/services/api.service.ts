@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Notebook } from '../../notes/model/notebook';
 import { Note } from '../../notes/model/note';
 import { Observable } from 'rxjs';
@@ -63,8 +63,10 @@ export class ApiService {
         return this.http.delete(this.DELETE_NOTE + id);
     }
 
-    getAllNotes(): Observable<ResponseWrapper> {
-        return this.http.get<ResponseWrapper>(this.ALL_NOTES_URL);
+    getAllNotes(page: number): Observable<ResponseWrapper> {
+        const params = new HttpParams()
+            .append('page', page.toString());
+        return this.http.get<ResponseWrapper>(this.ALL_NOTES_URL, { params });
     }
 
     getNotesByNotebook(id: number): Observable<ResponseWrapper> {

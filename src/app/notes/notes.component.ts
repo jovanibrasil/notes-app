@@ -32,11 +32,14 @@ export class NotesComponent implements OnInit {
 
   oldColor: string = "#aa1ebc";
 
+  hasMore: boolean = true;
+  actualPage: number = 0;
+
   constructor(private apiService: ApiService, private toasterService: ToasterService) { }
 
   ngOnInit() {
     this.getAllNotebooks();
-    this.getAllNotes();
+    this.getAllNotes(0);
     this.selectedNotebook = null;
     this.selectedNote = null;
     // this.searchText.pipe(
@@ -53,6 +56,12 @@ export class NotesComponent implements OnInit {
       },
       err => { this.toasterService.error("An error has occured setting your saved colors."); }
     );
+  }
+
+  load(){
+    if(!this.hasMore) return;
+
+    this.getAllNotes(++this.actualPage);
   }
 
   public colorPickerOpen(color: string){
@@ -96,12 +105,13 @@ export class NotesComponent implements OnInit {
     );
   }
 
-  public getAllNotes(){
-    this.notes = [];
+  public getAllNotes(page: number){
+    //this.notes = [];
     this.loadingNotes = true;
-    this.apiService.getAllNotes().subscribe(
+    this.apiService.getAllNotes(page).subscribe(
       ret => { 
-        this.notes = ret.data as Note[]; 
+        this.hasMore = (<any>ret).hasNext;
+        this.notes = this.notes.concat(ret.data as Note[]); 
         this.loadingNotes = false;
       },
       err => { 
@@ -213,7 +223,7 @@ export class NotesComponent implements OnInit {
 
   public selectAllNotes(){
     this.selectedNotebook = null  
-    this.getAllNotes();
+    this.getAllNotes(0);
   }
 
   public deleteNote(note: Note){

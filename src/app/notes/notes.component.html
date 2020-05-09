@@ -65,6 +65,7 @@
                   [deletingNote]="deletingNote">
                 </app-note>
               </div>
+              <app-load-button (click)="load()" [hasMore]="hasMore"></app-load-button>
             </div>
             <!-- Loading spinner -->
             <div *ngIf="loadingNotes" style="text-align: center;">
