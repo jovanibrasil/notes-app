@@ -5,14 +5,7 @@
         <!-- Note menu (search compoenent and buttons) -->
         <div class="row mt-6" style="margin-top:12px; padding: 10px">
           <div class="col-md-8 search-menu">
-            <form class="form-inline my-2 my-lg-0">
-              <i class="fa fa-search mr-2 my-2 my-sm-0"></i>
-              <input 
-                type="search" 
-                class="form-control w-75 mr-sm-2"
-                (keyup)="debounce.next($event.target.value)" 
-                placeholder="Buscar notas ..." autofocus> 
-            </form>
+            <app-search (onTyping)="searchText = $event"></app-search>
           </div>
           <div class="col-md-4 creation-menu">
             <!-- Create new notebook -->

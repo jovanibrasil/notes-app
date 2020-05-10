@@ -1,9 +1,8 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
 import { Notebook } from './model/notebook';
 import { Note } from './model/note';
 import { ApiService } from '../shared/services/api.service';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime  } from 'rxjs/operators';
 import { ToasterService } from '../shared/services/toaster.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { ToasterService } from '../shared/services/toaster.service';
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.css']
 })
-export class NotesComponent implements OnInit, OnDestroy {
+export class NotesComponent implements OnInit {
   
   notebooks: Notebook[] = [];
   notes: Note[] = [];
@@ -33,7 +32,6 @@ export class NotesComponent implements OnInit, OnDestroy {
   hasMore: boolean = false;
   actualPage: number = 0;
   
-  debounce: Subject<string> = new Subject<string>();
 
   selectNotebookCallback: Function;
   updateNotebookCallback: Function;
@@ -72,15 +70,8 @@ export class NotesComponent implements OnInit, OnDestroy {
       err => { this.toasterService.error("An error has occured setting your saved colors."); }
       );
       
-      this.debounce
-      .pipe(debounceTime(300)) // emmits the content after a time without source emisson 
-      .subscribe(searchText => this.searchText = searchText);
     }
-    
-    ngOnDestroy(): void {
-      this.debounce.unsubscribe(); // avoid memory allocation problems
-    }
-    
+        
     load(){
       if(!this.hasMore) return;
       

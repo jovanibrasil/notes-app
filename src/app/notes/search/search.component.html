@@ -1,0 +1,10 @@
+<div class="search">
+    <form class="form-inline my-2 my-lg-0">
+        <i aria-hidden="true" class="fa fa-search mr-2 my-2 my-sm-0"></i>
+        <input 
+            type="search" 
+            class="form-control w-75 mr-sm-2"
+            (keyup)="debounce.next($event.target.value)" 
+            placeholder="Buscar notas ..." autofocus> 
+    </form>
+</div>
