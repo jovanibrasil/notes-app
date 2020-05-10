@@ -63,7 +63,7 @@ app.get("/notes-api/notebooks/:notebookId/notes", (req, rest) => {
 
     return rest.status(200).send({
         data: notes.slice(0, 5),
-        hasNext: true,
+        hasNext: false,
         errors: []
     });
 });

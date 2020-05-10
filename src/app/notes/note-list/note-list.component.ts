@@ -9,6 +9,8 @@ import { Note } from '../model/note';
 export class NoteListComponent implements OnInit {
 
   @Input() notes: Note[];
+  @Input() updateNote: Function;
+  @Input() deleteNote: Function;
 
   constructor() { }
 

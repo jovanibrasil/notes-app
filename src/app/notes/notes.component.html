@@ -30,23 +30,14 @@
         <div class="row" style="margin-top:29px;">
           <!-- Notebook menu -->
           <div class="col-md-3">
-            <br>
-            <div class="list-group list-group-flush">
-              <a class="list-group-item  list-group-item-action" (click)="selectAllNotes()">
-                <i class="fa fa-book"></i>&nbsp;Todas
-              </a>
-              <!-- Notebook list -->
-              <a *ngFor="let notebook of notebooks" (click)="selectNotebook(notebook)" class="list-group-item list-group-item-action">
-                <i class="fa fa-book"></i>&nbsp; 
-                <input [(ngModel)]="notebook.name" (change)="updateNotebook(notebook)" type="text" class="input-label"
-                  style="width: 80%;">
-                <a class="pull-right text-danger" (click)="deleteNotebook(notebook)">
-                  <span *ngIf="checkNotebookDeletingStatus(notebook)" class="spinner-border spinner-border-sm text-danger" 
-                    role="status" aria-hidden="true"></span>
-                  <i *ngIf="!checkNotebookDeletingStatus(notebook)" class="fa fa-trash-o"></i>
-                </a>
-              </a>
-            </div>
+            <app-notebook-list 
+              [notebooks]="notebooks"
+              [selectNotebook]="selectNotebookCallback"
+              [updateNotebook]="updateNotebookCallback"
+              [deleteNotebook]="deleteNotebookCallback"
+              [checkNotebookDeletingStatus]="checkNotebookDeletingStatusCallback"
+              [findNotes]="getAllNotesCallback"
+            ></app-notebook-list>
           </div>
           <!-- Notes panel -->
           <div class="col-md-9 notes-panel">  
@@ -60,7 +51,9 @@
               </div>
               <!-- Note list -->
               <app-note-list 
-                [notes]="notes | noteSearchFilter:searchText">
+                [notes]="notes | noteSearchFilter:searchText"
+                [updateNote]="updateNoteCallback"
+                [deleteNote]="deleteNoteCallback">
               </app-note-list>
               <app-load-button 
                 (click)="load()" 

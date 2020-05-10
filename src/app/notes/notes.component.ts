@@ -34,10 +34,29 @@ export class NotesComponent implements OnInit, OnDestroy {
   actualPage: number = 0;
   
   debounce: Subject<string> = new Subject<string>();
+
+  selectNotebookCallback: Function;
+  updateNotebookCallback: Function;
+  deleteNotebookCallback: Function;
+  checkNotebookDeletingStatusCallback: Function;
+  getAllNotesCallback: Function;
+
+  updateNoteCallback: Function;
+  deleteNoteCallback: Function;
   
   constructor(private apiService: ApiService, private toasterService: ToasterService) { }
   
   ngOnInit() {
+
+    this.selectNotebookCallback = this.selectNotebook.bind(this);
+    this.updateNotebookCallback = this.updateNotebook.bind(this);
+    this.deleteNotebookCallback = this.deleteNotebook.bind(this);
+    this.checkNotebookDeletingStatusCallback = this.checkNotebookDeletingStatus.bind(this);
+    this.getAllNotesCallback = this.selectAllNotes.bind(this);
+    
+    this.updateNoteCallback = this.updateNote.bind(this);
+    this.deleteNoteCallback = this.deleteNote.bind(this);
+
     this.getAllNotebooks();
     this.getAllNotes(0);
     this.selectedNotebook = null;
@@ -106,11 +125,18 @@ export class NotesComponent implements OnInit, OnDestroy {
     this.apiService.getAllNotebooks().subscribe(
       res => { this.notebooks = res.data as Notebook[]; } ,
       err => { this.toasterService.error("An error has occured getting all your notebooks."); }
-    );
+      );
+    }
+    
+  public selectAllNotes(){
+    this.selectedNotebook = null  
+    this.getAllNotes(0);
   }
 
   public getAllNotes(page: number){
-    //this.notes = [];
+    
+    if(!page) this.notes = [];
+
     this.loadingNotes = true;
     this.apiService.getAllNotes(page).subscribe(
       ret => { 
@@ -172,6 +198,7 @@ export class NotesComponent implements OnInit, OnDestroy {
   }
 
   public selectNotebook(notebook: Notebook){
+    console.log(notebook.id + " foi selecionado");
     this.selectedNote = null;
     this.selectedNotebook = notebook;
     this.getNotesById(notebook.id);
@@ -226,10 +253,6 @@ export class NotesComponent implements OnInit, OnDestroy {
     );
   }
 
-  public selectAllNotes(){
-    this.selectedNotebook = null  
-    this.getAllNotes(0);
-  }
 
   public deleteNote(note: Note){
     this.deletingNote = true;
