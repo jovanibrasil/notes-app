@@ -6,11 +6,13 @@ import { Note } from '../../notes/model/note';
 })
 export class NoteSearchFilterPipe implements PipeTransform {
 
-  transform(notes: Note[], text: string): Note[] {
-    if(text == null || text == ""){
+  transform(notes: Note[], searchText: string): Note[] {
+    if(searchText == null || searchText.trim() == ""){
       return notes;
     } 
-    return notes.filter(n => n.title.includes(text) || n.text.includes(text));
+    return notes.filter(note => 
+      note.title.includes(searchText) || note.text.includes(searchText)
+    );
   }
 
 }

@@ -58,6 +58,16 @@ app.get("/notes-api/notebooks", (req, rest) => {
     });
 });
 
+app.get("/notes-api/notebooks/:notebookId/notes", (req, rest) => {
+    let notebookId = req.params.notebookId;
+
+    return rest.status(200).send({
+        data: notes.slice(0, 5),
+        hasNext: true,
+        errors: []
+    });
+});
+
 app.get("/notes-api/notes", (req, rest) => {
     let page = req.query.page;
     console.log(page);

@@ -25,6 +25,7 @@ import { MainBannerComponent } from './main-banner/main-banner.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { LoadButtonComponent } from './notes/load-button/load-button.component';
+import { NoteListComponent } from './notes/note-list/note-list.component';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
@@ -41,7 +42,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent, NavigationComponent, FeedbackComponent, NotFoundComponent, 
     NotesComponent, NoteComponent, NoteSearchFilterPipe, LoginComponent, 
-    SignupComponent, ToasterComponent, ConfirmationComponent, MainBannerComponent, ConfigurationComponent, LoadButtonComponent
+    SignupComponent, ToasterComponent, ConfirmationComponent, MainBannerComponent, ConfigurationComponent, LoadButtonComponent, NoteListComponent
   ],
   imports: [
     ColorPickerModule,

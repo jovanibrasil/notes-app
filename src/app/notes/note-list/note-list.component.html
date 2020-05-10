@@ -1,0 +1,12 @@
+<div class="row">
+  <p class="text-center text-muted" *ngIf="!notes.length">
+    Não há notas.
+  </p>
+  <app-note *ngFor="let n of notes" 
+    [note]="n"
+    (click)="noteClickEvent(n)"
+    (noteUpdated)="updateNote($event)" 
+    (noteDeleted)="deleteNote($event)"
+    [deletingNote]="deletingNote">
+  </app-note>
+</div>

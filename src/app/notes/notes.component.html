@@ -5,8 +5,12 @@
         <!-- Note menu (search compoenent and buttons) -->
         <div class="row mt-6" style="margin-top:12px; padding: 10px">
           <div class="col-md-8 search-menu">
-            <input type="text" [(ngModel)]="searchText" class="form-control" style="width:100%;" 
-              placeholder="Buscar notas ...">
+            <input 
+              type="search" 
+              class="form-control" 
+              style="width:100%;"
+              (keyup) = "debounce.next($event.target.value)" 
+              placeholder="Buscar notas ..." autofocus>
           </div>
           <div class="col-md-4 creation-menu">
             <!-- Create new notebook -->
@@ -52,20 +56,16 @@
                   <!-- Message if there are no notes -->
                   <h3><p *ngIf="selectedNotebook != null">{{selectedNotebook.name}}</p></h3>
                   <h3><p *ngIf="selectedNotebook == null">Todas as notas</p></h3>
-                  <p *ngIf="this.notes.length === 0">Não há notas para mostrar neste notebook</p>
                 </div>
               </div>
-              <div class="row">
-                <!-- Note list --> 
-                <app-note *ngFor="let n of notes | noteSearchFilter:searchText" 
-                  [note]="n"
-                  (click)="noteClickEvent(n)"
-                  (noteUpdated)="updateNote($event)" 
-                  (noteDeleted)="deleteNote($event)"
-                  [deletingNote]="deletingNote">
-                </app-note>
-              </div>
-              <app-load-button (click)="load()" [hasMore]="hasMore"></app-load-button>
+              <!-- Note list -->
+              <app-note-list 
+                [notes]="notes | noteSearchFilter:searchText">
+              </app-note-list>
+              <app-load-button 
+                (click)="load()" 
+                [hasMore]="hasMore && (searchText == null || !searchText.length)">
+              </app-load-button>
             </div>
             <!-- Loading spinner -->
             <div *ngIf="loadingNotes" style="text-align: center;">

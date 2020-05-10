@@ -1,51 +1,47 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Notebook } from './model/notebook';
 import { Note } from './model/note';
 import { ApiService } from '../shared/services/api.service';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime  } from 'rxjs/operators';
 import { ToasterService } from '../shared/services/toaster.service';
-import { not } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.css']
 })
-export class NotesComponent implements OnInit {
-
+export class NotesComponent implements OnInit, OnDestroy {
+  
   notebooks: Notebook[] = [];
   notes: Note[] = [];
-  //searchText: Subject<string> = new Subject<string>();
   searchText: string;
   selectedNotebook: Notebook;
   selectedNote: Note;
   
   deletingNotebook:boolean = false;
   deletingNote:boolean = false;
-
+  
   savingNote:boolean = false;
   savingNotebook:boolean = false;
-
+  
   loadingNotes:boolean = false;
   presetColors: string[] = [];
-
+  
   oldColor: string = "#aa1ebc";
-
-  hasMore: boolean = true;
+  
+  hasMore: boolean = false;
   actualPage: number = 0;
-
+  
+  debounce: Subject<string> = new Subject<string>();
+  
   constructor(private apiService: ApiService, private toasterService: ToasterService) { }
-
+  
   ngOnInit() {
     this.getAllNotebooks();
     this.getAllNotes(0);
     this.selectedNotebook = null;
     this.selectedNote = null;
-    // this.searchText.pipe(
-    //   debounceTime(5000) // interval of time that events related with the content change will happen 
-    // );
-    //this.searchText.next(" ");
     this.apiService.getSavedColors().subscribe(
       res => {
         this.presetColors = res.data as string[];
@@ -55,26 +51,34 @@ export class NotesComponent implements OnInit {
         }   
       },
       err => { this.toasterService.error("An error has occured setting your saved colors."); }
-    );
-  }
-
-  load(){
-    if(!this.hasMore) return;
-
-    this.getAllNotes(++this.actualPage);
-  }
-
-  public colorPickerOpen(color: string){
-    this.selectedNote.backgroundColor = color;
-  }
-
-  public presetColorsChange(event: string[]){
+      );
+      
+      this.debounce
+      .pipe(debounceTime(300)) // emmits the content after a time without source emisson 
+      .subscribe(searchText => this.searchText = searchText);
+    }
+    
+    ngOnDestroy(): void {
+      this.debounce.unsubscribe(); // avoid memory allocation problems
+    }
+    
+    load(){
+      if(!this.hasMore) return;
+      
+      this.getAllNotes(++this.actualPage);
+    }
+    
+    public colorPickerOpen(color: string){
+      this.selectedNote.backgroundColor = color;
+    }
+    
+    public presetColorsChange(event: string[]){
     this.apiService.saveColors(event).subscribe(
       res => { this.toasterService.success("Color successfully saved."); },
       err => { this.toasterService.error("An error has occured saving your color."); }
     );
   }
-
+  
   public noteClickEvent(note: Note){
     this.selectedNote = note;
     this.oldColor = this.selectedNote.backgroundColor;
@@ -110,9 +114,9 @@ export class NotesComponent implements OnInit {
     this.loadingNotes = true;
     this.apiService.getAllNotes(page).subscribe(
       ret => { 
-        this.hasMore = (<any>ret).hasNext;
         this.notes = this.notes.concat(ret.data as Note[]); 
         this.loadingNotes = false;
+        this.hasMore = (<any>ret).hasNext;
       },
       err => { 
         this.toasterService.error("An error has occured when getting all the notes."); 
@@ -128,6 +132,7 @@ export class NotesComponent implements OnInit {
       ret => { 
         this.notes = ret.data as Note[]; 
         this.loadingNotes = false;
+        this.hasMore = (<any>ret).hasNext;
       },
       err => { 
         this.toasterService.error("An error has occured getting a note.");
