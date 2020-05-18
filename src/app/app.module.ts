@@ -2,62 +2,66 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { NavigationComponent } from './navigation/navigation.component';
+import { HeaderComponent } from './header/header.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NotesComponent } from './notes/notes.component';
-import { Router, Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { config } from 'rxjs';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NoteComponent } from './notes/note/note.component';
 import { NoteSearchFilterPipe } from './shared/filters/note-search-filter.pipe';
-import { LoginComponent } from './auth/signin/signin.component';
-import { SignupComponent } from './auth/signup/signup.component';
 
 import { AuthGuard } from './shared/guards/auth.guard';
 import { RequestInterceptor } from './shared/interceptors/request.interceptor';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
-import { ToasterComponent } from './toaster/toaster.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { ConfirmationComponent } from './auth/confirmation/confirmation.component';
-import { MainBannerComponent } from './main-banner/main-banner.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { LoadButtonComponent } from './notes/load-button/load-button.component';
 import { NoteListComponent } from './notes/note-list/note-list.component';
 import { NotebookListComponent } from './notes/notebook-list/notebook-list.component';
 import { SearchComponent } from './notes/search/search.component';
+import { BorderOnHoverModule } from './shared/directives/border-on-hover/border-on-hover.module';
+import { AuthModule } from './auth/auth.module';
+import { SignUpComponent } from './auth/signup/signup.component';
+import { SignInComponent } from './auth/signin/signin.component';
+import { ToasterModule } from './shared/toaster/toaster.module';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
-  { path: 'signup', component: SignupComponent },
+  { path: 'signup', component: SignUpComponent },
   { path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard] },
   { path: 'configuration', component: ConfigurationComponent, canActivate: [AuthGuard] },
-  { path: 'confirmation', component: ConfirmationComponent },
-  { path: '', component: LoginComponent, pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  { path: '', component: SignInComponent, pathMatch: 'full' },
+  { path: 'login', component: SignInComponent },
   { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
   declarations: [
-    AppComponent, NavigationComponent, 
-    FeedbackComponent, NotFoundComponent, 
-    NotesComponent, NoteComponent, 
-    NoteSearchFilterPipe, LoginComponent, 
-    SignupComponent, ToasterComponent, 
-    ConfirmationComponent, MainBannerComponent, 
-    ConfigurationComponent, LoadButtonComponent, 
-    NoteListComponent, NotebookListComponent,
+    AppComponent, 
+    HeaderComponent, 
+    FeedbackComponent, 
+    NotFoundComponent, 
+    NotesComponent, 
+    NoteComponent, 
+    NoteSearchFilterPipe, 
+    ConfigurationComponent, 
+    LoadButtonComponent, 
+    NoteListComponent, 
+    NotebookListComponent,
     SearchComponent
   ],
   imports: [
     ColorPickerModule,
-    FormsModule, 
+    FormsModule,
+    AuthModule, 
     BrowserModule, 
     HttpClientModule, 
+    BorderOnHoverModule,
     NgxCaptchaModule,
+    ToasterModule,
     RouterModule.forRoot(appRoutes, {enableTracing: false})
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },

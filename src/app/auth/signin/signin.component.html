@@ -1,9 +1,9 @@
-<div class="container-fluid" >
+<div class="container-fluid mt-5">
   <div class="row mt-12" style="margin: 10px;">
-    <div class="col-md-9" style="margin:0; padding:0;">
+    <div class="col-md-8" style="margin:0; padding:0;">
       <app-main-banner></app-main-banner>
     </div>
-    <div class="col-md-3" style="padding: 10px;">
+    <div class="col-md-4" style="padding: 10px;">
       <!-- novalidade is used to disable browsers native form validation -->
       <form class="border border-light p-5 mt-5 center-block" style="background-color: white; border-radius: 25px;"
         name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm">
@@ -15,10 +15,10 @@
           <input type="text" name="username"  class="form-control" [(ngModel)]="model.username" #username="ngModel" 
             placeholder="Nome de usuário" [ngClass]="{'is-invalid': f.submitted && !username.valid}" required minlength="2" maxlength="12">
           <div *ngIf="f.submitted && username.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="username.errors?.required">Nome de usuário é obrigatório</div>
+            <small class="text-danger" *ngIf="username.errors?.required">Nome de usuário é obrigatório</small>
           </div>
           <div *ngIf="model.username != '' && username.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="username.errors?.minlength">O nome de usuário deve ter entre 2 e 12 caracteres.</div>
+            <small class="text-danger" *ngIf="username.errors?.minlength">O nome de usuário deve ter entre 2 e 12 caracteres.</small>
           </div>
         </div>
 
@@ -27,10 +27,10 @@
           <input type="password" name="password"  class="form-control" [(ngModel)]="model.password" #password="ngModel" 
             placeholder="Senha" [ngClass]="{'is-invalid': f.submitted && !password.valid}" required minlength="4" maxlength="12">
           <div class="invalid-input" *ngIf="f.submitted && password.invalid">
-            <div class="mb-4 text-danger help-block" *ngIf="password.errors?.required">Senha é obrigatória</div>
+            <small class="mb-4 text-danger help-block" *ngIf="password.errors?.required">Senha é obrigatória</small>
           </div>
           <div class="invalid-input" *ngIf="model.password != '' && password.invalid">
-            <div class="mb-4 text-danger help-block" *ngIf="password.errors?.minlength">Senha deve ter entre 4 e 12 caracteres</div>
+            <small class="mb-4 text-danger help-block" *ngIf="password.errors?.minlength">Senha deve ter entre 4 e 12 caracteres</small>
           </div>
         </div>
 
@@ -44,7 +44,7 @@
             size="compact"
             (success)="handleSuccess($event)">
             </ngx-recaptcha2>
-            <div class="text-danger" *ngIf="captchaError">Captcha é obrigatório!</div>
+            <small class="text-danger" *ngIf="captchaError">Captcha é obrigatório!</small>
           </div>
 
           <div class="text-center">
@@ -57,7 +57,7 @@
 
           <!-- Register -->
           <p class="text-center">Não cadastrado?
-              <a routerLink="/signup">Cadastre-se</a>
+              <a href="/signup">Cadastre-se</a>
           </p>
 
           <!-- Messages component -->

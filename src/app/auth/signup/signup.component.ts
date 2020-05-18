@@ -1,26 +1,26 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ApiService } from 'src/app/shared/services/api.service';
-import { User } from '../model/user';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { ReCaptcha2Component } from 'ngx-captcha';
 import { environment } from 'src/environments/environment';
 import { ToasterService } from 'src/app/shared/services/toaster.service';
-import { CustomResponse } from '../model/jwt.response';
-import { timer } from 'rxjs';
-import { Timer } from 'src/app/toaster/itoast';
+import { Timer } from 'src/app/shared/toaster/itoast';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { lowerCaseValidator } from 'src/app/shared/validators/lower-case.validator';
+import { mustMatch } from 'src/app/shared/validators/must-match.validator';
+import { UserDTO } from '../userDTO';
+import { UserNotTakenValidatorService } from './username-not-taken.validator.service';
+import { EmailNotTakenValidatorService } from './email-not-taken.validator.service';
  
 /*
   SignupComponent constains the logic of the registration form.
 */
 @Component({
-  selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnInit {
+export class SignUpComponent implements OnInit {
 
-  model: any = {};
   loading: any = null;
   captchaError: boolean;
   captchaSuccess: boolean;
@@ -29,17 +29,44 @@ export class SignupComponent implements OnInit {
   key: String = environment.RECAPTCHA_KEY;
   logging: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router, private toasterService: ToasterService) { 
-    this.model.userName = '';
-    this.model.password = '';
-    this.model.email = '';
-  }
+  signUpForm: FormGroup;
 
-  ngOnInit() {  }
+  constructor(private authService: AuthService, private formBuilder: FormBuilder,
+    private router: Router, private toasterService: ToasterService, 
+    private userNotTakenValidatorService: UserNotTakenValidatorService,
+    private emailNotTakenValidatorService: EmailNotTakenValidatorService) { }
+
+  ngOnInit() {    
+    this.signUpForm = this.formBuilder.group({
+      email : ['', Validators.compose([
+        Validators.required, 
+        Validators.email, 
+        Validators.maxLength(30)]),
+        this.emailNotTakenValidatorService.checkEmailTaken()
+      ],
+      userName: ['', Validators.compose([
+          Validators.required, 
+          lowerCaseValidator,
+          Validators.minLength(2), 
+          Validators.maxLength(12)]),
+        this.userNotTakenValidatorService.checkUserNameTaken()
+      ],
+      password: ['', Validators.compose([
+        Validators.required, 
+        Validators.minLength(4), 
+        Validators.maxLength(12)])
+      ],
+      passwordConfirmation: ['', Validators.required],
+      recaptcha: ['']
+    }, {
+      validator: mustMatch
+    });
+  }
   
-  createUser(){
+  submit(){
     try {
       this.logging = true;
+      
       // verify recaptcha component status
       let recapchaValue = this.captchaElem.getResponse();
       if(!recapchaValue) {
@@ -47,30 +74,21 @@ export class SignupComponent implements OnInit {
         this.logging = false;
         return;
       }
-
-      let user = {
-        email: this.model.email,
-        userName: this.model.userName,
-        password: this.model.password,
-        application: "NOTES_APP"
-      }
       
-      this.authService.confirmUserEmail(user, recapchaValue).subscribe(
+      const newUser: UserDTO = this.signUpForm.getRawValue(); 
+
+      this.authService.createUser(newUser, recapchaValue).subscribe(
         res => {
-          this.toasterService.success("Please, for security reasons, visit your email" 
-            + "and confirm the registration.", true, Timer.Long);
+          this.toasterService.success("Cadastro confirmado. Faça seu login agora!", false, Timer.Long);
+          this.loading = false;
           this.router.navigate(['/']);
         },
-        err => { 
-          let response: CustomResponse = <CustomResponse>err.error;
-          let message = "Errors:";
-          response.errors[0].errors.forEach(element => {
-              message += " " + element.message;
-          });
-          this.toasterService.error("User registration error. " + message, false, Timer.Long);
-          this.logging = false;
+        err => {
+          this.toasterService.error("Ops! Dados inválidos, por favor revise as informações.", true, Timer.Long);
+          this.loading = false;
         }
       );
+      
     } catch (error) {
       this.toasterService.error("Authentication error.");
       this.logging = false;
@@ -85,5 +103,5 @@ export class SignupComponent implements OnInit {
   reloadCaptcha(): void {
     this.captchaElem.reloadCaptcha();
   }
-
+  
 }

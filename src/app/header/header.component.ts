@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../shared/services/auth.service';
 import { TokenStorageService } from '../shared/services/token.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { updateBinding } from '@angular/core/src/render3/instructions';
-import { $ } from 'protractor';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ToasterService } from '../shared/services/toaster.service';
 
 @Component({
-    selector: 'app-navigation',
-    templateUrl: './navigation.component.html',
-    styleUrls: ['./navigation.component.css']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.css']
 })
-export class NavigationComponent implements OnInit {
+export class HeaderComponent implements OnInit {
 
     authority: string;
 
@@ -46,7 +43,7 @@ export class NavigationComponent implements OnInit {
     }
 
     logout() {
-        this.tokenStorageService.signOut();
+        this.tokenStorageService.removeToken();
         //window.location.reload();
         this.toasterService.success("You have been logged out successfully.", true);
         this.router.navigate(['']);

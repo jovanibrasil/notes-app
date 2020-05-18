@@ -1,43 +1,92 @@
-<div class="container">
+<div class="container mt-5">
   <div class="row">
-    <div class="offset-3"></div>
-    <div class="col-md-7">
-      <form name="form" class="border border-light p-5 mt-5 center-block" style="background-color: white; border-radius: 25px;" 
-      name="form" (ngSubmit)="f.form.valid && createUser()" #f="ngForm" novalidate>
+    <div class="col-md-7 offset-3">
 
-        <p class="h4 mb-4 text-center">Cadastro</p>
+      <form [formGroup]="signUpForm"  
+        class="border border-light p-5 mt-5 center-block" 
+        style="background-color: white; border-radius: 25px;" 
+        name="form" 
+        (submit)="submit()" #f="ngForm" novalidate>
+
+        <p class="h4 mb-4 text-center">Cadastro de novo usuário</p>
         
-        <p class="instruction">
-          O primeiro passo do castro é confirmar seu email. Informe seu email e aguarde na 
-          caixa de entrada do mesmo o recebimento do email de confirmação para darmos continuidade
-          ao processo de registro.
-        </p>
-
+        <!-- Email field -->
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="text" name="email" class="form-control" [(ngModel)]="model.email" #email="ngModel" placeholder="Email"
-          [ngClass]="{'is-invalid': f.submitted && !email.valid}" maxlength="30" required email/>
-          <div *ngIf="f.submitted && email.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="email.errors?.required">Email is required</div>
+          <input 
+            type="text" 
+            formControlName="email"  
+            class="form-control" 
+            placeholder="Email"
+            maxlength="30"  
+            autofocus/>
+            <div class="text-danger">
+              <small class="d-block" *ngIf="signUpForm.get('email').errors?.required">Email é obrigatório</small>
+              <small class="d-block" *ngIf="signUpForm.get('email').errors?.emailTaken">Email já cadastrado</small>
+              <small class="d-block" *ngIf="signUpForm.get('email').errors?.email">Email não está em um formato válido</small>
+              <small class="d-block" *ngIf="signUpForm.get('email').errors?.maxlength">Máximo 12 caracteres</small>
+            </div>
+        </div>
+
+        <!-- Username field -->
+        <div class="form-group">
+          <label for="username">Nome do usuário</label>
+          <input 
+            type="text" 
+            formControlName="userName"
+            class="form-control"  
+            placeholder="Nome do usuário (entre 2 e 12 caracteres)"
+            minlength="2" maxlength="12">
+            <div class="text-danger">
+              <small class="d-block" *ngIf="signUpForm.get('userName').errors?.required">Nome de usuário é obrigatório</small>
+              <small class="d-block" *ngIf="signUpForm.get('userName').errors?.userNameTaken">Nome de usuário já existe</small>
+              <small class="d-block" *ngIf="signUpForm.get('userName').errors?.minlength">No mínimo 2 caracteres</small>
+              <small class="d-block" *ngIf="signUpForm.get('userName').errors?.maxlength">No máximo 12 caracteres</small>
+              <small class="d-block" *ngIf="signUpForm.get('userName').errors?.lowerCase">Somente caracteres minúsculos</small>
+            </div>
+        </div>
+
+        <!-- Password field -->
+        <div class="form-group">
+          <div>
+            <label for="password">Senha</label>
+            <input type="password" 
+              formControlName="password"
+              class="form-control"  
+              placeholder="Senha (entre 4 e 12 caracteres)"
+              minlength="4" 
+              maxlength="12">
+              <div class="text-danger">
+                <small class="d-block" *ngIf="signUpForm.get('password').errors?.required">Senha é obrigatória</small>
+                <small class="d-block" *ngIf="signUpForm.get('password').errors?.minlength">No mínimo 4 caracteres</small>
+                <small class="d-block" *ngIf="signUpForm.get('password').errors?.maxlength">No máximo 12 caracteres</small>
+              </div>
           </div>
-          <div *ngIf="model.email != '' && email.invalid" class="invalid-input">
-            <div class="text-danger" *ngIf="email.errors?.email">Email format is not valid</div>
+          <div style="margin-top: 10px;">
+            <label for="password">Confirmação de senha</label> 
+            <input type="password" 
+              formControlName="passwordConfirmation"
+              class="form-control" 
+              placeholder="Senha" 
+              minlength="4" maxlength="12">
+              <small class="text-danger d-block" *ngIf="signUpForm.get('passwordConfirmation').errors?.mustMatch">As senhas não conferem</small>
           </div>
         </div>
+
         <div style="display: flex; align-items: center; flex-direction: column">
           <div>
-            <ngx-recaptcha2 #captchaElem
-            [siteKey]="key" 
-            [ngModel]="recaptcha"
-            size="compact"
-            name="captchaElem"
-            (success)="handleSuccess($event)">
+            <ngx-recaptcha2 
+              [siteKey]="key" 
+              formControlName="recaptcha"
+              size="compact"
+              name="captchaElem"
+              (success)="handleSuccess($event)">
             </ngx-recaptcha2>
-            <div class="text-danger" *ngIf="captchaError">Captcha is required!</div>
+            <small class="text-danger" *ngIf="captchaError">Captcha is required!</small>
           </div>
 
           <div class="text-center">
-            <button class="btn btn-info my-4" [disabled]="logging">
+            <button class="btn btn-info my-4" [disabled]="signUpForm.invalid || signUpForm.pending || !captchaSuccess">
               <span *ngIf="logging" class="spinner-border spinner-border-sm text-warning" role="status" 
               aria-hidden="true"></span>
               Cadastrar

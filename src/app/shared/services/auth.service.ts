@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { JwtResponse } from '../../auth/model/jwt.response';
-import { User } from '../../auth/model/user';
+import { tap } from 'rxjs/operators';
+
 import { environment } from 'src/environments/environment';
+import { UserDTO } from 'src/app/auth/userDTO';
+import { JwtResponse } from '../../auth/model/jwt.response';
+import { TokenStorageService } from './token.service';
 
 
 /*
@@ -17,36 +18,26 @@ export class AuthService {
 
     private BASE_URL = environment.AUTH_BASE_URL;
     private LOGIN_URL =  `${this.BASE_URL}/token/create`;
-    private TOKEN_REFRESH_URL =  `${this.BASE_URL}/token/refresh`;
     private LOGOUT_URL =  `${this.BASE_URL}/token/remove`;
-    private LOGON_URL = `${this.BASE_URL}/auth/logon`
-    private GET_AUTHORITY = `${this.BASE_URL}/authorities`;
-    private REFRESH_AUTH_URL =  `${this.BASE_URL}/auth/refresh`;
-
     private CREATE_USER = `${this.BASE_URL}/users`;
     private UPDATE_USER_PASSWORD = `${this.BASE_URL}/users`;
-
-    private CONFIRM_USER_EMAIL_URL =  `${this.BASE_URL}/users/confirmation`;
     
-    model: any = {};
-  
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) { }
 
     login(data: any, recapchaValue: string){
-      return this.http.post<JwtResponse>(this.LOGIN_URL, data, 
-          { params : { recaptchaResponseToken : recapchaValue } })//.shareReplay();
+      return this.http.post<JwtResponse>(this.LOGIN_URL, data, { params : { recaptchaResponseToken : recapchaValue } })
+        .pipe(tap(res => {
+          // intercept the response before the subscriber and set authentication
+          this.tokenStorageService.setToken(res.token);
+        }))
     }
 
     logout(){
       return this.http.get<JwtResponse>(this.LOGOUT_URL)//.retry(5); // retryWhen //.shareReplay();
     }
 
-    confirmUserEmail(data: any, recapchaValue: string): Observable<User>{
-      return this.http.post<User>(this.CONFIRM_USER_EMAIL_URL, data, 
-        { params : { recaptchaResponseToken : recapchaValue } });
-    }
-
-    createUser(data: any, recapchaValue: string) {
+    createUser(data: UserDTO, recapchaValue: string) {
+      data.application = "NOTES_APP";
       return this.http.post(this.CREATE_USER, data,
         { params : { recaptchaResponseToken : recapchaValue } });
     }

@@ -48,6 +48,7 @@
               <app-note-list 
                 [notes]="notes | noteSearchFilter:searchText"
                 [updateNote]="updateNoteCallback"
+                [noteClickEvent]="selectedNoteCallback"
                 [deleteNote]="deleteNoteCallback">
               </app-note-list>
               <app-load-button 

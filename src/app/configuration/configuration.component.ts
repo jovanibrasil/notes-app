@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { ToasterService } from '../shared/services/toaster.service';
-import { Timer } from '../toaster/itoast';
+import { Timer } from '../shared/toaster/itoast';
 
 @Component({
   selector: 'app-configuration',

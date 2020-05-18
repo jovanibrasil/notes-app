@@ -24,6 +24,41 @@ export class TokenStorageService {
         }
     }
 
+    setToken(token: string){
+        window.localStorage.removeItem(this.TOKEN_KEY);
+        window.localStorage.setItem(this.TOKEN_KEY, token);
+        window.localStorage.removeItem(this.AUTHORITIES_KEY);
+
+        this.saveUserName(this.parseJwt(token).sub);
+        this.saveAuthorities([this.parseJwt(token).role]);
+        this.setLoggedIn(true);
+    }
+
+    getToken(): string{
+        return localStorage.getItem(this.TOKEN_KEY);
+    }
+
+    removeToken() {
+        window.localStorage.removeItem(this.TOKEN_KEY);
+        window.localStorage.removeItem(this.USERNAME_KEY);
+        window.localStorage.removeItem(this.AUTHORITIES_KEY);
+        window.localStorage.clear();
+        
+        this.setLoggedIn(false);
+        this.theBoolean.next(false);
+    }
+ 
+    hasValidToken(): boolean {
+        let token = window.localStorage.getItem(this.TOKEN_KEY);
+        if(token){
+            // TODO test integrity
+            let parsedToken = this.parseJwt(token)
+            // test expiration time
+            return (Date.now() / 1000) < parsedToken.exp;
+        }
+        return false;
+    }
+
     public getTheBoolean(): Observable<boolean> {
         return this.theBoolean.asObservable();
     }
@@ -35,26 +70,6 @@ export class TokenStorageService {
     setLoggedIn(status: boolean){
         this.loggedInStatus = status;
         this.theBoolean.next(status);
-    }
-
-    signOut() {
-        window.localStorage.removeItem(this.TOKEN_KEY);
-        window.localStorage.removeItem(this.USERNAME_KEY);
-        window.localStorage.removeItem(this.AUTHORITIES_KEY);
-        window.localStorage.clear();
-        
-        this.setLoggedIn(false);
-        this.theBoolean.next(false);
-    }
-
-    saveToken(token: string){
-        window.localStorage.removeItem(this.TOKEN_KEY);
-        window.localStorage.setItem(this.TOKEN_KEY, token);
-        window.localStorage.removeItem(this.AUTHORITIES_KEY);
-    }
-
-    getToken(): string{
-        return localStorage.getItem(this.TOKEN_KEY);
     }
 
     saveUserName(userName: string){
@@ -86,16 +101,5 @@ export class TokenStorageService {
         var base64 = base64Url.replace('-', '+').replace('_', '/');
         return JSON.parse(window.atob(base64));
     };
-
-    hasValidToken(): boolean {
-        let token = window.localStorage.getItem(this.TOKEN_KEY);
-        if(token){
-            // TODO test integrity
-            let parsedToken = this.parseJwt(token)
-            // test expiration time
-            return (Date.now() / 1000) < parsedToken.exp;
-        }
-        return false;
-    }
 
 }

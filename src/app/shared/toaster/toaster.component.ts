@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IToast } from './itoast';
-import { ToasterService } from '../shared/services/toaster.service';
+import { ToasterService } from '../services/toaster.service';
 
 @Component({
   selector: 'app-toaster',

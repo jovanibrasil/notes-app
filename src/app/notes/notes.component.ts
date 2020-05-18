@@ -41,7 +41,8 @@ export class NotesComponent implements OnInit {
 
   updateNoteCallback: Function;
   deleteNoteCallback: Function;
-  
+  selectedNoteCallback: Function;
+
   constructor(private apiService: ApiService, private toasterService: ToasterService) { }
   
   ngOnInit() {
@@ -54,14 +55,15 @@ export class NotesComponent implements OnInit {
     
     this.updateNoteCallback = this.updateNote.bind(this);
     this.deleteNoteCallback = this.deleteNote.bind(this);
+    this.selectedNoteCallback = this.noteClickEvent.bind(this);
 
     this.getAllNotebooks();
     this.getAllNotes(0);
     this.selectedNotebook = null;
     this.selectedNote = null;
     this.apiService.getSavedColors().subscribe(
-      res => {
-        this.presetColors = res.data as string[];
+      colors => {
+        this.presetColors = colors;
         if(this.presetColors.length == 0){
           this.presetColors = ['#fff', '#000', '#2889e9',
           '#e920e9', '#fff500', 'rgb(236,64,64)'];
@@ -114,7 +116,7 @@ export class NotesComponent implements OnInit {
 
   public getAllNotebooks(){
     this.apiService.getAllNotebooks().subscribe(
-      res => { this.notebooks = res.data as Notebook[]; } ,
+      res => { this.notebooks = res.content; } ,
       err => { this.toasterService.error("An error has occured getting all your notebooks."); }
       );
     }
@@ -131,7 +133,7 @@ export class NotesComponent implements OnInit {
     this.loadingNotes = true;
     this.apiService.getAllNotes(page).subscribe(
       ret => { 
-        this.notes = this.notes.concat(ret.data as Note[]); 
+        this.notes = this.notes.concat(ret.content); 
         this.loadingNotes = false;
         this.hasMore = (<any>ret).hasNext;
       },
@@ -147,7 +149,7 @@ export class NotesComponent implements OnInit {
     this.loadingNotes = true;
     this.apiService.getNotesByNotebook(id).subscribe(
       ret => { 
-        this.notes = ret.data as Note[]; 
+        this.notes = ret.content; 
         this.loadingNotes = false;
         this.hasMore = (<any>ret).hasNext;
       },
@@ -162,14 +164,14 @@ export class NotesComponent implements OnInit {
     this.savingNotebook = true;
     this.selectedNote = null;
     let notebook: Notebook = {
-      id: 0,
+      id: null,
       name:"New notebook",
-      numberOfNotes: 2
+      numberOfNotes: 0
     };
     this.apiService.postNotebook(notebook).subscribe(
       res => {
-        let receivedNotebook = res.data as Notebook;
-        notebook.id = receivedNotebook.id;
+        const location = res.headers.get('Location');
+        notebook.id = location.substring(location.lastIndexOf('/') + 1);
         this.notebooks.push(notebook);
         this.toasterService.success("Notebook created successfully.");
         this.savingNotebook = false;
@@ -189,7 +191,6 @@ export class NotesComponent implements OnInit {
   }
 
   public selectNotebook(notebook: Notebook){
-    console.log(notebook.id + " foi selecionado");
     this.selectedNote = null;
     this.selectedNotebook = notebook;
     this.getNotesById(notebook.id);
@@ -205,7 +206,7 @@ export class NotesComponent implements OnInit {
           this.notebooks.splice(indexOfNotebook, 1);
           this.toasterService.success("Notebook deleted successfully.");
           this.deletingNotebook = false;
-          this.selectedNotebook = null;
+          this.selectAllNotes();
         }, 
         err => { 
           this.toasterService.error("An error has occured. Could not delete this notebook."); 
@@ -230,9 +231,9 @@ export class NotesComponent implements OnInit {
     }
     this.apiService.saveNote(note).subscribe(
       res => {
-        let savedNote = res.data as Note;
-        note.id = savedNote.id;
-        note.lastModifiedOn = savedNote.lastModifiedOn
+        const location = res.headers.get('Location');
+        note.id = location.substring(location.lastIndexOf('/') + 1);
+        note.lastModifiedOn = new Date().toString();
         this.notes.push(note);
         this.toasterService.success("Note created successfully.");
         this.savingNote = false;
@@ -269,7 +270,7 @@ export class NotesComponent implements OnInit {
   public updateNote(note: Note){
     this.apiService.updateNote(note).subscribe(
       res => { 
-        let savedNote = res.data as Note;
+        let savedNote = res as Note;
         note.lastModifiedOn = savedNote.lastModifiedOn 
       },
       err => { this.toasterService.error("An error has occured when updating the note."); }

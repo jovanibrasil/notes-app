@@ -11,6 +11,7 @@ export class NoteListComponent implements OnInit {
   @Input() notes: Note[];
   @Input() updateNote: Function;
   @Input() deleteNote: Function;
+  @Input() noteClickEvent: Function;
 
   constructor() { }
 

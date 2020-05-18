@@ -23,19 +23,23 @@
                 <a class="nav-link" routerLink="/adminboard">Admin Board</a>
             </li>
         </ul>
+
         <ul class="navbar-nav">
-            
+            <li *ngIf="authority" class="nav-item" data-toggle="collapse">
+                <a class="mr-10 nav-link">
+                    <i class="fa fa-user-circle text-primary mr-2 ml-2"></i>
+                    Olá {{tokenStorageService.getUserName()}}!
+                </a>
+            </li>
             <li *ngIf="authority" class="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
                 <a class="nav-link" (click)="logout()">Sair</a>
             </li>
             <li *ngIf="!authority && getLOcationPath() != '/signup'" data-toggle="collapse">
                 <a class="nav-link" routerLink="/signup">Cadastre-se</a>
             </li>
-    
             <li *ngIf="!authority && getLOcationPath() != '/'" data-toggle="collapse">
-                <a class="nav-link" routerLink="/">Entrar</a>
+                <a class="nav-link" routerLink="/"><i class="fa fa-fw fa-user"></i> Entrar</a>
             </li>
-
         </ul>
     </div>
 </nav>

@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   RECAPTCHA_KEY: $ENV.RECAPTCHA_KEY,
-  NOTES_BASE_URL: "http://localhost:8082/notes-api",
-  AUTH_BASE_URL: 'http://localhost:8083/auth-api'  
+  NOTES_BASE_URL: "http://localhost:8082/api",
+  AUTH_BASE_URL: 'http://localhost:8083/api'  
 };
 
 /*
