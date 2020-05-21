@@ -3,7 +3,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { FeedbackViewModel } from '../../feedback/feedback.component';
 import { Notebook } from '../../notes/model/notebook';
 import { Note } from '../../notes/model/note';
 import { Page } from 'src/app/auth/model/page';
@@ -15,7 +14,7 @@ export class ApiService {
 
     private BASE_URL = environment.NOTES_BASE_URL; 
     
-    private SEND_FEEDBACK_URL = `${this.BASE_URL}/feedbacks`;
+    private SEND_FEEDBACK_URL = `${this.BASE_URL}/feedback`;
     
     public ALL_NOTEBOOKS_URL = `${this.BASE_URL}/notebooks`;
     private DELETE_NOTEBOOK = `${this.BASE_URL}/notebooks/`;
@@ -80,12 +79,6 @@ export class ApiService {
 
     getNotesByNotebook(id: number): Observable<Page<Note>> {
         return this.http.get<Page<Note>>(this.NOTES_BY_NOTEBOOK_URL + id + "/notes");
-    }
-
-    // Feedback functions
-    postFeedback(feedback: FeedbackViewModel, recapchaValue: string): Observable<any> {
-        return this.http.post(this.SEND_FEEDBACK_URL, feedback, 
-            { params: { recapchaValue } });
     }
 
     // Saved colors

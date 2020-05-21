@@ -23,80 +23,65 @@
                 <div class="row">
                     <div class="offset-3"></div>
                     <div class="col-md-6">
-                      <form name="form" class="border border-light p-5 mt-5 center-block" style="background-color: white; border-radius: 25px;" 
-                      name="form" (ngSubmit)="f.form.valid && passwordMatch() && updateUserPassword()" #f="ngForm" *ngIf="!passwordChanged" novalidate>
-                
+                      <form   
+                        [formGroup]="updatePasswordForm"
+                        class="border border-light p-5 mt-5 center-block" 
+                        style="background-color: white; border-radius: 25px;" 
+                        (submit)="submit()" #f="ngForm" novalidate>
+
+                        <!-- Password field -->
                         <div class="form-group">
-                          <!-- Actual password -->
                           <div>
-                            <label for="actualPassword">Senha Atual</label>
-                            <input type="password" name="actualPassword"  class="form-control" [(ngModel)]="model.actualPassword" #actualPassword="ngModel" 
-                            [ngClass]="{'is-invalid': (f.submitted && !actualPassword.valid) || (f.submitted && !passwordMatch())}" 
-                            placeholder="Senha atual (entre 4 e 12 caracteres)" required minlength="4" maxlength="12">
-                            <!-- Error messages -->
-                            <div *ngIf="f.submitted && actualPassword.invalid" class="invalid-input">
-                              <div class="text-danger" *ngIf="actualPassword.errors?.required">Senha é obrigatória</div>
-                            </div>
-                            <div *ngIf="model.actualPassword != '' && actualPassword.invalid" class="invalid-input">
-                              <div class="text-danger" *ngIf="actualPassword.errors?.minlength">No mínimo 4 caracteres</div>
-                              <div class="text-danger" *ngIf="actualPassword.errors?.maxlength">No máximo 12 caracteres</div>
-                            </div>
+                            <label for="password">Nova senha</label>
+                            <input type="password" 
+                              formControlName="password"
+                              class="form-control"  
+                              placeholder="Senha (entre 4 e 12 caracteres)"
+                              minlength="4" 
+                              maxlength="12">
+                              <div class="text-danger">
+                                <small class="d-block" *ngIf="updatePasswordForm.get('password').errors?.required">Senha é obrigatória</small>
+                                <small class="d-block" *ngIf="updatePasswordForm.get('password').errors?.minlength">No mínimo 4 caracteres</small>
+                                <small class="d-block" *ngIf="updatePasswordForm.get('password').errors?.maxlength">No máximo 12 caracteres</small>
+                              </div>
                           </div>
-                          <!-- New password -->
                           <div style="margin-top: 10px;">
-                            <label for="newPassword">Nova senha</label>
-                            <input type="password" name="newPassword"  class="form-control" [(ngModel)]="model.newPassword" #newPassword="ngModel" 
-                            [ngClass]="{'is-invalid': (f.submitted && !newPassword.valid) || (f.submitted && !passwordMatch())}" 
-                            placeholder="Nova senha (entre 4 e 12 caracteres)" required minlength="4" maxlength="12">
-                            <!-- Error messages -->
-                            <div *ngIf="f.submitted && newPassword.invalid" class="invalid-input">
-                              <div class="text-danger" *ngIf="newPassword.errors?.required">Senha é obrigatória</div>
-                            </div>
-                            <div *ngIf="model.newPassword != '' && newPassword.invalid" class="invalid-input">
-                              <div class="text-danger" *ngIf="newPassword.errors?.minlength">No mínimo 4 caracteres</div>
-                              <div class="text-danger" *ngIf="newPassword.errors?.maxlength">No máximo 12 caracteres</div>
-                            </div>
+                            <label for="password">Confirmação de senha</label> 
+                            <input type="password" 
+                              formControlName="passwordConfirmation"
+                              class="form-control" 
+                              placeholder="Senha" 
+                              minlength="4" maxlength="12">
+                              <small class="text-danger d-block" *ngIf="updatePasswordForm.get('passwordConfirmation').errors?.mustMatch">As senhas não conferem</small>
                           </div>
-                          <!-- New password confirmation -->
-                          <div style="margin-top: 10px;">
-                            <label for="newPasswordConfirmation">Confirmação de senha</label> 
-                            <input type="password" name="newPasswordConfirmation"  class="form-control" [(ngModel)]="model.newPasswordConfirmation" 
-                              #passwordConfirmation="ngModel" placeholder="Confirmação de senha" [ngClass]="{'is-invalid': f.submitted && !passwordMatch()}" 
-                              required minlength="4" maxlength="12">
-                            <!-- Error message -->
-                            <div class="invalid-input" *ngIf="f.submitted && !passwordMatch() && model.newPasswordConfirmation != ''">
-                              <div class="text-danger">As senhas não conferem</div>
-                            </div>
-                          </div>
-                        </div>
-                        
+                        </div>       
                         <div style="display: flex; align-items: center; flex-direction: column">
                           <div>
                             <ngx-recaptcha2 #captchaElem
-                            [siteKey]="key" 
-                            [ngModel]="recaptcha"
-                            name="captchaElem"
-                            size="compact"
-                            (success)="handleSuccess($event)">
+                              [siteKey]="key" 
+                              formControlName="recaptcha"
+                              size="compact"
+                              name="captchaElem"
+                              (success)="handleSuccess($event)">
                             </ngx-recaptcha2>
-                            <div class="text-danger" *ngIf="captchaError">Captcha é obrigatório!</div>
+                            <small class="text-danger" *ngIf="captchaError">Captcha is required!</small>
                           </div>
+                
                           <div class="text-center">
-                            <button class="btn btn-info my-4" [disabled]="loading">
-                              <span *ngIf="loading" class="spinner-border spinner-border-sm text-warning" role="status" 
-                              aria-hidden="true"></span>
-                              Finalizar cadastro
+                            <button class="btn btn-info my-4" [disabled]="updatePasswordForm.invalid || updatePasswordForm.pending || !captchaSuccess">
+                              <span *ngIf="logging" class="spinner-border spinner-border-sm text-warning" role="status" aria-hidden="true"></span>
+                              Cadastrar
                             </button>
                           </div>
                         </div>
                       </form>
-                      <!-- Messages component -->
-                      <app-toaster></app-toaster>
                     </div>
                     <div class="offset-3"></div>
                   </div>
             </div>
           </div>
+          <!-- Messages component -->
+          <app-toaster></app-toaster>
         </div>
         <!-- Disable account -->
         <!-- <div class="card">

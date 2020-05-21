@@ -42,8 +42,9 @@ export class AuthService {
         { params : { recaptchaResponseToken : recapchaValue } });
     }
 
-    updateUserPassword(data: any){
-      return this.http.put(this.UPDATE_USER_PASSWORD, data);
+    updateUserPassword(data: any, recapchaValue: string){
+      return this.http.put(this.UPDATE_USER_PASSWORD, data,
+        { params : { recaptchaResponseToken : recapchaValue } });
     }
     
 }

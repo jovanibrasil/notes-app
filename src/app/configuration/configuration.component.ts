@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { ToasterService } from '../shared/services/toaster.service';
 import { Timer } from '../shared/toaster/itoast';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { mustMatch } from '../shared/validators/must-match.validator';
 
 @Component({
   selector: 'app-configuration',
@@ -19,25 +21,33 @@ export class ConfigurationComponent implements OnInit {
   recaptcha: any;
   key: String = environment.RECAPTCHA_KEY;
   loading: boolean = false;
-  model: any;
-
+  
   passwordChanged: boolean = false;
+
+  updatePasswordForm: FormGroup;
 
   constructor(
       private route: ActivatedRoute,
       private authService: AuthService,
-      private toastService: ToasterService
-  ) {
-    this.model = {
-      actualPassword: "",
-      newPassword: "",
-      newPasswordConfirmation: ""
-    }
+      private toastService: ToasterService,
+      private formBuilder: FormBuilder
+  ) {}
+
+  ngOnInit() {
+    this.updatePasswordForm = this.formBuilder.group({
+      password: ['', Validators.compose([
+        Validators.required, 
+        Validators.minLength(4), 
+        Validators.maxLength(12)])
+      ],
+      passwordConfirmation: ['', Validators.required],
+      recaptcha: ['']
+    }, {
+      validator: mustMatch
+    });
   }
 
-  ngOnInit() {}
-
-  updateUserPassword(){
+  submit(){
 
     this.loading = true;
 
@@ -48,29 +58,34 @@ export class ConfigurationComponent implements OnInit {
       return;
     }
 
-    console.log(this.model)
+    const updatePasswordDTO = {
+      password : this.updatePasswordForm.getRawValue().password
+    }; 
 
-    this.authService.updateUserPassword(this.model).subscribe(
+    this.authService.updateUserPassword(updatePasswordDTO, "recapchaValue").subscribe(
       res => {
-        this.toastService.success("Senha alterada com sucesso.", false, Timer.Long);
         this.loading = false;
         this.passwordChanged = true;
+        this.closeCard();
+        this.updatePasswordForm.reset();
+        this.toastService.success("Senha alterada com sucesso.", false, Timer.Long);
+
       }, 
       err => {
-        this.toastService.error("Houve um problema ao alterar sua senha. Tente mais tarde.", false, Timer.Long);
-        this.loading = false;
+        // this.toastService.error("Houve um problema ao alterar sua senha. Tente mais tarde.", false, Timer.Long);
+        // this.loading = false;
       }
     );
 
   }
 
+  closeCard(){
+    document.getElementById('collapseOne').classList.remove('show');
+  }
+
   handleSuccess(captchaResponse: string): void {
     this.captchaSuccess = true;
     this.captchaError = false;
-  }
-
-  passwordMatch() : boolean {
-    return this.model.newPassword === this.model.newPasswordConfirmation;
   }
 
   reloadCaptcha(): void {

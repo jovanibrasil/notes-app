@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { FeedbackComponent } from './feedback/feedback.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NotesComponent } from './notes/notes.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -17,7 +16,6 @@ import { RequestInterceptor } from './shared/interceptors/request.interceptor';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ColorPickerModule } from 'ngx-color-picker';
-import { ConfigurationComponent } from './configuration/configuration.component';
 import { LoadButtonComponent } from './notes/load-button/load-button.component';
 import { NoteListComponent } from './notes/note-list/note-list.component';
 import { NotebookListComponent } from './notes/notebook-list/notebook-list.component';
@@ -27,11 +25,12 @@ import { AuthModule } from './auth/auth.module';
 import { SignUpComponent } from './auth/signup/signup.component';
 import { SignInComponent } from './auth/signin/signin.component';
 import { ToasterModule } from './shared/toaster/toaster.module';
+import { ConfigurationComponent } from './configuration/configuration.component';
+import { ConfigurationModule } from './configuration/configuration.module';
 
 const appRoutes: Routes = [
   { path: 'notes', component: NotesComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignUpComponent },
-  { path: 'feedback', component: FeedbackComponent, canActivate: [AuthGuard] },
   { path: 'configuration', component: ConfigurationComponent, canActivate: [AuthGuard] },
   { path: '', component: SignInComponent, pathMatch: 'full' },
   { path: 'login', component: SignInComponent },
@@ -42,12 +41,10 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent, 
     HeaderComponent, 
-    FeedbackComponent, 
     NotFoundComponent, 
     NotesComponent, 
     NoteComponent, 
-    NoteSearchFilterPipe, 
-    ConfigurationComponent, 
+    NoteSearchFilterPipe,  
     LoadButtonComponent, 
     NoteListComponent, 
     NotebookListComponent,
@@ -62,6 +59,7 @@ const appRoutes: Routes = [
     BorderOnHoverModule,
     NgxCaptchaModule,
     ToasterModule,
+    ConfigurationModule,
     RouterModule.forRoot(appRoutes, {enableTracing: false})
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
