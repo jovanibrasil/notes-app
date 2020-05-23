@@ -67,16 +67,15 @@ export class SignUpComponent implements OnInit {
     try {
       this.logging = true;
       
-      // verify recaptcha component status
       let recapchaValue = this.captchaElem.getResponse();
       if(!recapchaValue) {
         this.captchaError = true;
-        this.logging = false;
+        this.loading = false;
         return;
       }
-      
-      const newUser: UserDTO = this.signUpForm.getRawValue(); 
 
+      const newUser: UserDTO = this.signUpForm.getRawValue() as UserDTO; 
+      console.log(recapchaValue);
       this.authService.createUser(newUser, recapchaValue).subscribe(
         res => {
           this.toasterService.success("Cadastro confirmado. Faça seu login agora!", false, Timer.Long);

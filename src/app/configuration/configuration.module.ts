@@ -4,10 +4,12 @@ import { ConfigurationComponent } from './configuration.component';
 import { CommonModule } from '@angular/common';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { ToasterModule } from '../shared/toaster/toaster.module';
+import { PasswordComponent } from './password/password.component';
 
 @NgModule({
     declarations: [
-        ConfigurationComponent
+        ConfigurationComponent,
+        PasswordComponent
     ],
     imports: [ 
         CommonModule,
