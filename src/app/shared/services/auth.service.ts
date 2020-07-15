@@ -17,7 +17,7 @@ import { TokenStorageService } from './token.service';
 export class AuthService {
 
     private BASE_URL = environment.AUTH_BASE_URL;
-    private LOGIN_URL =  `${this.BASE_URL}/token/create`;
+    private LOGIN_URL =  `${this.BASE_URL}/token`;
     private LOGOUT_URL =  `${this.BASE_URL}/token/remove`;
     private CREATE_USER = `${this.BASE_URL}/users`;
     private UPDATE_USER_PASSWORD = `${this.BASE_URL}/users`;
