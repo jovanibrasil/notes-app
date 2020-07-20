@@ -172,7 +172,11 @@ export class NotesComponent implements OnInit {
       res => {
         const location = res.headers.get('Location');
         notebook.id = location.substring(location.lastIndexOf('/') + 1);
+        
+        this.selectNotebook(notebook);
+        
         this.notebooks.push(notebook);
+        
         this.toasterService.success("Notebook created successfully.");
         this.savingNotebook = false;
       },
@@ -185,7 +189,11 @@ export class NotesComponent implements OnInit {
 
   public updateNotebook(notebook: Notebook){
     this.apiService.updateNotebook(notebook).subscribe(
-      res => {},
+      res => {
+        let indexOfNotebook = this.notebooks.indexOf(notebook);
+        this.notebooks[indexOfNotebook] = res;
+        this.selectNotebook(res);
+      },
       err => { this.toasterService.error("An error has occured when updating the notebook."); }
     );
   }
