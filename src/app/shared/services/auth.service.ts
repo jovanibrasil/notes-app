@@ -25,6 +25,7 @@ export class AuthService {
     constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) { }
 
     login(data: any, recapchaValue: string){
+      console.log(this.LOGIN_URL);
       return this.http.post<JwtResponse>(this.LOGIN_URL, data, { params : { recaptchaResponseToken : recapchaValue } })
         .pipe(tap(res => {
           // intercept the response before the subscriber and set authentication

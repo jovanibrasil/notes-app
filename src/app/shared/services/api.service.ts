@@ -62,9 +62,10 @@ export class ApiService {
 
     updateNote(note: Note): Observable<Note>{
         let id = note.id;
-        note.id = null;
-        note.lastModifiedOn = null;
-        return this.http.put<Note>(this.UPDATE_NOTE + id, note);
+        let body = { ... note };
+        delete body.id;
+        delete body.lastModifiedOn;
+        return this.http.put<Note>(this.UPDATE_NOTE + id, body);
     }
 
     deleteNote(id: number){
